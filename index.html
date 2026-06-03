@@ -713,7 +713,7 @@ function getDates(ym) {
 async function api(endpoint, params = {}) {
   const qs = new URLSearchParams({ endpoint, ...params });
   try {
-    const r = await fetch(`/api/proxy?${qs}`);
+    const r = await fetch(`/api/mc?${qs}`);
     if (!r.ok) return null;
     return await r.json();
   } catch { return null; }
