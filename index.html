@@ -480,6 +480,36 @@ function mkDonut(id,labels,data,colors){
   });
 }
 
+function triggerAI(type){
+  const D=ST.data,K=D.kpis||{},PK=D.prevKpis||{};
+  const net=ST.net,period=MONTHS[ST.month];
+  const prevM=getPrevM(ST.month);
+  const prevPeriod=prevM?MONTHS[prevM]:'mes anterior';
+  const netName=NNAME[net];
+  const topPost=[...( D.posts||[])].sort((a,b)=>(+b.reach||0)-(+a.reach||0))[0];
+  const topType=Object.entries(K.byType||{}).sort((a,b)=>b[1]-a[1])[0];
+  const bestHour=Object.entries(K.byHour||{}).filter(([,v])=>v&&v.count>0).sort((a,b)=>(b[1].reach/b[1].count)-(a[1].reach/a[1].count))[0];
+  const bestDay=Object.entries(K.byDay||{}).sort((a,b)=>b[1]-a[1])[0];
+  const ctx={
+    red:netName,período:period,periodoAnterior:prevPeriod,
+    posts:K.posts,postsAnteriores:PK.posts,
+    alcanceTotal:N(K.reach),alcanceAnterior:N(PK.reach),deltaAlcance:((K.reach-PK.reach)/(PK.reach||1)*100).toFixed(1),
+    engRate:P(K.engRate),engRateAnterior:P(PK.engRate),deltaEng:((K.engRate-PK.engRate)/(PK.engRate||1)*100).toFixed(1),
+    likes:N(K.likes),comentarios:N(K.comments),guardados:N(K.saved),interacciones:N(K.interactions),
+    alcancePromedio:N(K.avgReach),
+    mejorPost:{alcance:N(topPost?.reach),engagement:P(topPost?.engagement),formato:topPost?pillLabel(topPost.type):'—'},
+    topFormato:topType?pillLabel(topType[0]):'—',
+    mejorHora:bestHour?bestHour[0]+':00h':'—',
+    mejorDia:bestDay?bestDay[0]:'—'
+  };
+  const ctxStr=JSON.stringify(ctx);
+  if(type==='main'){
+    runAI('main','Actúa como consultor senior de redes sociales de Match Agency. Analiza estos datos reales de '+netName+' y entrega un análisis de nivel consultor. Datos: '+ctxStr+'. Entrega: (1) Diagnostico del período con numeros especificos y comparativa vs '+prevPeriod+'. (2) 3 alertas o riesgos detectados. (3) 5 recomendaciones concretas y priorizadas para el proximo mes con impacto esperado. Se directo y especifico.');
+  } else {
+    runAI('plan','Actua como consultor de contenido de Match Agency. Datos reales de '+netName+' en '+period+': '+ctxStr+'. Genera un plan de contenido para el proximo mes con: (1) 5 ideas especificas con formato, tema y objetivo medible. (2) Distribucion semanal recomendada. (3) Los 2 horarios optimos de publicacion basados en los datos.');
+  }
+}
+
 async function runAI(id,prompt){
   const el=document.getElementById('ai-'+id);
   const btn=document.getElementById('btn-ai-'+id);
@@ -532,6 +562,64 @@ function consulBox(title, points){
         </div>
       </div>
     </div>`;
+}
+
+
+// ══ FUNCIONES DE ANÁLISIS CONSULTOR ══
+function genConsulKPIs(K,PK,flbl,netName,period,prevPeriod,engStatus,avgBench,dEng,dReach,ratioLC){
+  const p1='El engagement rate de <strong>'+P(K.engRate)+'</strong> está <em>'+engStatus+'</em> para '+netName+' (benchmark industria: ~'+avgBench+'%). '+(dEng!==null?'Varió <em>'+(dEng>=0?'+':'')+dEng.toFixed(1)+'%</em> respecto a '+prevPeriod+'.':'Primer período disponible — será la línea base para comparativas futuras.');
+  const p2=flbl+' total de <strong>'+N(K.reach||K.impressions)+'</strong> con <strong>'+K.posts+' posts</strong> equivale a un promedio de <strong>'+N(K.avgReach)+'</strong> por publicación. '+(dReach!==null?'El alcance '+(dReach>=0?'creció':'cayó')+' <em>'+Math.abs(dReach).toFixed(1)+'%</em> vs '+prevPeriod+' — '+(dReach>=0?'indica mayor distribución orgánica o aumento de audiencia.':'puede señalar saturación de audiencia o caída en frecuencia de publicación.'):'');
+  const p3='La ratio likes/comentarios es <strong>'+(ratioLC||'—')+'x</strong>. '+(ratioLC&&+ratioLC>10?'Ratio alta: contenido visualmente atractivo pero sin conversación. Incorporar preguntas directas y CTAs para estimular comentarios.':ratioLC&&+ratioLC<3?'Ratio baja: el contenido genera debate activo — muy positivo para el algoritmo. Mantener esta dinámica.':'Ratio equilibrada entre visibilidad e interacción cualitativa.');
+  return[p1,p2,p3];
+}
+
+function genConsulCompare(K,PK,flbl,prevPeriod,dReach,dInter){
+  const p1=dReach!==null?'El alcance '+(dReach>=0?'aumentó':'disminuyó')+' <em>'+Math.abs(dReach).toFixed(1)+'%</em> de <strong>'+N(PK.reach)+'</strong> a <strong>'+N(K.reach)+'</strong>. '+(dReach>=0?'El crecimiento es sostenido si supera el 10% mensual. Por debajo, revisar horarios y formatos.':'Una caída de alcance requiere auditar la frecuencia y el tipo de contenido.'):'Sin período anterior disponible. A partir del próximo mes se tendrá comparativa automática.';
+  const p2='Las interacciones '+(dInter!==null?(dInter>=0?'crecieron <em>+'+Math.abs(dInter).toFixed(1)+'%</em> de <strong>'+N(PK.interactions)+'</strong> a <strong>'+N(K.interactions)+'</strong>. El crecimiento en interacciones es el indicador más valioso: refleja audiencia más comprometida.':'cayeron <em>-'+Math.abs(dInter).toFixed(1)+'%</em>. Revisar si el contenido está generando fatiga o si cambió el mix de formatos.'):'Primer período con datos — las interacciones serán el KPI de referencia.');
+  const p3='Se publicaron <strong>'+K.posts+' posts</strong>'+(PK.posts>0?' vs '+PK.posts+' del mes anterior ('+(delta(K.posts,PK.posts)>=0?'+':'')+((delta(K.posts,PK.posts)||0).toFixed(0))+'%).':'. ')+'  '+(K.posts<4?'Frecuencia baja: menos de 1 post semanal limita el alcance orgánico. Objetivo mínimo: 4 posts/mes.':K.posts>20?'Alta frecuencia: verificar que la calidad no se comprometa — el alcance promedio por post tiende a bajar.':'Frecuencia adecuada para mantener presencia sin saturar la audiencia.');
+  return[p1,p2,p3];
+}
+
+function genConsulAlcance(K,PK,tl,flbl,prevPeriod){
+  const maxReach=tl.reach.length?Math.max(...tl.reach):0;
+  const p1='El pico de alcance diario fue <strong>'+N(maxReach)+'</strong>, que representa <em>'+(K.avgReach>0?(maxReach/K.avgReach).toFixed(1)+'x el promedio':'—')+'</em> del período. Los días pico indican posts de alto rendimiento — analizar formato, copy y hora de publicación para replicarlos.';
+  const p2='El alcance promedio de <strong>'+N(K.avgReach)+'</strong> por publicación '+(PK.avgReach?(K.avgReach>PK.avgReach?'mejoró':'bajó')+' respecto a '+prevPeriod+' (anterior: '+N(PK.avgReach)+'). '+(K.avgReach>PK.avgReach?'La calidad o relevancia del contenido está mejorando.':'Puede indicar menor relevancia o cambios en el algoritmo. Revisar horarios y formatos.'):'es la línea base de este período. El objetivo es superar '+N(K.avgReach)+' el próximo mes.');
+  const totalInter=tl.interactions.reduce((a,b)=>a+b,0);
+  const p3='La correlación alcance-interacciones determina la calidad del engagement. '+(tl.reach.length>0?'En este período, '+(totalInter>0?'los picos de interacciones coinciden con los de mayor alcance, indicando contenido de alto impacto bidireccional.':'hay alcance sin interacción proporcional, lo que sugiere audiencia pasiva. Incorporar más CTAs y preguntas directas.'):'Analizar post por post en la sección de Top Posts.');
+  return[p1,p2,p3];
+}
+
+function genConsulContenido(K,tk,topTypeCount,topTypePct,bestDay,reels,net,netName){
+  const topFmt=tk[0]?pillLabel(tk[0][0]):'—';
+  const p1='El formato <em>'+topFmt+'</em> domina con <strong>'+topTypeCount+' posts ('+topTypePct+'%)</strong> del total. '+(tk.length>1?'El segundo formato es '+pillLabel(tk[1][0])+' con '+tk[1][1]+' posts. ':''+(topTypePct>80?'Concentración alta en un solo formato — diversificar amplía el alcance a distintos segmentos de audiencia.':topTypePct>50?'Buena concentración con algo de diversidad. Verifica que el formato dominante sea también el de mayor alcance.':'Buen mix de formatos — el algoritmo de '+netName+' favorece la variedad.'));
+  const p2=(bestDay?'El día con más publicaciones fue <em>'+bestDay[0]+'</em> ('+bestDay[1]+' posts). ':'')+' La consistencia semanal es clave para el algoritmo: '+(K.posts>=4&&K.posts<=12?'la frecuencia actual es óptima para mantener presencia sin saturar.':K.posts<4?'publicar al menos 4 veces al mes es el mínimo para visibilidad orgánica sostenida.':'considera si la alta frecuencia mantiene calidad constante.');
+  const reelAvg=reels.length?Math.round(reels.reduce((a,r)=>a+(+r.reach||0),0)/reels.length):0;
+  const p3=net==='instagram'&&reels.length>0?'Se publicaron <strong>'+reels.length+' Reels</strong>. Alcance promedio Reels: <strong>'+N(reelAvg)+'</strong> vs <strong>'+N(K.avgReach)+'</strong> de posts regulares. '+(reelAvg>K.avgReach?'Los Reels superan el promedio — aumentar su frecuencia amplificaría la visibilidad total.':'Los Reels no superan el promedio — revisar duración, audio trending y hook inicial.'):'Para maximizar alcance en '+netName+', '+(net==='facebook'?'prioriza video nativo y posts con imágenes de alta calidad.':net==='linkedin'?'los posts de texto con insights propios y carruseles tienen mayor alcance orgánico.':net==='youtube'?'optimiza thumbnails y títulos con palabras clave de búsqueda.':'diversifica entre formatos de texto, imagen y video.');
+  return[p1,p2,p3];
+}
+
+function genConsulEng(K,PK,topEngPost,dEng,prevPeriod,ratioLC,net){
+  const p1='El post con mayor engagement fue <strong>'+P(topEngPost?.engagement)+'</strong> (alcance: '+N(topEngPost?.reach)+'). '+(K.engRate>0&&topEngPost?'Es <em>'+(topEngPost.engagement/K.engRate).toFixed(1)+'x el promedio</em> del período — analizar el tipo ('+pillLabel(topEngPost.type)+'), copy y hora de publicación para identificar qué variables replicar.':'');
+  const p2='La distribución likes/comentarios/guardados revela el tipo de relación con la audiencia. '+(K.saved>K.comments?'El alto ratio de guardados indica contenido de valor práctico o aspiracional — muy positivo para el algoritmo.':K.comments>K.saved?'Más comentarios que guardados indica contenido que genera conversación activa. Responder en las primeras horas amplifica el alcance.':'Distribución equilibrada.')+(ratioLC?' Ratio likes/comentarios: <strong>'+ratioLC+'x</strong>.':'');
+  const p3=dEng!==null?'El engagement '+(dEng>=0?'mejoró':'bajó')+' <em>'+Math.abs(dEng).toFixed(1)+'%</em> respecto a '+prevPeriod+'. '+(dEng>=0?'El crecimiento en engagement es el KPI más valioso: indica audiencia más comprometida y favorece el alcance orgánico futuro.':'Una caída puede anticipar menor alcance. Revisar si el contenido es muy promocional o si la frecuencia es excesiva.'):'Mantener el engagement rate actual requiere consistencia en calidad y en los tipos de contenido que han funcionado.';
+  return[p1,p2,p3];
+}
+
+function genConsulTopPosts(sorted,K,net,D){
+  const p1=sorted[0]?'El post #1 generó <strong>'+N(sorted[0].reach)+'</strong> de alcance con <em>'+P(sorted[0].engagement)+'</em> de engagement — '+(sorted[0].reach>K.avgReach*1.5?'<em>'+((sorted[0].reach/K.avgReach)-1).toFixed(1)+'x por encima del promedio</em>. Analizar el tipo ('+pillLabel(sorted[0].type)+'), copy y hora para replicar la fórmula.':'rendimiento dentro del promedio del período. Buscar qué diferencia los posts con mejor alcance.'):'Sin posts para analizar.';
+  const p2=sorted.length>=3?'La diferencia entre el post #1 ('+N(sorted[0]?.reach)+') y el #3 ('+N(sorted[2]?.reach)+') es de <strong>'+N((sorted[0]?.reach||0)-(sorted[2]?.reach||0))+'</strong>. '+((sorted[0]?.reach||0)>2*(sorted[2]?.reach||1)?'Alta dispersión: existe un post outlier viral. Identificar la fórmula y replicarla.':'Dispersión baja — rendimiento consistente. Indica audiencia estable y predecible.'):'Analizar consistencia entre los top posts para detectar patrones replicables.';
+  const topFmtInTop=Object.entries(sorted.reduce((a,p)=>{const t=pillLabel(p.type);a[t]=(a[t]||0)+1;return a;},{})).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—';
+  const reelsInTop=sorted.filter(p=>p.type&&p.type.includes('REEL')).length;
+  const p3='Entre los top 6, el formato <em>'+topFmtInTop+'</em> domina. '+(net==='instagram'&&D.reels?.length>0?'Reels en el top 6: '+reelsInTop+'. '+(reelsInTop>0?'Los Reels están generando alto alcance — aumentar su frecuencia amplificaría el reach global.':'Ningún Reel en el top 6 — revisar estrategia de Reels: duración, audio trending y hook.'):'Concentrar presupuesto de producción en el formato dominante del top 6 para maximizar el alcance total.');
+  return[p1,p2,p3];
+}
+
+function genConsulTiming(K){
+  const freq=(K.posts/4.33).toFixed(1);
+  const p1='<span id="timing-p1">Analizando patrones horarios…</span>';
+  const p2='<span id="timing-p2">Calculando mejor franja…</span>';
+  const p3='La frecuencia de publicación fue de <strong>'+freq+' posts/semana</strong> en promedio. '+(K.posts/4.33<1?'Frecuencia insuficiente — el algoritmo necesita actividad regular. Objetivo mínimo: 3 posts/semana.':K.posts/4.33>=1&&K.posts/4.33<=3?'Frecuencia óptima para calidad sostenida. Mantener consistencia en horarios es clave.':'Alta frecuencia — verificar que el alcance promedio por post no esté disminuyendo.');
+  return[p1,p2,p3];
 }
 
 function buildSlides(){
@@ -613,11 +701,7 @@ function buildSlides(){
           <div class="kc ${delta(K.saved,PK.saved)>=0||!PK.saved?'up':'dn'}"><div class="klbl">${net==='linkedin'?'Compartidos':net==='youtube'?'Views totales':'Guardados'}</div><div class="kval">${N(net==='linkedin'?K.shares:net==='youtube'?K.impressions:K.saved)}</div><div class="kdelta">${dH(net==='linkedin'?K.shares:net==='youtube'?K.impressions:K.saved,net==='linkedin'?PK.shares:net==='youtube'?PK.impressions:PK.saved)}</div></div>
         </div>
       </div>
-      ${consulBox('KPIs',[
-        `El engagement rate de <strong>${P(K.engRate)}</strong> está <em>${engStatus}</em> para ${netName} (benchmark industria: ~${avgEngBenchmark}%). ${dEng!==null?`Varió <em>${dEng>=0?'+':''}${dEng?.toFixed(1)}%</em> respecto a ${prevPeriod}.`:'Es el primer período disponible para comparar.'}`,
-        `${flbl} total de <strong>${N(K.reach||K.impressions)}</strong> con <strong>${posts.length} posts</strong> equivale a un promedio de <strong>${N(K.avgReach)}</strong> por publicación. ${dReach!==null?`El alcance ${dReach>=0?'creció':'cayó'} <em>${Math.abs(dReach).toFixed(1)}%</em> vs ${prevPeriod} — esto ${dReach>=0?'indica mayor distribución orgánica o aumento de audiencia':'puede señalar saturación de audiencia o caída en la frecuencia de publicación'}.`:''}`,
-        `La ratio likes/comentarios es <strong>${ratioLikesComents||'—'}x</strong>. ${ratioLikesComents&&+ratioLikesComents>10?'Una ratio alta indica contenido visualmente atractivo pero que no genera conversación. Incorporar preguntas directas o calls-to-action podría mejorar los comentarios.':ratioLikesComents&&+ratioLikesComents<3?'Una ratio baja indica contenido que genera debate activo — muy positivo para el algoritmo. Mantener esta dinámica.':'Ratio equilibrada entre visibilidad e interacción cualitativa.'}`
-      ])}`,
+      ${consulBox('KPIs', genConsulKPIs(K,PK,flbl,netName,period,prevPeriod,engStatus,avgEngBenchmark,dEng,dReach,ratioLikesComents))}`,
      onEnter:()=>{}
     },
 
@@ -648,11 +732,7 @@ function buildSlides(){
           }).join('')}
         </div>
       </div>
-      ${consulBox('Comparativa',[
-        `${dReach!==null?`El alcance ${dReach>=0?'aumentó':'disminuyó'} <em>${Math.abs(dReach).toFixed(1)}%</em> de <strong>${N(PK.reach)}</strong> a <strong>${N(K.reach)}</strong>. ${dReach>=0?'El crecimiento es sostenido si supera el 10% mensual. Por debajo, revisar horarios y formatos.':'Una caída de alcance requiere auditar la frecuencia de publicación y si el tipo de contenido está cambiando.`:'Sin período anterior disponible para comparar. A partir del próximo mes se tendrá comparativa automática.'}`,
-        `Las interacciones ${dInter!==null?(dInter>=0?`crecieron <em>+${Math.abs(dInter).toFixed(1)}%</em> de <strong>${N(PK.interactions)}</strong> a <strong>${N(K.interactions)}</strong>. El crecimiento en interacciones es más valioso que el alcance: indica audiencia más comprometida.`:`cayeron <em>-${Math.abs(dInter).toFixed(1)}%</em>. Esto puede indicar fatiga de contenido o cambio en el tipo de publicaciones. Revisar los posts con menor engagement del período.`):'Es el primer período con datos completos.'}`,
-        `Se publicaron <strong>${K.posts} posts</strong> ${PK.posts>0?`vs ${PK.posts} del mes anterior (${delta(K.posts,PK.posts)>=0?'+':''}${(delta(K.posts,PK.posts)||0).toFixed(0)}%).`:'.'}  ${K.posts<4?'Frecuencia baja: menos de 1 post semanal puede limitar el alcance orgánico.':K.posts>20?'Alta frecuencia: asegúrate de mantener calidad sobre cantidad.':'Frecuencia adecuada para mantener presencia sin saturar la audiencia.'}`
-      ])}`,
+      ${consulBox('Comparativa', genConsulCompare(K,PK,flbl,prevPeriod,dReach,dInter))}`,
      onEnter:()=>{setTimeout(()=>{
        const labs=['Reach','Likes','Comentarios','Interact.'];
        const d1=[PK.reach||0,PK.likes||0,PK.comments||0,PK.interactions||0];
@@ -679,11 +759,7 @@ function buildSlides(){
           <div class="cc" style="height:148px"><canvas id="ch-inter" role="img" aria-label="Interacciones"></canvas></div>
         </div>
       </div>
-      ${consulBox('Alcance',[
-        `El pico de alcance diario fue <strong>${N(Math.max(...tl.reach,0))}</strong>, que representa <em>${K.avgReach>0?(Math.max(...tl.reach)/K.avgReach).toFixed(1)+'x el promedio'}el promedio</em> del período. Los días con pico alto indican posts de alto rendimiento — revisar qué formato o contenido los generó para replicarlo.`,
-        `El alcance promedio de <strong>${N(K.avgReach)}</strong> por publicación ${PK.avgReach?`${K.avgReach>PK.avgReach?'mejoró':'bajó'} respecto a ${prevPeriod} (${N(PK.avgReach)}). ${K.avgReach>PK.avgReach?'La calidad o relevancia del contenido está mejorando.':'Esto puede indicar menor relevancia del contenido o cambios en el algoritmo.'}`:'es la línea base de este período. Busca superar este número el próximo mes.'}`,
-        `La correlación entre alcance e interacciones determina la calidad del engagement. ${tl.reach.length>0?`En este período, las fechas con más interacciones ${tl.interactions.reduce((a,b)=>a+b,0)>0?'también muestran picos de alcance, indicando contenido de alto impacto.':'no siempre coinciden con los de mayor alcance, sugiriendo que parte del alcance es pasivo (sin interacción).':'Analizar post por post en la siguiente sección.'}`
-      ])}`,
+      ${consulBox('Alcance', genConsulAlcance(K,PK,tl,flbl,prevPeriod))}`,
      onEnter:()=>{setTimeout(()=>{mkLine('ch-reach',tl.labels,tl.reach,true);mkLine('ch-inter',tl.labels,tl.interactions,true);},60);}
     },
 
@@ -713,11 +789,7 @@ function buildSlides(){
              <div class="cc" style="height:130px"><canvas id="ch-reels" role="img" aria-label="Reels"></canvas></div>
            </div>`:``}
          </div>
-         ${consulBox('Contenido',[
-           `El formato <em>${tk[0]?pillLabel(tk[0][0]):'—'}</em> domina con <strong>${topTypeCount} posts (${topTypePct}%)</strong> del total. ${tk.length>1?`El segundo formato es ${pillLabel(tk[1][0])} con ${tk[1][1]} posts. `:''}${topTypePct>80?'La concentración en un solo formato puede limitar el alcance a distintos segmentos de audiencia. Diversificar el mix aumenta la cobertura.':topTypePct>50?'Buena concentración con algo de diversidad. Asegúrate de que el formato dominante también sea el de mayor alcance.':'Buen mix de formatos — el algoritmo de '+netName+' favorece la diversidad de contenido.'}`,
-           `${bestDay?`El día con más publicaciones fue <em>${bestDay[0]}</em> (${bestDay[1]} posts). `:''} La consistencia semanal es clave para el algoritmo: ${K.posts>=4&&K.posts<=12?'la frecuencia actual es óptima para mantener presencia sin saturar.':K.posts<4?'publicar al menos 4 veces al mes es el mínimo recomendado para visibilidad orgánica sostenida.':'considera si la alta frecuencia mantiene calidad constante, ya que puede diluir el alcance promedio por post.'}`,
-           `${net==='instagram'&&reels.length>0?`Se publicaron <strong>${reels.length} Reels</strong>. El alcance promedio de Reels es ${N(reels.reduce((a,r)=>a+(+r.reach||0),0)/reels.length)} vs ${N(K.avgReach)} de posts regulares. ${reels.reduce((a,r)=>a+(+r.reach||0),0)/reels.length>K.avgReach?'Los Reels superan el alcance promedio — incrementar su frecuencia podría amplificar significativamente la visibilidad.':'Los Reels no superan el alcance promedio en este período — revisar duración, audio trending y hooks iniciales.'}`:`Para maximizar alcance en ${netName}, ${net==='facebook'?'prioriza video nativo y posts con imágenes de alta calidad.':net==='linkedin'?'los posts de texto con insights propios y carruseles documentales tienen mayor alcance orgánico.':net==='youtube'?'optimiza thumbnails y títulos con palabras clave de búsqueda para amplificar el alcance.':'diversifica entre formatos de texto, imagen y video.'}`}`
-         ])}`;
+         ${consulBox('Contenido', genConsulContenido(K,tk,topTypeCount,topTypePct,bestDay,reels,net,netName))}`;
      },
      onEnter:()=>{setTimeout(()=>{
        const days=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
@@ -754,11 +826,7 @@ function buildSlides(){
           </div>
         </div>
       </div>
-      ${consulBox('Engagement',[
-        `El post con mayor engagement rate fue <strong>${P(topEngPost?.engagement)}</strong> (alcance: ${N(topEngPost?.reach)}). ${K.engRate>0&&topEngPost?`El engagement del top post es <em>${(topEngPost.engagement/K.engRate).toFixed(1)}x el promedio</em> del período — analizar qué tiene de especial ese contenido (formato, copy, CTA, hora de publicación) para replicarlo.`:''}`,
-        `La distribución likes/comentarios/guardados revela el tipo de relación con la audiencia. ${K.saved>K.comments?'El alto ratio de guardados (vs comentarios) indica contenido de valor práctico o aspiracional que la audiencia quiere consumir después — muy positivo para el algoritmo de Instagram.':K.comments>K.saved?'Más comentarios que guardados indica contenido que genera conversación. Responder activamente los comentarios en las primeras horas amplifica el alcance.':'Distribución equilibrada entre guardados y comentarios.'} ${ratioLikesComents?`Ratio likes/comentarios: <strong>${ratioLikesComents}x</strong>.`:''}`,
-        `${dEng!==null?`El engagement ${dEng>=0?'mejoró':'bajó'} <em>${Math.abs(dEng).toFixed(1)}%</em> respecto a ${prevPeriod}. ${dEng>=0?'El crecimiento en engagement es el KPI más valioso: indica que la audiencia existente está más comprometida, lo que favorece el alcance orgánico futuro.':'Una caída en engagement puede anticipar una caída futura en alcance. Revisar si el contenido está siendo demasiado promocional, o si la frecuencia es muy alta.`:'Mantener el engagement rate actual requiere consistencia en calidad y tipos de contenido que han funcionado.'}`
-      ])}`,
+      ${consulBox('Engagement', genConsulEng(K,PK,topEngPost,dEng,prevPeriod,ratioLikesComents,net))}`,
      onEnter:()=>{setTimeout(()=>{
        const top10=[...posts].sort((a,b)=>(+b.engagement||0)-(+a.engagement||0)).slice(0,10);
        mkBar('ch-eng',top10.map((_,i)=>`P${i+1}`),top10.map(p=>+(+p.engagement||0).toFixed(2)));
@@ -797,11 +865,7 @@ function buildSlides(){
              }).join('')}
            </div>`:'<div class="nodata">Sin posts en este período</div>'}
          </div>
-         ${consulBox('Top posts',[
-           `El post #1 generó <strong>${N(sorted[0]?.reach)}</strong> de alcance con <em>${P(sorted[0]?.engagement)}</em> de engagement — ${sorted[0]?.reach>K.avgReach*1.5?`<em>${((sorted[0]?.reach/K.avgReach)-1).toFixed(1)}x por encima del promedio</em>. Este es el contenido benchmark del período. Analizar el tipo (${pillLabel(sorted[0]?.type)}), el copy y la hora de publicación para entender qué variables replicar.`:'rendimiento dentro del promedio del período.'}`,
-           `${sorted.length>=3?`La diferencia entre el post #1 (${N(sorted[0]?.reach)}) y el #3 (${N(sorted[2]?.reach)}) es de <strong>${N((sorted[0]?.reach||0)-(sorted[2]?.reach||0))}</strong> de alcance. ${(sorted[0]?.reach||0)>2*(sorted[2]?.reach||1)?'Alta dispersión: existe un post outlier que distorsiona el promedio. Identificar qué lo hizo viral para replicar la fórmula.':'Dispersión baja: el rendimiento es consistente. Esto es positivo — indica una audiencia estable y predecible.'}`:'Analizar la consistencia entre los top posts para detectar patrones de contenido.'}`,
-           `Entre los top 6, el formato <em>${Object.entries(sorted.reduce((a,p)=>{const t=pillLabel(p.type);a[t]=(a[t]||0)+1;return a;},{})).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—'}</em> domina. ${net==='instagram'&&D.reels?.length>0?`Los Reels en el top 6: ${sorted.filter(p=>p.type?.includes('REEL')).length}. ${sorted.filter(p=>p.type?.includes('REEL')).length>0?'Los Reels están entre los posts de mayor alcance — aumentar su frecuencia debería amplificar el reach global.':'Ningún Reel aparece en el top 6. Revisar estrategia de Reels para mejorar su rendimiento.'}`:`Concentrar esfuerzos en el formato que domina el top 6 para maximizar el alcance total del próximo mes.`}`
-         ])}`;
+         ${consulBox('Top posts', genConsulTopPosts(sorted,K,net,D))}`;
      },onEnter:()=>{}
     },
 
@@ -821,11 +885,7 @@ function buildSlides(){
           </div>
         </div>
       </div>
-      ${consulBox('Timing',[
-        `<span id="timing-p1">Calculando…</span>`,
-        `<span id="timing-p2">Calculando…</span>`,
-        `La frecuencia de publicación fue de <strong>${(K.posts/4.33).toFixed(1)} posts/semana</strong> en promedio. ${K.posts/4.33<1?'Frecuencia insuficiente: el algoritmo necesita señales de actividad regular. Objetivo mínimo: 3 posts/semana.':K.posts/4.33>=1&&K.posts/4.33<=3?'Frecuencia óptima para calidad sostenida. Mantener consistencia en horarios es clave para el algoritmo.':'Alta frecuencia: asegúrate de que la calidad no se vea comprometida. Medir si el alcance promedio por post disminuye al aumentar la frecuencia.'}`
-      ])}`,
+      ${consulBox('Timing', genConsulTiming(K))}`,
      onEnter:()=>{setTimeout(()=>{
        const hc={};
        posts.forEach(p=>{if(p.publishedAt?.dateTime){const h=new Date(p.publishedAt.dateTime).getHours();hc[h]=(hc[h]||0)+1;}});
@@ -865,12 +925,12 @@ function buildSlides(){
            <div class="aibox">
              <div class="aitag"><div class="aip"></div>Análisis estratégico completo</div>
              <div class="aitext" id="ai-main">Pulsa para generar el análisis estratégico detallado con comparativa mensual y recomendaciones priorizadas.</div>
-             <button class="btai" id="btn-ai-main" onclick="runAI('main','Actúa como consultor senior de redes sociales de Match Agency. Analiza los siguientes datos reales de ${netName} y entrega un análisis de nivel consultor. Datos: ${ctx.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/`/g,'\\`')}. Entrega: (1) Diagnóstico del período: qué funcionó y qué no, con números específicos y comparativa vs ${prevPeriod}. (2) 3 alertas o riesgos detectados basados en las variaciones de datos. (3) 5 recomendaciones concretas y priorizadas para el próximo mes, cada una con el impacto esperado. Sé directo, específico y sin frases genéricas.')">◆ Generar análisis estratégico</button>
+             <button class="btai" id="btn-ai-main" onclick="triggerAI('main')">◆ Generar análisis estratégico</button>
            </div>
            <div class="aibox">
              <div class="aitag"><div class="aip"></div>Plan de contenido para el próximo mes</div>
              <div class="aitext" id="ai-plan">Pulsa para obtener un plan de contenido basado en el rendimiento real.</div>
-             <button class="btai" id="btn-ai-plan" onclick="runAI('plan','Actúa como consultor de contenido de Match Agency. Basándote en estos datos reales de ${netName} en ${period}: ${ctx.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/`/g,'\\`')}. Genera un plan de contenido para el próximo mes con: (1) 5 ideas de contenido específicas con formato exacto, tema, objetivo medible y por qué funcionará según los datos. (2) Distribución semanal recomendada. (3) Los 2 horarios óptimos de publicación basados en los datos de este mes.')">◆ Generar plan de contenido</button>
+             <button class="btai" id="btn-ai-plan" onclick="triggerAI('plan')">◆ Generar plan de contenido</button>
            </div>
          </div>
          <div class="slide-bottom" style="padding:10px 44px">
