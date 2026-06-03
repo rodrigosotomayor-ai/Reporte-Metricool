@@ -1,0 +1,9 @@
+{
+  "name": "metricool-proxy-match",
+  "version": "1.0.0",
+  "description": "Proxy para API de Metricool — Match Agency",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}

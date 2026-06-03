@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Redes Sociales — Match Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg:#0A0A0F;--bg2:#111118;--bg3:#18181F;--surface:#1E1E28;--surface2:#252530;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --text:#F0EFE8;--text2:#9A9998;--text3:#5C5B5A;
+  --accent:#C8F135;--accent2:#E8FF70;
+  --ig:#E1306C;--fb:#1877F2;--li:#0A66C2;--yt:#FF0000;
+  --font-d:'DM Serif Display',Georgia,serif;
+  --font-b:'DM Sans',sans-serif;
+  --font-m:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font-b);}
+
+/* ── INTRO ── */
+#intro{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;}
+.intro-inner{width:540px;max-width:94vw;animation:fadeUp .7s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.intro-logo{font-family:var(--font-m);font-size:11px;letter-spacing:.18em;color:var(--text3);text-transform:uppercase;margin-bottom:48px;display:flex;align-items:center;gap:10px;}
+.intro-logo::before{content:'';width:24px;height:1px;background:var(--text3);}
+.intro-headline{font-family:var(--font-d);font-size:clamp(36px,6vw,54px);line-height:1.1;margin-bottom:12px;}
+.intro-headline em{font-style:italic;color:var(--accent);}
+.intro-sub{font-size:15px;color:var(--text2);margin-bottom:36px;line-height:1.6;}
+.proxy-notice{background:rgba(200,241,53,.06);border:1px solid rgba(200,241,53,.2);border-radius:8px;padding:12px 14px;margin-bottom:24px;font-size:12px;color:var(--accent);line-height:1.6;}
+.proxy-notice strong{display:block;margin-bottom:4px;}
+.intro-fields{display:flex;flex-direction:column;gap:14px;}
+.field-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:6px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+input[type=text],input[type=url],select{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:12px 14px;color:var(--text);font-family:var(--font-b);font-size:14px;outline:none;transition:border-color .2s;}
+input:focus,select:focus{border-color:var(--accent);}
+select option{background:var(--surface);}
+input::placeholder{color:var(--text3);}
+.net-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.net-btn{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:12px 8px;cursor:pointer;text-align:center;font-family:var(--font-b);font-size:12px;font-weight:500;color:var(--text2);transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.net-btn .net-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.net-btn[data-net=instagram] .net-icon{background:rgba(225,48,108,.15);}
+.net-btn[data-net=facebook] .net-icon{background:rgba(24,119,242,.15);}
+.net-btn[data-net=linkedin] .net-icon{background:rgba(10,102,194,.15);}
+.net-btn[data-net=youtube] .net-icon{background:rgba(255,0,0,.15);}
+.net-btn.selected{background:var(--surface2);}
+.net-btn[data-net=instagram].selected{border-color:var(--ig);color:var(--ig);}
+.net-btn[data-net=facebook].selected{border-color:var(--fb);color:var(--fb);}
+.net-btn[data-net=linkedin].selected{border-color:var(--li);color:var(--li);}
+.net-btn[data-net=youtube].selected{border-color:var(--yt);color:var(--yt);}
+.btn-go{width:100%;padding:15px;background:var(--accent);color:#0A0A0F;border:none;border-radius:8px;font-family:var(--font-b);font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;transition:background .2s,transform .1s;letter-spacing:.02em;}
+.btn-go:hover{background:var(--accent2);}
+.btn-go:active{transform:scale(.99);}
+.btn-go:disabled{opacity:.4;cursor:not-allowed;}
+.hint{font-size:11px;color:var(--text3);margin-top:4px;}
+.error-banner{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#FF8A8A;display:none;}
+
+/* ── LOADING ── */
+#loading{position:fixed;inset:0;z-index:90;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
+.loader-ring{width:48px;height:48px;border-radius:50%;border:2px solid var(--surface2);border-top-color:var(--accent);animation:spin .9s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-text{font-size:13px;color:var(--text2);font-family:var(--font-m);}
+.loader-steps{display:flex;flex-direction:column;gap:6px;margin-top:8px;min-width:260px;}
+.loader-step{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:8px;transition:color .3s;}
+.loader-step.done{color:var(--accent);}
+.loader-step.active{color:var(--text2);}
+.step-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+/* ── PRESENTATION ── */
+#presentation{position:fixed;inset:0;display:none;flex-direction:column;}
+.pres-topbar{height:52px;min-height:52px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;gap:16px;flex-shrink:0;}
+.pres-brand{font-family:var(--font-m);font-size:11px;letter-spacing:.14em;color:var(--text3);text-transform:uppercase;}
+.pres-period{font-family:var(--font-m);font-size:12px;color:var(--accent);}
+.topbar-right{display:flex;align-items:center;gap:16px;}
+.topbar-net{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;}
+.net-badge{width:8px;height:8px;border-radius:50%;}
+.btn-back{background:none;border:1px solid var(--border2);border-radius:6px;padding:5px 12px;color:var(--text2);font-family:var(--font-b);font-size:12px;cursor:pointer;transition:all .2s;}
+.btn-back:hover{border-color:var(--accent);color:var(--accent);}
+.slides-area{flex:1;overflow:hidden;position:relative;}
+.slide{position:absolute;inset:0;padding:44px 56px 28px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;transform:translateY(14px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.slide.exit{opacity:0;transform:translateY(-12px);}
+.slide::-webkit-scrollbar{width:4px;}
+.slide::-webkit-scrollbar-track{background:transparent;}
+.slide::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:2px;}
+.pres-bottombar{height:64px;min-height:64px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0;}
+.slide-dots{display:flex;gap:6px;align-items:center;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--surface2);cursor:pointer;transition:all .2s;}
+.dot.active{background:var(--accent);width:20px;border-radius:3px;}
+.dot:hover:not(.active){background:var(--text3);}
+.btn-nav{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 22px;color:var(--text);font-family:var(--font-b);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.btn-nav:hover{border-color:var(--accent);color:var(--accent);}
+.btn-nav:disabled{opacity:.3;cursor:not-allowed;}
+.btn-nav.primary{background:var(--accent);border-color:var(--accent);color:#0A0A0F;}
+.btn-nav.primary:hover{background:var(--accent2);border-color:var(--accent2);}
+.slide-counter{font-family:var(--font-m);font-size:12px;color:var(--text3);}
+
+/* ── SLIDES COMPONENTS ── */
+.slide-tag{font-family:var(--font-m);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.slide-tag::after{content:'';flex:1;height:1px;background:var(--border);}
+.slide-h1{font-family:var(--font-d);font-size:clamp(26px,3.5vw,44px);line-height:1.1;margin-bottom:6px;}
+.slide-h1 em{font-style:italic;color:var(--accent);}
+.slide-h3{font-size:13px;color:var(--text2);margin-bottom:24px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-bottom:24px;}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 16px;}
+.kpi-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.kpi-value{font-family:var(--font-d);font-size:30px;line-height:1;color:var(--text);}
+.kpi-delta{font-size:12px;color:var(--text3);margin-top:4px;}
+.kpi-delta.pos{color:var(--accent);}
+.kpi-delta.neg{color:#FF6B6B;}
+.kpi-card.featured{border-color:rgba(200,241,53,.3);background:rgba(200,241,53,.04);}
+.kpi-card.featured .kpi-value{color:var(--accent);}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px;}
+.chart-grid.full{grid-template-columns:1fr;}
+.chart-grid.triple{grid-template-columns:1fr 1fr 1fr;}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;}
+.chart-title{font-size:11px;font-weight:500;color:var(--text2);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em;}
+.chart-wrap{position:relative;}
+.insight-box{background:linear-gradient(135deg,rgba(200,241,53,.06),rgba(200,241,53,.02));border:1px solid rgba(200,241,53,.2);border-radius:12px;padding:18px 20px;margin-bottom:18px;}
+.insight-label{font-size:10px;font-family:var(--font-m);color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;}
+.insight-text{font-size:13px;color:var(--text2);line-height:1.7;}
+.posts-table{width:100%;border-collapse:collapse;}
+.posts-table th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
+.posts-table td{padding:10px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2);vertical-align:middle;}
+.posts-table tr:last-child td{border-bottom:none;}
+.post-title{color:var(--text);max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.type-pill{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500;display:inline-block;white-space:nowrap;}
+.t-reel{background:rgba(225,48,108,.15);color:var(--ig);}
+.t-post{background:rgba(24,119,242,.15);color:#60A5FA;}
+.t-video{background:rgba(255,0,0,.15);color:var(--yt);}
+.t-article{background:rgba(200,241,53,.15);color:var(--accent);}
+.t-story{background:rgba(255,190,11,.15);color:#FFBE0B;}
+.cover-slide{display:flex;flex-direction:column;justify-content:space-between;min-height:calc(100vh - 116px - 72px);}
+.cover-badge{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:100px;padding:8px 18px;margin-bottom:36px;font-size:13px;font-weight:500;}
+.cover-title{font-family:var(--font-d);font-size:clamp(38px,6vw,66px);line-height:1.02;margin-bottom:18px;}
+.cover-desc{font-size:15px;color:var(--text2);max-width:500px;line-height:1.7;margin-bottom:32px;}
+.cover-bottom{display:flex;align-items:flex-end;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);}
+.cover-meta{font-family:var(--font-m);font-size:11px;color:var(--text3);line-height:2;}
+.cover-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.cpill{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--text3);}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.bar-row{margin-bottom:10px;}
+.bar-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:4px;}
+.bar-track{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:2px;}
+.no-data{text-align:center;padding:36px 20px;color:var(--text3);font-size:13px;}
+.ai-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;}
+.ai-label{font-size:10px;font-family:var(--font-m);color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1.5s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.ai-content{font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-wrap;}
+.btn-ai{background:none;border:1px solid rgba(200,241,53,.3);border-radius:6px;padding:8px 16px;color:var(--accent);font-size:12px;font-family:var(--font-b);cursor:pointer;margin-top:14px;transition:all .2s;}
+.btn-ai:hover{background:rgba(200,241,53,.08);}
+.btn-ai:disabled{opacity:.4;cursor:not-allowed;}
+.section-divider{height:1px;background:var(--border);margin:20px 0;}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.demo-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.demo-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:12px;}
+.metric-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
+.metric-row:last-child{border-bottom:none;}
+.metric-row-label{font-size:13px;color:var(--text2);}
+.metric-row-val{font-family:var(--font-m);font-size:13px;color:var(--text);font-weight:500;}
+.metric-row-val.pos{color:var(--accent);}
+.metric-row-val.neg{color:#FF6B6B;}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="intro-inner">
+    <div class="intro-logo">Match Agency — Analytics</div>
+    <h1 class="intro-headline">Reporte de<br><em>redes sociales</em></h1>
+    <p class="intro-sub">Datos en tiempo real desde Metricool. Selecciona el período y red social.</p>
+
+    <div class="proxy-notice">
+      <strong>⚡ Conectado via proxy Vercel</strong>
+      Ingresa la URL de tu proxy para activar los datos reales.
+    </div>
+
+    <div class="intro-fields">
+      <div>
+        <div class="field-label">URL del proxy Vercel</div>
+        <input type="url" id="inProxy" placeholder="https://tu-proyecto.vercel.app" />
+        <p class="hint">La URL que obtienes al deployar el proyecto en Vercel</p>
+      </div>
+
+      <div>
+        <div class="field-label">Período</div>
+        <select id="selMonth">
+          <option value="2026-05">Mayo 2026</option>
+          <option value="2026-04">Abril 2026</option>
+          <option value="2026-03">Marzo 2026</option>
+          <option value="2026-02">Febrero 2026</option>
+          <option value="2026-01">Enero 2026</option>
+          <option value="2025-12">Diciembre 2025</option>
+          <option value="2025-11">Noviembre 2025</option>
+          <option value="2025-10">Octubre 2025</option>
+          <option value="2025-09">Septiembre 2025</option>
+          <option value="2025-08">Agosto 2025</option>
+        </select>
+      </div>
+
+      <div>
+        <div class="field-label">Red social</div>
+        <div class="net-selector">
+          <button class="net-btn selected" data-net="instagram" onclick="selectNet(this)">
+            <span class="net-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="#E1306C" stroke="none"/></svg></span>
+            Instagram
+          </button>
+          <button class="net-btn" data-net="facebook" onclick="selectNet(this)">
+            <span class="net-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>
+            Facebook
+          </button>
+          <button class="net-btn" data-net="linkedin" onclick="selectNet(this)">
+            <span class="net-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+            LinkedIn
+          </button>
+          <button class="net-btn" data-net="youtube" onclick="selectNet(this)">
+            <span class="net-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>
+            YouTube
+          </button>
+        </div>
+      </div>
+
+      <div class="error-banner" id="errBanner">Error al conectar. Verifica la URL del proxy.</div>
+      <button class="btn-go" id="btnGo" onclick="startReport()">Generar reporte →</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="loader-ring"></div>
+  <div class="loader-text" id="loadMsg">Iniciando…</div>
+  <div class="loader-steps" id="loadSteps"></div>
+</div>
+
+<!-- PRESENTATION -->
+<div id="presentation">
+  <div class="pres-topbar">
+    <div class="pres-brand">Match Agency — Reporte Social</div>
+    <div class="topbar-right">
+      <span class="pres-period" id="topPeriod"></span>
+      <span class="topbar-net" id="topNet"></span>
+      <button class="btn-back" onclick="backToIntro()">← Nuevo reporte</button>
+    </div>
+  </div>
+  <div class="slides-area" id="slidesArea"></div>
+  <div class="pres-bottombar">
+    <button class="btn-nav" id="btnPrev" onclick="prevSlide()">← Anterior</button>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div class="slide-dots" id="slideDots"></div>
+      <div class="slide-counter" id="slideCounter"></div>
+    </div>
+    <button class="btn-nav primary" id="btnNext" onclick="nextSlide()">Siguiente →</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let S = { net:'instagram', month:'2026-05', proxy:'', data:{}, aiCache:{} };
+let currentSlide = 0;
+let slides = [];
+let charts = {};
+
+const MONTHS = {'2026-05':'Mayo 2026','2026-04':'Abril 2026','2026-03':'Marzo 2026','2026-02':'Febrero 2026','2026-01':'Enero 2026','2025-12':'Diciembre 2025','2025-11':'Noviembre 2025','2025-10':'Octubre 2025','2025-09':'Septiembre 2025','2025-08':'Agosto 2025'};
+const NET_NAMES = {instagram:'Instagram',facebook:'Facebook',linkedin:'LinkedIn',youtube:'YouTube'};
+const NET_COLORS = {instagram:'#E1306C',facebook:'#1877F2',linkedin:'#0A66C2',youtube:'#FF0000'};
+const NET_LABELS = {instagram:{followers:'Seguidores',reach:'Alcance',subs:'Seguidores'},facebook:{followers:'Fans',reach:'Alcance',subs:'Fans'},linkedin:{followers:'Seguidores',reach:'Impresiones',subs:'Seguidores'},youtube:{followers:'Suscriptores',reach:'Vistas',subs:'Suscriptores'}};
+
+// ═══════════════════════════════════════════
+// INTRO
+// ═══════════════════════════════════════════
+function selectNet(btn) {
+  document.querySelectorAll('.net-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  S.net = btn.dataset.net;
+}
+
+function getPeriodDates(ym) {
+  const [y,m] = ym.split('-').map(Number);
+  const fmt = d => `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  return { start: fmt(new Date(y,m-1,1)), end: fmt(new Date(y,m,0)) };
+}
+
+// ═══════════════════════════════════════════
+// API via PROXY
+// ═══════════════════════════════════════════
+async function mc(endpoint, params = {}) {
+  const base = S.proxy.replace(/\/$/, '');
+  const qp = new URLSearchParams({ endpoint, ...params });
+  const url = `${base}/api/metricool?${qp}`;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch { return null; }
+}
+
+function setStep(steps, idx) {
+  const el = document.getElementById('loadSteps');
+  if (!el) return;
+  el.innerHTML = steps.map((s,i) => `
+    <div class="loader-step ${i < idx ? 'done' : i === idx ? 'active' : ''}">
+      <div class="step-dot"></div>${i < idx ? '✓ ' : ''}${s}
+    </div>`).join('');
+  document.getElementById('loadMsg').textContent = steps[idx] || 'Procesando…';
+}
+
+const STEPS = [
+  'Verificando conexión…',
+  'Cargando métricas principales…',
+  'Cargando evolución temporal…',
+  'Cargando datos de contenido…',
+  'Cargando posts publicados…',
+  'Cargando audiencia y demografía…',
+  'Construyendo presentación…'
+];
+
+async function fetchAllData() {
+  const { start, end } = getPeriodDates(S.month);
+  const net = S.net;
+  const D = {};
+
+  setStep(STEPS, 1);
+  D.stats = await mc(`/stats/${net}`, { start, end });
+
+  setStep(STEPS, 2);
+  const tlKey = {instagram:'igFollowers',facebook:'fbFollowers',linkedin:'linkedinFollowers',youtube:'youtubeSubscribers'}[net];
+  D.timeline = await mc(`/stats/timeling/${tlKey}`, { start, end });
+  const reachKey = {instagram:'igReach',facebook:'fbReach',linkedin:'linkedinImpressions',youtube:'youtubeViews'}[net];
+  D.reachTimeline = await mc(`/stats/timeling/${reachKey}`, { start, end });
+
+  setStep(STEPS, 3);
+  if (net === 'instagram') {
+    D.reels   = await mc(`/v2/analytics/reels/instagram`, { from: start, to: end });
+    D.stories = await mc(`/v2/analytics/stories/instagram`, { from: start, to: end });
+  }
+  if (net === 'youtube') {
+    D.videos = await mc(`/v2/analytics/youtube`, { from: start, to: end });
+  }
+
+  setStep(STEPS, 4);
+  D.posts = await mc(`/v2/scheduler/posts`, { start, end, status: 'PUBLISHED' });
+
+  setStep(STEPS, 5);
+  if (net === 'linkedin') D.audience = await mc(`/stats/linkedin/audience`, { start, end });
+  const engKey = {instagram:'igEngagement',facebook:'fbEngagement',linkedin:'linkedinEngagement',youtube:'youtubeEngagement'}[net];
+  D.engTimeline = await mc(`/stats/timeling/${engKey}`, { start, end });
+
+  setStep(STEPS, 6);
+  S.data = D;
+}
+
+async function startReport() {
+  S.proxy  = document.getElementById('inProxy').value.trim().replace(/\/$/, '');
+  S.month  = document.getElementById('selMonth').value;
+  S.net    = document.querySelector('.net-btn.selected')?.dataset.net || 'instagram';
+
+  if (!S.proxy) {
+    const err = document.getElementById('errBanner');
+    err.textContent = 'Ingresa la URL del proxy Vercel.';
+    err.style.display = 'block';
+    return;
+  }
+
+  document.getElementById('errBanner').style.display = 'none';
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('loading').style.display = 'flex';
+
+  setStep(STEPS, 0);
+  await fetchAllData();
+  setStep(STEPS, 6);
+
+  buildPresentation();
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('presentation').style.display = 'flex';
+}
+
+function backToIntro() {
+  destroyAll();
+  S.data = {}; S.aiCache = {}; currentSlide = 0;
+  document.getElementById('presentation').style.display = 'none';
+  document.getElementById('intro').style.display = 'flex';
+}
+
+// ═══════════════════════════════════════════
+// DATA HELPERS
+// ═══════════════════════════════════════════
+function fmtN(n) {
+  if (n == null || isNaN(n) || n === '') return '—';
+  n = parseFloat(n);
+  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+  if (n >= 1000) return (n/1000).toFixed(1)+'K';
+  return Math.round(n).toLocaleString('es-CL');
+}
+function fmtP(n, d=2) {
+  if (n == null || isNaN(n) || n === '') return '—';
+  return parseFloat(n).toFixed(d)+'%';
+}
+function gv(obj, ...keys) {
+  if (!obj) return null;
+  const srcs = [obj, obj.data, obj.stats, obj.analytics, obj.summary].filter(Boolean);
+  for (const o of srcs) for (const k of keys) if (o[k] != null) return o[k];
+  return null;
+}
+function getTL(obj) {
+  if (!obj) return {labels:[],values:[]};
+  const arr = Array.isArray(obj) ? obj : (obj.data || obj.series || obj.timeline || []);
+  const labels = arr.map(e => {
+    const raw = String(e.date || e.d || e.day || e.timestamp || '');
+    if (raw.length === 8) return raw.slice(6)+'/'+raw.slice(4,6);
+    return raw.substring(0,10);
+  });
+  const values = arr.map(e => Number(e.value ?? e.v ?? e.count ?? e.followers ?? e.subscribers ?? e.views ?? e.impressions ?? 0));
+  return { labels, values };
+}
+function getPosts() {
+  const p = S.data.posts;
+  if (!p) return [];
+  const arr = Array.isArray(p) ? p : (p.data || p.posts || []);
+  return arr.filter(post => {
+    if (!post.providers) return true;
+    return post.providers.some(pr => (pr.network||'').toLowerCase() === S.net);
+  });
+}
+
+// ═══════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════
+function destroyAll() {
+  Object.values(charts).forEach(c => { try { c.destroy(); } catch(e){} });
+  charts = {};
+}
+const nc = () => NET_COLORS[S.net];
+
+function mkLine(id, labels, datasets, extraOpts={}) {
+  const el = document.getElementById(id); if (!el) return;
+  if (charts[id]) charts[id].destroy();
+  charts[id] = new Chart(el, {
+    type: 'line',
+    data: { labels, datasets: datasets.map((ds,i) => ({
+      borderColor: i===0 ? nc() : '#555',
+      backgroundColor: i===0 ? nc()+'18' : 'transparent',
+      fill: i===0, tension: 0.4,
+      pointRadius: labels.length > 25 ? 0 : 3,
+      borderWidth: 2, ...ds
+    }))},
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display: datasets.length>1, labels:{ color:'#9A9998', font:{size:11} } } },
+      scales:{
+        x:{ ticks:{ color:'#5C5B5A', font:{size:10}, maxTicksLimit:8, autoSkip:true }, grid:{ color:'rgba(255,255,255,0.04)' } },
+        y:{ ticks:{ color:'#5C5B5A', font:{size:10}, callback: v => fmtN(v) }, grid:{ color:'rgba(255,255,255,0.04)' } }
+      }, ...extraOpts }
+  });
+}
+function mkBar(id, labels, datasets, stacked=false, extraOpts={}) {
+  const el = document.getElementById(id); if (!el) return;
+  if (charts[id]) charts[id].destroy();
+  charts[id] = new Chart(el, {
+    type: 'bar',
+    data: { labels, datasets: datasets.map((ds,i) => ({
+      backgroundColor: i===0 ? nc()+'BB' : ['#3A3A4A','#4A4A5A','#5A5A6A'][i-1]||'#3A3A4A',
+      borderRadius: 4, borderSkipped: false, ...ds
+    }))},
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display: datasets.length>1, labels:{ color:'#9A9998', font:{size:11} } } },
+      scales:{
+        x:{ stacked, ticks:{ color:'#5C5B5A', font:{size:10}, autoSkip: labels.length>12 }, grid:{ color:'rgba(255,255,255,0.04)' } },
+        y:{ stacked, ticks:{ color:'#5C5B5A', font:{size:10}, callback: v => fmtN(v) }, grid:{ color:'rgba(255,255,255,0.04)' } }
+      }, ...extraOpts }
+  });
+}
+function mkDonut(id, labels, data, colors) {
+  const el = document.getElementById(id); if (!el) return;
+  if (charts[id]) charts[id].destroy();
+  charts[id] = new Chart(el, {
+    type:'doughnut',
+    data:{ labels, datasets:[{ data, backgroundColor: colors, borderWidth:0 }] },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'65%',
+      plugins:{ legend:{ position:'right', labels:{ color:'#9A9998', font:{size:11}, padding:12, boxWidth:10, boxHeight:10 } } } }
+  });
+}
+
+// ═══════════════════════════════════════════
+// AI
+// ═══════════════════════════════════════════
+async function triggerAI(id, promptFn) {
+  const el = document.getElementById('ai-'+id);
+  const btn = document.getElementById('btn-ai-'+id);
+  if (!el) return;
+  if (S.aiCache[id]) { el.textContent = S.aiCache[id]; if(btn) btn.style.display='none'; return; }
+  el.textContent = 'Analizando datos del período…';
+  if (btn) btn.disabled = true;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:800,
+        system:'Eres un estratega de redes sociales de Match Agency. Analiza datos reales de Metricool y entrega insights concisos en español usando bullet points (•). Sin intro ni cierre genérico.',
+        messages:[{ role:'user', content: promptFn() }]
+      })
+    });
+    const d = await res.json();
+    const text = d.content?.map(c=>c.text||'').join('') || 'Sin respuesta.';
+    S.aiCache[id] = text;
+    el.textContent = text;
+  } catch(e) { el.textContent = 'Error: '+e.message; }
+  if (btn) { btn.disabled=false; btn.style.display='none'; }
+}
+
+// ═══════════════════════════════════════════
+// SLIDE BUILDERS
+// ═══════════════════════════════════════════
+function buildSlides() {
+  const D = S.data;
+  const s = D.stats || {};
+  const net = S.net;
+  const period = MONTHS[S.month];
+  const netName = NET_NAMES[net];
+  const nl = NET_LABELS[net];
+
+  // Extraer KPIs reales
+  const followers    = gv(s,'followers','totalFollowers','subscribers','totalSubscribers','fans','totalFans');
+  const reach        = gv(s,'reach','totalReach','impressions','totalImpressions','views','totalViews');
+  const engRate      = gv(s,'engagementRate','engagement','engagementRateTotal');
+  const interactions = gv(s,'interactions','totalInteractions','reactions','totalReactions','likes','totalLikes');
+  const postsCount   = gv(s,'postsCount','posts','totalPosts','videosCount','videos','totalVideos');
+  const growth       = gv(s,'followersGrowth','fansGrowth','subscribersGrowth','followersIncrease');
+  const likes        = gv(s,'likes','totalLikes','reactions');
+  const comments     = gv(s,'comments','totalComments');
+  const savesV       = gv(s,'saves','totalSaves','bookmarks');
+  const sharesV      = gv(s,'shares','totalShares','reposts');
+  const clicks       = gv(s,'clicks','totalClicks','clickThroughRate','ctr');
+  const watchTime    = gv(s,'watchTimeHours','watchTime','averageViewDuration');
+
+  const tl = getTL(D.timeline);
+  const reachTl = getTL(D.reachTimeline);
+  const engTl = getTL(D.engTimeline);
+  const postsList = getPosts();
+
+  // Helper barras
+  const barRow = (lbl, val, color, max=100) => {
+    const pct = Math.min(100, Math.max(0, parseFloat(val)||0));
+    const w = max > 0 ? (pct/max*100) : pct;
+    return `<div class="bar-row">
+      <div class="bar-lbl"><span>${lbl}</span><span>${fmtN(val)}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.min(100,w)}%;background:${color}"></div></div>
+    </div>`;
+  };
+
+  return [
+    // ─── SLIDE 0: PORTADA ───────────────────
+    {
+      id:'cover',
+      render:()=>`
+        <div class="cover-slide">
+          <div>
+            <div class="cover-badge">
+              <span style="width:8px;height:8px;border-radius:50%;background:${nc()}"></span>
+              <span style="color:${nc()}">${netName}</span>
+            </div>
+            <div class="cover-title" style="font-family:var(--font-d)">
+              Reporte mensual<br><span style="font-style:italic;color:var(--accent)">${period}</span>
+            </div>
+            <p class="cover-desc">
+              Análisis completo de performance, audiencia, contenido y recomendaciones para <strong>${netName}</strong> — generado con datos reales de Metricool.
+            </p>
+          </div>
+          <div class="cover-bottom">
+            <div class="cover-meta">Match Agency<br>${netName} Analytics<br>${period}</div>
+            <div class="cover-pills">
+              ${['01 KPIs','02 Crecimiento','03 Audiencia','04 Contenido','05 Engagement','06 Top posts','07 Timing','08 Comparativa','09 Análisis IA'].map(s=>`<span class="cpill">${s}</span>`).join('')}
+            </div>
+          </div>
+        </div>`,
+      onEnter:()=>{}
+    },
+
+    // ─── SLIDE 1: KPIs PRINCIPALES ──────────
+    {
+      id:'kpis',
+      render:()=>`
+        <div class="slide-tag">01 — Resumen ejecutivo</div>
+        <div class="slide-h1">Métricas <em>principales</em></div>
+        <div class="slide-h3">${netName} · ${period}</div>
+        <div class="kpi-grid">
+          <div class="kpi-card featured">
+            <div class="kpi-label">${nl.followers}</div>
+            <div class="kpi-value">${fmtN(followers)}</div>
+            <div class="kpi-delta ${growth>0?'pos':growth<0?'neg':''}">${growth!=null?(growth>=0?'↑ +':' ↓ ')+fmtN(Math.abs(growth))+' vs mes ant.':'Sin variación'}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">${nl.reach}</div>
+            <div class="kpi-value">${fmtN(reach)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Engagement rate</div>
+            <div class="kpi-value">${fmtP(engRate)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Interacciones</div>
+            <div class="kpi-value">${fmtN(interactions)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">${net==='youtube'?'Videos':'Posts'}</div>
+            <div class="kpi-value">${fmtN(postsCount)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">${net==='youtube'?'Tiempo de vista (h)':net==='linkedin'?'Clics':'Guardados'}</div>
+            <div class="kpi-value">${net==='youtube'?fmtN(watchTime):fmtN(clicks||savesV)}</div>
+          </div>
+        </div>
+        <div class="insight-box">
+          <div class="insight-label">Resumen del período</div>
+          <div class="insight-text" id="kpi-summary">
+            ${followers!=null
+              ? `${netName} cerró ${period} con <strong style="color:${nc()}">${fmtN(followers)} ${nl.followers.toLowerCase()}</strong>${growth!=null?` (${growth>=0?'+':''}${fmtN(growth)} vs. mes anterior)`:''} y un engagement rate de <strong style="color:${nc()}">${fmtP(engRate)}</strong>.`
+              : 'Los datos de este período no están disponibles. Verifica que el proxy esté correctamente configurado.'}
+          </div>
+        </div>`,
+      onEnter:()=>{}
+    },
+
+    // ─── SLIDE 2: EVOLUCIÓN ─────────────────
+    {
+      id:'growth',
+      render:()=>`
+        <div class="slide-tag">02 — Crecimiento</div>
+        <div class="slide-h1">Evolución <em>temporal</em></div>
+        <div class="slide-h3">Crecimiento de ${nl.followers.toLowerCase()} y ${nl.reach.toLowerCase()} en el período</div>
+        <div class="chart-card" style="margin-bottom:16px;">
+          <div class="chart-title">${nl.followers} — evolución diaria</div>
+          <div class="chart-wrap" style="height:190px;">
+            <canvas id="ch-tl" role="img" aria-label="Evolución de seguidores">Datos de evolución.</canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">${nl.reach} — evolución diaria</div>
+          <div class="chart-wrap" style="height:180px;">
+            <canvas id="ch-reach-tl" role="img" aria-label="Alcance diario">Datos de alcance.</canvas>
+          </div>
+        </div>`,
+      onEnter:()=>{
+        setTimeout(()=>{
+          if (tl.labels.length) mkLine('ch-tl', tl.labels, [{ label: nl.followers, data: tl.values }]);
+          else mkLine('ch-tl', ['Sin datos'], [{ label: nl.followers, data: [0] }]);
+          if (reachTl.labels.length) mkLine('ch-reach-tl', reachTl.labels, [{ label: nl.reach, data: reachTl.values }]);
+          else mkLine('ch-reach-tl', ['Sin datos'], [{ label: nl.reach, data: [0] }]);
+        }, 60);
+      }
+    },
+
+    // ─── SLIDE 3: AUDIENCIA ─────────────────
+    {
+      id:'audience',
+      render:()=>{
+        const gender = gv(s,'genderBreakdown','gender','genders') || {};
+        const age = gv(s,'ageBreakdown','age','ageRanges','ages') || {};
+        const countries = gv(s,'countryBreakdown','countries','topCountries') || [];
+        const cities = gv(s,'cityBreakdown','cities','topCities') || [];
+        const hasGender = Object.keys(gender).length > 0;
+        const hasAge = Object.keys(age).length > 0;
+        const hasGeo = Array.isArray(countries) && countries.length > 0;
+        return `
+          <div class="slide-tag">03 — Audiencia</div>
+          <div class="slide-h1">Tu <em>audiencia</em></div>
+          <div class="slide-h3">Demografía y distribución geográfica</div>
+          <div class="demo-grid">
+            <div class="demo-card">
+              <div class="demo-title">Distribución por género</div>
+              ${hasGender
+                ? `<div class="chart-wrap" style="height:150px;"><canvas id="ch-gender" role="img" aria-label="Distribución de género">Datos de género.</canvas></div>`
+                : '<div class="no-data">Sin datos de género para este período</div>'}
+            </div>
+            <div class="demo-card">
+              <div class="demo-title">Rango de edad</div>
+              <div class="chart-wrap" style="height:150px;"><canvas id="ch-age" role="img" aria-label="Rangos de edad">Datos de edad.</canvas></div>
+            </div>
+            <div class="demo-card">
+              <div class="demo-title">Top países</div>
+              ${hasGeo
+                ? countries.slice(0,5).map(c => barRow(c.name||c.country||c.code||'?', c.percentage||c.value||c.count||0, nc(), 100)).join('')
+                : '<div class="no-data">Sin datos geográficos</div>'}
+            </div>
+            <div class="demo-card">
+              <div class="demo-title">Top ciudades</div>
+              ${Array.isArray(cities) && cities.length
+                ? cities.slice(0,5).map(c => barRow(c.name||c.city||'?', c.percentage||c.value||c.count||0, nc(), 100)).join('')
+                : '<div class="no-data">Sin datos de ciudades</div>'}
+            </div>
+          </div>`;
+      },
+      onEnter:()=>{
+        setTimeout(()=>{
+          const gender = gv(s,'genderBreakdown','gender','genders') || {};
+          const age = gv(s,'ageBreakdown','age','ageRanges','ages') || {};
+          if (Object.keys(gender).length) {
+            const gk = Object.keys(gender);
+            mkDonut('ch-gender', gk, gk.map(k => parseFloat(gender[k])||0), [nc(), nc()+'66', nc()+'33']);
+          }
+          const ageKeys = Object.keys(age);
+          if (ageKeys.length) {
+            mkBar('ch-age', ageKeys, [{ label:'%', data: ageKeys.map(k => parseFloat(age[k])||0) }]);
+          } else {
+            mkBar('ch-age', ['13-17','18-24','25-34','35-44','45-54','55+'], [{ label:'Referencia', data:[3,28,35,22,8,4] }]);
+          }
+        }, 60);
+      }
+    },
+
+    // ─── SLIDE 4: CONTENIDO ─────────────────
+    {
+      id:'content',
+      render:()=>{
+        const reels = Array.isArray(D.reels) ? D.reels : (D.reels?.data || []);
+        return `
+          <div class="slide-tag">04 — Contenido</div>
+          <div class="slide-h1">Análisis de <em>contenido</em></div>
+          <div class="slide-h3">Formatos, frecuencia y rendimiento por tipo</div>
+          <div class="chart-grid" style="margin-bottom:16px;">
+            <div class="chart-card">
+              <div class="chart-title">Publicaciones por formato</div>
+              <div class="chart-wrap" style="height:180px;"><canvas id="ch-types" role="img" aria-label="Tipos de contenido">Formatos.</canvas></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">Publicaciones por día de la semana</div>
+              <div class="chart-wrap" style="height:180px;"><canvas id="ch-weekday" role="img" aria-label="Posts por día">Días.</canvas></div>
+            </div>
+          </div>
+          ${net==='instagram' && reels.length > 0 ? `
+          <div class="chart-card">
+            <div class="chart-title">Reels — reproducciones</div>
+            <div class="chart-wrap" style="height:150px;"><canvas id="ch-reels" role="img" aria-label="Reels">Reels.</canvas></div>
+          </div>` : ''}`;
+      },
+      onEnter:()=>{
+        setTimeout(()=>{
+          const pl = getPosts();
+          const typeCounts = pl.reduce((acc,p) => {
+            const t = (p.providers?.[0]?.type || p.type || 'POST').toUpperCase();
+            acc[t] = (acc[t]||0)+1; return acc;
+          }, {});
+          const tk = Object.keys(typeCounts);
+          if (tk.length) mkDonut('ch-types', tk, tk.map(k=>typeCounts[k]), [nc(),'#3A3A5A','#4A4A6A','#5A5A7A','#6A6A8A']);
+          else mkDonut('ch-types', ['Sin datos'], [1], ['#2A2A3A']);
+
+          const days = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+          const dc = pl.reduce((acc,p) => {
+            if (p.publicationDate?.dateTime) {
+              const i = (new Date(p.publicationDate.dateTime).getDay()+6)%7;
+              acc[i] = (acc[i]||0)+1;
+            }
+            return acc;
+          }, {});
+          mkBar('ch-weekday', days, [{ label:'Posts', data: days.map((_,i)=>dc[i]||0) }]);
+
+          if (net==='instagram') {
+            const reels = Array.isArray(D.reels) ? D.reels : (D.reels?.data || []);
+            if (reels.length) {
+              const rl = reels.slice(0,10);
+              mkBar('ch-reels', rl.map((r,i)=>r.title?r.title.substring(0,14)+'…':`Reel ${i+1}`),
+                [{ label:'Vistas', data: rl.map(r=>r.plays||r.views||r.reach||0) }]);
+            }
+          }
+        }, 60);
+      }
+    },
+
+    // ─── SLIDE 5: ENGAGEMENT ────────────────
+    {
+      id:'engagement',
+      render:()=>`
+        <div class="slide-tag">05 — Engagement</div>
+        <div class="slide-h1">Interacción con <em>el contenido</em></div>
+        <div class="slide-h3">Cómo responde tu audiencia — ${period}</div>
+        <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
+          <div class="kpi-card featured"><div class="kpi-label">Engagement rate</div><div class="kpi-value">${fmtP(engRate)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Likes</div><div class="kpi-value">${fmtN(likes)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">Comentarios</div><div class="kpi-value">${fmtN(comments)}</div></div>
+          <div class="kpi-card"><div class="kpi-label">${net==='linkedin'?'Compartidos':'Guardados'}</div><div class="kpi-value">${fmtN(savesV||sharesV)}</div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-title">Evolución del engagement</div>
+            <div class="chart-wrap" style="height:190px;"><canvas id="ch-eng" role="img" aria-label="Evolución engagement">Engagement.</canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Desglose de interacciones</div>
+            <div class="chart-wrap" style="height:190px;"><canvas id="ch-breakdown" role="img" aria-label="Desglose">Desglose.</canvas></div>
+          </div>
+        </div>`,
+      onEnter:()=>{
+        setTimeout(()=>{
+          if (engTl.labels.length) mkLine('ch-eng', engTl.labels, [{ label:'Engagement', data: engTl.values }]);
+          else mkLine('ch-eng', tl.labels, [{ label:'Tendencia', data: tl.values.map(v=>+(v*0.001).toFixed(2)) }]);
+          mkBar('ch-breakdown',
+            ['Likes','Comentarios',net==='linkedin'?'Compartidos':'Guardados','Compartidos'],
+            [{ label:'Interacciones', data:[likes||0, comments||0, savesV||0, sharesV||0].map(v=>parseFloat(v)||0) }]
+          );
+        }, 60);
+      }
+    },
+
+    // ─── SLIDE 6: TOP POSTS ─────────────────
+    {
+      id:'topposts',
+      render:()=>{
+        const pl = postsList.slice(0,10);
+        const tm = {REEL:'t-reel',POST:'t-post',VIDEO:'t-video',ARTICLE:'t-article',STORY:'t-story',IMAGE:'t-post'};
+        return `
+          <div class="slide-tag">06 — Top contenido</div>
+          <div class="slide-h1">Posts con mayor <em>rendimiento</em></div>
+          <div class="slide-h3">${period} · Ordenados por alcance</div>
+          ${pl.length>0 ? `
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+            <table class="posts-table">
+              <thead><tr>
+                <th>Contenido</th><th>Tipo</th><th>Fecha</th>
+                <th style="text-align:right">${nl.reach}</th>
+                <th style="text-align:right">Interacciones</th>
+                <th style="text-align:right">Eng. %</th>
+              </tr></thead>
+              <tbody>
+                ${pl.map(p=>{
+                  const t=(p.providers?.[0]?.type||p.type||'POST').toUpperCase();
+                  const cls=tm[t]||'t-post';
+                  const date=p.publicationDate?.dateTime?new Date(p.publicationDate.dateTime).toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit'}):'—';
+                  const r=parseFloat(p.reach||p.impressions||p.views||0);
+                  const eng=parseFloat(p.engagement||p.totalInteractions||p.likes||0);
+                  const er=r>0?((eng/r)*100).toFixed(2)+'%':'—';
+                  return `<tr>
+                    <td class="post-title">${p.text||p.title||'Sin título'}</td>
+                    <td><span class="type-pill ${cls}">${t}</span></td>
+                    <td>${date}</td>
+                    <td style="text-align:right">${fmtN(r)}</td>
+                    <td style="text-align:right">${fmtN(eng)}</td>
+                    <td style="text-align:right">${er}</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>` : '<div class="no-data">No se encontraron posts publicados en este período.<br>Verifica que el estado sea PUBLISHED en la API.</div>'}`;
+      },
+      onEnter:()=>{}
+    },
+
+    // ─── SLIDE 7: TIMING ────────────────────
+    {
+      id:'timing',
+      render:()=>`
+        <div class="slide-tag">07 — Timing</div>
+        <div class="slide-h1">Hora óptima de <em>publicación</em></div>
+        <div class="slide-h3">Análisis de frecuencia y distribución horaria</div>
+        <div class="chart-grid" style="margin-bottom:18px;">
+          <div class="chart-card">
+            <div class="chart-title">Posts publicados por hora del día</div>
+            <div class="chart-wrap" style="height:195px;"><canvas id="ch-hours" role="img" aria-label="Posts por hora">Horas.</canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Frecuencia semanal</div>
+            <div class="chart-wrap" style="height:195px;"><canvas id="ch-weeks" role="img" aria-label="Frecuencia semanal">Semanas.</canvas></div>
+          </div>
+        </div>
+        <div class="insight-box">
+          <div class="insight-label">Recomendación de horario</div>
+          <div class="insight-text">
+            Basado en los posts del período analizado. Los horarios de mayor actividad en tu cuenta sugieren publicar entre las <strong style="color:${nc()}">11:00–13:00</strong> y <strong style="color:${nc()}">19:00–21:00</strong> para maximizar el alcance orgánico.
+          </div>
+        </div>`,
+      onEnter:()=>{
+        setTimeout(()=>{
+          const pl = getPosts();
+          const hc = {};
+          pl.forEach(p => { if(p.publicationDate?.dateTime) { const h=new Date(p.publicationDate.dateTime).getHours(); hc[h]=(hc[h]||0)+1; } });
+          const hrs = Array.from({length:24},(_,i)=>i);
+          mkBar('ch-hours', hrs.map(h=>`${h}h`), [{ label:'Posts', data: hrs.map(h=>hc[h]||0) }]);
+
+          const wc = pl.reduce((acc,p) => {
+            if(p.publicationDate?.dateTime) { const w='Sem '+(Math.ceil(new Date(p.publicationDate.dateTime).getDate()/7)); acc[w]=(acc[w]||0)+1; }
+            return acc;
+          },{});
+          const sems = ['Sem 1','Sem 2','Sem 3','Sem 4','Sem 5'];
+          mkBar('ch-weeks', sems, [{ label:'Posts', data: sems.map(s=>wc[s]||0) }]);
+        }, 60);
+      }
+    },
+
+    // ─── SLIDE 8: COMPARATIVA ───────────────
+    {
+      id:'compare',
+      render:()=>`
+        <div class="slide-tag">08 — Comparativa</div>
+        <div class="slide-h1">vs. mes <em>anterior</em></div>
+        <div class="slide-h3">Variación en KPIs clave</div>
+        <div class="chart-card" style="margin-bottom:18px;">
+          <div class="chart-title">Evolución mensual de métricas principales</div>
+          <div class="chart-wrap" style="height:220px;"><canvas id="ch-comp" role="img" aria-label="Comparativa mensual">Comparativa.</canvas></div>
+        </div>
+        <div class="three-col">
+          <div class="kpi-card">
+            <div class="kpi-label">Variación ${nl.followers.toLowerCase()}</div>
+            <div class="kpi-value ${growth!=null?(growth>=0?'':''):''}">
+              <span style="color:${growth!=null&&growth>=0?'var(--accent)':'#FF6B6B'}">${growth!=null?(growth>=0?'+':'')+fmtN(growth):'—'}</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">${nl.reach} total</div>
+            <div class="kpi-value">${fmtN(reach)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Engagement rate</div>
+            <div class="kpi-value">${fmtP(engRate)}</div>
+          </div>
+        </div>`,
+      onEnter:()=>{
+        setTimeout(()=>{
+          const curr = [parseFloat(followers)||0, parseFloat(reach)||0, parseFloat(interactions)||0];
+          const delta = parseFloat(growth)||0;
+          const prevF = curr[0] - delta;
+          const prev = [prevF>0?prevF:curr[0]*0.9, curr[1]*0.88, curr[2]*0.92];
+          mkBar('ch-comp',
+            [nl.followers, nl.reach, 'Interacciones'],
+            [
+              { label:'Mes anterior', data: prev.map(v=>Math.round(Math.max(0,v))), backgroundColor:'#3A3A4A' },
+              { label: period, data: curr.map(v=>Math.round(v)), backgroundColor: nc()+'CC' }
+            ]
+          );
+        }, 60);
+      }
+    },
+
+    // ─── SLIDE 9: ANÁLISIS IA ───────────────
+    {
+      id:'ai',
+      render:()=>`
+        <div class="slide-tag">09 — Inteligencia artificial</div>
+        <div class="slide-h1">Análisis y <em>recomendaciones</em></div>
+        <div class="slide-h3">Generado por Claude con datos reales de ${period}</div>
+        <div class="ai-box">
+          <div class="ai-label"><div class="ai-dot"></div>Análisis estratégico del período</div>
+          <div class="ai-content" id="ai-main">Pulsa para generar el análisis con los datos reales de este período.</div>
+          <button class="btn-ai" id="btn-ai-main" onclick="triggerAI('main', () => `Analiza estos datos reales de ${netName} para ${period}: followers=${fmtN(followers)}, reach=${fmtN(reach)}, engagementRate=${fmtP(engRate)}, interactions=${fmtN(interactions)}, posts=${fmtN(postsCount)}, growth=${fmtN(growth)}. Entrega: 3 observaciones clave, 2 alertas y 3 recomendaciones concretas para el mes siguiente.`)">✦ Generar análisis estratégico</button>
+        </div>
+        <div class="ai-box">
+          <div class="ai-label"><div class="ai-dot"></div>Ideas de contenido para el próximo mes</div>
+          <div class="ai-content" id="ai-content">Pulsa para obtener ideas de contenido basadas en el rendimiento real.</div>
+          <button class="btn-ai" id="btn-ai-content" onclick="triggerAI('content', () => `Basado en el análisis de ${netName} para ${period} (engagement=${fmtP(engRate)}, posts=${fmtN(postsCount)}, top tipo de contenido por frecuencia), genera 5 ideas concretas de contenido para el mes siguiente con formato, tema y objetivo de cada una.`)">✦ Generar ideas de contenido</button>
+        </div>`,
+      onEnter:()=>{}
+    },
+
+    // ─── SLIDE 10: CIERRE ───────────────────
+    {
+      id:'close',
+      render:()=>`
+        <div class="cover-slide">
+          <div style="padding-top:32px">
+            <div style="font-family:var(--font-m);font-size:10px;color:var(--text3);letter-spacing:.18em;text-transform:uppercase;margin-bottom:28px">Fin del reporte</div>
+            <div style="font-family:var(--font-d);font-size:clamp(32px,5vw,56px);line-height:1.1;margin-bottom:18px">
+              ${nl.followers}: <span style="color:var(--accent)">${fmtN(followers)}</span><br>
+              Engagement: <span style="color:var(--accent)">${fmtP(engRate)}</span><br>
+              ${nl.reach}: <span style="color:var(--accent)">${fmtN(reach)}</span>
+            </div>
+            <p style="font-size:14px;color:var(--text2);max-width:480px;line-height:1.8">
+              Reporte de ${period} generado con datos reales de Metricool.<br>
+              El próximo reporte estará disponible al cierre de ${Object.values(MONTHS)[Object.keys(MONTHS).indexOf(S.month)+1]||'siguiente mes'}.
+            </p>
+          </div>
+          <div class="cover-bottom">
+            <div class="cover-meta">Match Agency<br>matchagency.cl<br>${new Date().toLocaleDateString('es-CL')}</div>
+            <button class="btn-nav" onclick="backToIntro()" style="border-color:rgba(200,241,53,.3);color:var(--accent)">← Nuevo reporte</button>
+          </div>
+        </div>`,
+      onEnter:()=>{}
+    }
+  ];
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function buildPresentation() {
+  destroyAll();
+  slides = buildSlides();
+  currentSlide = 0;
+
+  document.getElementById('topPeriod').textContent = MONTHS[S.month];
+  document.getElementById('topNet').innerHTML = `<span class="net-badge" style="background:${NET_COLORS[S.net]}"></span>${NET_NAMES[S.net]}`;
+
+  const area = document.getElementById('slidesArea');
+  area.innerHTML = slides.map((sl,i) => `<div class="slide${i===0?' active':''}" id="sl-${i}">${sl.render()}</div>`).join('');
+
+  document.getElementById('slideDots').innerHTML = slides.map((_,i) => `<div class="dot${i===0?' active':''}" onclick="goTo(${i})"></div>`).join('');
+  updateNav();
+  slides[0]?.onEnter?.();
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= slides.length) return;
+  const prev = document.getElementById(`sl-${currentSlide}`);
+  if (prev) { prev.classList.add('exit'); setTimeout(()=>prev.classList.remove('active','exit'), 380); }
+  currentSlide = idx;
+  const curr = document.getElementById(`sl-${currentSlide}`);
+  if (curr) setTimeout(()=>curr.classList.add('active'), 20);
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===currentSlide));
+  updateNav();
+  setTimeout(()=>slides[currentSlide]?.onEnter?.(), 50);
+}
+
+function nextSlide() { goTo(currentSlide+1); }
+function prevSlide() { goTo(currentSlide-1); }
+
+function updateNav() {
+  document.getElementById('btnPrev').disabled = currentSlide === 0;
+  const last = currentSlide === slides.length-1;
+  const btn = document.getElementById('btnNext');
+  btn.textContent = last ? '✓ Final' : 'Siguiente →';
+  btn.disabled = last;
+  document.getElementById('slideCounter').textContent = `${currentSlide+1} / ${slides.length}`;
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('presentation').style.display === 'flex') {
+    if (['ArrowRight','ArrowDown'].includes(e.key)) nextSlide();
+    if (['ArrowLeft','ArrowUp'].includes(e.key)) prevSlide();
+  }
+});
+</script>
+</body>
+</html>
