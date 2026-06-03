@@ -11,9 +11,9 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --red:#E8001A;--red2:#FF1A35;--red3:#B00014;
-  --black:#0A0A0A;--dark:#111111;--card:#1A1A1A;--card2:#222222;
-  --b1:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.13);--bred:rgba(232,0,26,0.3);
-  --t1:#FFFFFF;--t2:#B0B0B0;--t3:#666666;
+  --black:#0A0A0A;--dark:#111111;--card:#181818;--card2:#202020;
+  --b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.12);--bred:rgba(232,0,26,0.28);
+  --t1:#FFFFFF;--t2:#A8A8A8;--t3:#555555;
   --green:#00C853;--amber:#FFB300;--blue:#2196F3;
   --ig:#E1306C;--fb:#1877F2;--li:#0A66C2;--yt:#FF0000;
   --display:'Bebas Neue',Impact,sans-serif;
@@ -24,42 +24,38 @@ html,body{width:100%;height:100%;background:var(--black);color:var(--t1);font-fa
 
 /* ══ INTRO ══ */
 #scr-intro{position:fixed;inset:0;display:flex;background:var(--black);z-index:50;overflow:hidden}
-.intro-left{width:52%;background:var(--red);display:flex;align-items:center;justify-content:center;padding:60px;position:relative;overflow:hidden}
-.intro-left::before{content:'';position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:var(--red3);opacity:.6}
-.intro-left::after{content:'';position:absolute;top:-60px;left:-60px;width:300px;height:300px;border-radius:50%;background:var(--red2);opacity:.3}
-.intro-left-content{position:relative;z-index:1}
-.cc-logo{font-family:var(--display);font-size:72px;letter-spacing:2px;color:#fff;line-height:.9;margin-bottom:16px}
-.cc-sub{font-size:13px;color:rgba(255,255,255,.7);letter-spacing:.2em;text-transform:uppercase}
-.intro-right{width:48%;display:flex;flex-direction:column;justify-content:center;padding:60px 52px;animation:fadeIn .5s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-.ir-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:32px}
-.ir-title{font-family:var(--display);font-size:clamp(36px,4vw,52px);letter-spacing:2px;color:var(--t1);line-height:.95;margin-bottom:8px}
-.ir-title span{color:var(--red)}
-.ir-desc{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:36px}
+.intro-left{width:50%;background:var(--red);display:flex;align-items:center;justify-content:center;padding:60px;position:relative;overflow:hidden}
+.intro-left::before{content:'';position:absolute;bottom:-100px;right:-100px;width:500px;height:500px;border-radius:50%;background:var(--red3);opacity:.5}
+.intro-left::after{content:'';position:absolute;top:-50px;left:-50px;width:280px;height:280px;border-radius:50%;background:var(--red2);opacity:.25}
+.ilc{position:relative;z-index:1}
+.cc-logo{font-family:var(--display);font-size:80px;letter-spacing:3px;color:#fff;line-height:.88;margin-bottom:18px}
+.cc-sub{font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.22em;text-transform:uppercase}
+.intro-right{width:50%;display:flex;flex-direction:column;justify-content:center;padding:56px 52px;animation:rslide .5s ease}
+@keyframes rslide{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
 .flbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:7px}
-select.fsel{width:100%;background:var(--card);border:1px solid var(--b2);border-radius:6px;padding:11px 14px;color:var(--t1);font-family:var(--body);font-size:14px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;margin-bottom:18px;transition:border-color .15s}
+select.fsel{width:100%;background:var(--card);border:1px solid var(--b2);border-radius:6px;padding:11px 14px;color:var(--t1);font-family:var(--body);font-size:14px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;margin-bottom:16px;transition:border-color .15s}
 select.fsel:focus{border-color:var(--red)}
 select.fsel option{background:#1a1a1a}
-.ngrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
-.nc{background:var(--card);border:1px solid var(--b2);border-radius:8px;padding:14px 8px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--t3);transition:all .15s;user-select:none;text-transform:uppercase;letter-spacing:.06em}
+.ngrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+.nc{background:var(--card);border:1px solid var(--b2);border-radius:8px;padding:13px 8px 11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:10px;font-weight:600;color:var(--t3);transition:all .15s;user-select:none;text-transform:uppercase;letter-spacing:.06em}
 .nc:hover{background:var(--card2);color:var(--t2)}
-.ni{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.nc[data-n=instagram] .ni{background:rgba(225,48,108,.15)}
-.nc[data-n=facebook]  .ni{background:rgba(24,119,242,.15)}
-.nc[data-n=linkedin]  .ni{background:rgba(10,102,194,.15)}
-.nc[data-n=youtube]   .ni{background:rgba(255,0,0,.15)}
+.ni{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.nc[data-n=instagram] .ni{background:rgba(225,48,108,.14)}
+.nc[data-n=facebook]  .ni{background:rgba(24,119,242,.14)}
+.nc[data-n=linkedin]  .ni{background:rgba(10,102,194,.14)}
+.nc[data-n=youtube]   .ni{background:rgba(255,0,0,.14)}
 .nc.on{background:var(--card2)}
 .nc[data-n=instagram].on{border-color:var(--ig);color:var(--ig)}
-.nc[data-n=facebook].on {border-color:var(--fb);color:var(--fb)}
-.nc[data-n=linkedin].on {border-color:var(--li);color:var(--li)}
-.nc[data-n=youtube].on  {border-color:var(--yt);color:var(--yt)}
-.errmsg{background:rgba(255,26,53,.08);border:1px solid rgba(255,26,53,.3);border-radius:6px;padding:10px 14px;font-size:12px;color:#ff6b6b;margin-bottom:14px;display:none;line-height:1.5}
-.bgo{width:100%;background:var(--red);color:#fff;border:none;border-radius:6px;padding:14px;font-family:var(--body);font-size:13px;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;transition:background .15s}
+.nc[data-n=facebook].on{border-color:var(--fb);color:var(--fb)}
+.nc[data-n=linkedin].on{border-color:var(--li);color:var(--li)}
+.nc[data-n=youtube].on{border-color:var(--yt);color:var(--yt)}
+.errmsg{background:rgba(232,0,26,.07);border:1px solid rgba(232,0,26,.25);border-radius:6px;padding:10px 14px;font-size:12px;color:#ff7070;margin-bottom:12px;display:none;line-height:1.5}
+.bgo{width:100%;background:var(--red);color:#fff;border:none;border-radius:6px;padding:13px;font-family:var(--body);font-size:12px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.1em;transition:background .15s}
 .bgo:hover{background:var(--red2)}
 
 /* ══ LOADING ══ */
 #scr-load{position:fixed;inset:0;background:var(--black);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:40}
-.spin{width:40px;height:40px;border-radius:50%;border:2px solid var(--card2);border-top-color:var(--red);animation:spin .8s linear infinite}
+.spin{width:38px;height:38px;border-radius:50%;border:2px solid var(--card2);border-top-color:var(--red);animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .lmsg{font-family:var(--mono);font-size:12px;color:var(--t2)}
 .lsteps{display:flex;flex-direction:column;gap:5px;min-width:260px}
@@ -69,21 +65,30 @@ select.fsel option{background:#1a1a1a}
 
 /* ══ PRESENTACIÓN ══ */
 #scr-pres{position:fixed;inset:0;display:none;flex-direction:column}
-.topbar{height:46px;min-height:46px;background:var(--dark);border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
-.tbrand{font-family:var(--display);font-size:16px;letter-spacing:2px;color:var(--t1)}
+.topbar{height:44px;min-height:44px;background:var(--dark);border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.tbrand{font-family:var(--display);font-size:15px;letter-spacing:2px;color:var(--t1)}
 .tbrand span{color:var(--red)}
 .tright{display:flex;align-items:center;gap:14px}
 .tperiod{font-family:var(--mono);font-size:11px;color:var(--red)}
 .tnet{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
 .ndot{width:7px;height:7px;border-radius:50%}
-.bbk{background:none;border:1px solid var(--b2);border-radius:5px;padding:5px 12px;color:var(--t2);font-family:var(--body);font-size:11px;cursor:pointer;transition:all .15s;font-weight:500}
+.bbk{background:none;border:1px solid var(--b2);border-radius:5px;padding:5px 11px;color:var(--t2);font-family:var(--body);font-size:11px;cursor:pointer;transition:all .15s;font-weight:500}
 .bbk:hover{border-color:var(--red);color:var(--red)}
+
+/* ── SLIDES: layout principal ──
+   Cada slide tiene:
+   - .slide-top: header + gráficos/contenido (flex:1, scroll)
+   - .slide-bottom: consultor insight (altura fija, sin scroll)
+*/
 .swrap{flex:1;overflow:hidden;position:relative}
-.slide{position:absolute;inset:0;padding:28px 44px 16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .28s,transform .28s;transform:translateY(8px)}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .28s,transform .28s;transform:translateY(8px)}
 .slide.on{opacity:1;pointer-events:all;transform:translateY(0)}
-.slide::-webkit-scrollbar{width:3px}
-.slide::-webkit-scrollbar-thumb{background:var(--card2);border-radius:2px}
-.bbar{height:52px;min-height:52px;background:var(--dark);border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.slide-top{flex:1;overflow-y:auto;padding:22px 44px 12px}
+.slide-top::-webkit-scrollbar{width:3px}
+.slide-top::-webkit-scrollbar-thumb{background:var(--card2);border-radius:2px}
+.slide-bottom{flex-shrink:0;background:linear-gradient(135deg,rgba(232,0,26,.1),rgba(232,0,26,.04));border-top:1px solid var(--bred);padding:14px 44px}
+
+.bbar{height:50px;min-height:50px;background:var(--dark);border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
 .dotsw{display:flex;gap:5px;align-items:center}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--card2);cursor:pointer;transition:all .2s}
 .dot.on{background:var(--red);width:16px;border-radius:3px}
@@ -94,115 +99,103 @@ select.fsel option{background:#1a1a1a}
 .bnav.nx{background:var(--red);border-color:var(--red);color:#fff}
 .bnav.nx:hover{background:var(--red2);border-color:var(--red2)}
 
-/* ══ SLIDE ATOMS ══ */
-.slide-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px}
-.sh-left{}
-.stag{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:4px}
-.sh1{font-family:var(--display);font-size:clamp(28px,3.5vw,42px);letter-spacing:2px;line-height:.95;color:var(--t1)}
+/* ══ COMPONENTES SLIDE-TOP ══ */
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.stag{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);flex-shrink:0;padding-top:3px}
+.sh1{font-family:var(--display);font-size:clamp(26px,3.2vw,38px);letter-spacing:2px;line-height:.95;color:var(--t1)}
 .sh1 em{font-style:normal;color:var(--red)}
-.ssub{font-size:12px;color:var(--t2);margin-top:5px}
-.sh-insight{background:var(--card);border-left:3px solid var(--red);border-radius:0 6px 6px 0;padding:10px 14px;max-width:280px;flex-shrink:0}
-.si-lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--red);margin-bottom:5px}
-.si-text{font-size:11px;color:var(--t2);line-height:1.5}
+.ssub{font-size:11px;color:var(--t3);margin-top:4px;margin-bottom:14px}
 
-/* KPI Cards */
-.krow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
-.kc{background:var(--card);border:1px solid var(--b1);border-radius:8px;padding:14px 12px;position:relative;overflow:hidden}
+.krow{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:9px;margin-bottom:13px}
+.kc{background:var(--card);border:1px solid var(--b1);border-radius:7px;padding:13px 12px;position:relative;overflow:hidden}
 .kc::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--b2)}
 .kc.hi::before{background:var(--red)}
 .kc.up::before{background:var(--green)}
 .kc.dn::before{background:var(--amber)}
-.klbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:6px}
-.kval{font-family:var(--display);font-size:28px;letter-spacing:1px;line-height:1;color:var(--t1);margin-bottom:4px}
+.klbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:5px}
+.kval{font-family:var(--display);font-size:26px;letter-spacing:1px;line-height:1;color:var(--t1);margin-bottom:3px}
 .kc.hi .kval{color:var(--red)}
-.kdelta{font-size:10px;color:var(--t3);display:flex;align-items:center;gap:4px}
+.kdelta{font-size:10px;color:var(--t3)}
 .kdelta .up{color:var(--green)}.kdelta .dn{color:var(--amber)}
-.kdelta .arrow{font-size:12px}
 
-/* Charts */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.g21{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:14px}
-.cb{background:var(--card);border:1px solid var(--b1);border-radius:8px;padding:14px 16px}
-.clbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.clbl::before{content:'';width:12px;height:2px;background:var(--red)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:11px;margin-bottom:12px}
+.cb{background:var(--card);border:1px solid var(--b1);border-radius:7px;padding:13px 15px}
+.clbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.clbl::before{content:'';width:10px;height:2px;background:var(--red);flex-shrink:0}
 .cc{position:relative}
 
-/* Red accent line */
-.redline{width:48px;height:3px;background:var(--red);margin-bottom:10px}
-
-/* Insight box */
-.ibox{background:linear-gradient(135deg,rgba(232,0,26,.08),rgba(232,0,26,.03));border:1px solid var(--bred);border-radius:8px;padding:13px 16px;margin-bottom:12px}
-.ibox-tag{font-size:9px;font-family:var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:7px;display:flex;align-items:center;gap:6px}
-.ibox-tag::before{content:'◆';font-size:7px}
-.ibox-text{font-size:12px;color:var(--t2);line-height:1.65}
-.ibox-text strong{color:var(--t1)}
-
 /* Posts cards */
-.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px}
-.post-card{background:var(--card);border:1px solid var(--b1);border-radius:8px;overflow:hidden;transition:border-color .15s}
-.post-card:hover{border-color:var(--bred)}
-.post-img{width:100%;height:100px;object-fit:cover;background:var(--card2);display:block}
-.post-img-placeholder{width:100%;height:100px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:28px}
-.post-body{padding:10px 12px}
-.post-type{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;display:inline-block;padding:2px 7px;border-radius:3px}
-.post-text{font-size:11px;color:var(--t2);line-height:1.4;margin-bottom:8px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.post-stats{display:flex;gap:10px}
-.pstat{font-size:10px;color:var(--t3);display:flex;align-items:center;gap:3px}
-.pstat strong{color:var(--t1);font-size:11px}
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px;margin-bottom:12px}
+.post-card{background:var(--card);border:1px solid var(--b1);border-radius:7px;overflow:hidden}
+.post-img{width:100%;height:95px;object-fit:cover;background:var(--card2);display:block}
+.post-img-ph{width:100%;height:95px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:26px}
+.post-body{padding:9px 11px}
+.post-type{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px;display:inline-block;padding:2px 6px;border-radius:3px}
+.post-text{font-size:10px;color:var(--t2);line-height:1.4;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.post-stats{display:flex;gap:8px}
+.pstat{font-size:9px;color:var(--t3)}
+.pstat strong{color:var(--t1);font-size:10px}
 
 /* Table */
-.tblw{background:var(--card);border:1px solid var(--b1);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.tblw{background:var(--card);border:1px solid var(--b1);border-radius:7px;overflow:hidden;margin-bottom:11px}
 table.pt{width:100%;border-collapse:collapse}
-table.pt th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);text-align:left;padding:10px 12px;border-bottom:1px solid var(--b1);background:var(--card2)}
-table.pt td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:var(--t2);vertical-align:middle}
+table.pt th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);text-align:left;padding:9px 11px;border-bottom:1px solid var(--b1);background:var(--card2)}
+table.pt td{padding:8px 11px;border-bottom:1px solid rgba(255,255,255,.03);font-size:11px;color:var(--t2);vertical-align:middle}
 table.pt tr:last-child td{border-bottom:none}
-table.pt tr:hover td{background:rgba(255,255,255,.02)}
 .tdt{color:var(--t1);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pill{font-size:9px;font-weight:700;padding:2px 8px;border-radius:3px;display:inline-block;text-transform:uppercase;letter-spacing:.05em}
-.p-fi{background:rgba(225,48,108,.15);color:var(--ig)}
-.p-re{background:rgba(255,176,0,.15);color:var(--amber)}
-.p-st{background:rgba(33,150,243,.15);color:var(--blue)}
-.p-vi{background:rgba(255,0,0,.15);color:var(--yt)}
-.p-ca{background:rgba(0,200,83,.15);color:var(--green)}
-.p-ot{background:rgba(150,150,150,.12);color:var(--t2)}
+.pill{font-size:8px;font-weight:700;padding:2px 7px;border-radius:3px;display:inline-block;text-transform:uppercase;letter-spacing:.04em}
+.p-fi{background:rgba(225,48,108,.14);color:var(--ig)}
+.p-re{background:rgba(255,176,0,.14);color:var(--amber)}
+.p-st{background:rgba(33,150,243,.14);color:var(--blue)}
+.p-vi{background:rgba(255,0,0,.14);color:var(--yt)}
+.p-ca{background:rgba(0,200,83,.14);color:var(--green)}
+.p-ot{background:rgba(150,150,150,.1);color:var(--t2)}
 
 /* Cover */
-.cvr{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 98px - 52px);gap:0}
-.cvr-left{background:var(--red);padding:44px 40px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-.cvr-left::after{content:'';position:absolute;bottom:-100px;right:-100px;width:450px;height:450px;border-radius:50%;background:var(--red3);opacity:.5}
-.cvr-left::before{content:'';position:absolute;top:40px;right:40px;width:60px;height:60px;border-radius:50%;border:2px solid rgba(255,255,255,.3)}
-.cvr-title{font-family:var(--display);font-size:clamp(42px,6vw,72px);letter-spacing:3px;line-height:.9;color:#fff;position:relative;z-index:1}
-.cvr-meta{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.6);line-height:2.2;position:relative;z-index:1}
-.cvr-right{background:var(--dark);padding:44px 40px;display:flex;flex-direction:column;justify-content:space-between}
-.cvr-period{font-family:var(--display);font-size:clamp(18px,2.5vw,26px);letter-spacing:2px;color:var(--red);margin-bottom:20px}
-.cvr-desc{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:28px;max-width:340px}
-.cvr-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
-.cvr-stat{background:var(--card);border-radius:6px;padding:14px 12px;border-top:2px solid var(--red)}
-.cvr-stat-val{font-family:var(--display);font-size:26px;letter-spacing:1px;color:var(--t1)}
-.cvr-stat-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.cvr{display:grid;grid-template-columns:1fr 1fr;height:100%}
+.cvr-left{background:var(--red);padding:40px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.cvr-left::after{content:'';position:absolute;bottom:-80px;right:-80px;width:420px;height:420px;border-radius:50%;background:var(--red3);opacity:.45}
+.cvr-title{font-family:var(--display);font-size:clamp(40px,5.5vw,66px);letter-spacing:3px;line-height:.88;color:#fff;position:relative;z-index:1}
+.cvr-meta-left{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.55);line-height:2.2;position:relative;z-index:1}
+.cvr-right{background:var(--dark);padding:40px;display:flex;flex-direction:column;justify-content:space-between}
+.cvr-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px}
+.cvr-stat{background:var(--card);border-radius:6px;padding:13px 11px;border-top:2px solid var(--red)}
+.cvr-stat-val{font-family:var(--display);font-size:24px;letter-spacing:1px;color:var(--t1)}
+.cvr-stat-lbl{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
 .cvr-pills{display:flex;gap:5px;flex-wrap:wrap}
-.cpill{background:var(--card);border:1px solid var(--b1);border-radius:4px;padding:4px 10px;font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.cpill{background:var(--card);border:1px solid var(--b1);border-radius:4px;padding:3px 9px;font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.05em}
 
-/* AI */
-.aibox{background:var(--card);border:1px solid var(--b1);border-radius:8px;padding:16px 18px;margin-bottom:10px}
-.aitag{font-size:9px;font-family:var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.aip{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pulse 1.5s infinite}
+/* ══ SLIDE BOTTOM: CONSULTOR ══ */
+.consul{display:flex;gap:0;align-items:stretch}
+.consul-label{writing-mode:vertical-lr;transform:rotate(180deg);font-family:var(--display);font-size:11px;letter-spacing:3px;color:var(--red);text-transform:uppercase;flex-shrink:0;padding:0 10px 0 0;border-right:2px solid var(--red);margin-right:16px;display:flex;align-items:center}
+.consul-body{flex:1}
+.consul-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.consul-title::before{content:'◆';font-size:8px}
+.consul-points{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 20px}
+.cp{font-size:13px;color:var(--t2);line-height:1.6;padding-left:14px;position:relative}
+.cp::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
+.cp strong{color:var(--t1);font-weight:600}
+.cp em{color:var(--red);font-style:normal;font-weight:600}
+
+/* AI box */
+.aibox{background:var(--card);border:1px solid var(--b1);border-radius:7px;padding:15px 17px;margin-bottom:9px}
+.aitag{font-size:9px;font-family:var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.aip{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-.aitext{font-size:12px;color:var(--t2);line-height:1.7;white-space:pre-wrap}
-.btai{background:none;border:1px solid var(--bred);border-radius:5px;padding:7px 14px;color:var(--red);font-size:11px;font-family:var(--body);font-weight:600;cursor:pointer;margin-top:10px;transition:all .15s;text-transform:uppercase;letter-spacing:.06em}
-.btai:hover{background:rgba(232,0,26,.08)}
+.aitext{font-size:13px;color:var(--t2);line-height:1.75;white-space:pre-wrap}
+.btai{background:none;border:1px solid var(--bred);border-radius:5px;padding:7px 14px;color:var(--red);font-size:11px;font-family:var(--body);font-weight:700;cursor:pointer;margin-top:10px;transition:all .15s;text-transform:uppercase;letter-spacing:.08em}
+.btai:hover{background:rgba(232,0,26,.07)}
 .btai:disabled{opacity:.3;cursor:not-allowed}
 
-/* Nodata */
-.nodata{text-align:center;padding:28px;color:var(--t3);font-size:12px}
+.nodata{text-align:center;padding:24px;color:var(--t3);font-size:12px}
 
-/* Stat row */
-.statrow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.statrow{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .statrow:last-child{border-bottom:none}
-.srl{font-size:12px;color:var(--t2);display:flex;align-items:center;gap:8px}
-.srl::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0}
-.srv{font-family:var(--mono);font-size:12px;color:var(--t1);font-weight:500}
+.srl{font-size:12px;color:var(--t2);display:flex;align-items:center;gap:7px}
+.srl::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0}
+.srv{font-family:var(--mono);font-size:12px;color:var(--t1)}
 </style>
 </head>
 <body>
@@ -210,16 +203,16 @@ table.pt tr:hover td{background:rgba(255,255,255,.02)}
 <!-- INTRO -->
 <div id="scr-intro">
   <div class="intro-left">
-    <div class="intro-left-content">
+    <div class="ilc">
       <div class="cc-logo">MATCH<br>AGENCY</div>
       <div class="cc-sub">Social Media Intelligence</div>
     </div>
   </div>
   <div class="intro-right">
     <div>
-      <div class="ir-label">Match Agency — Analytics Platform</div>
-      <div class="ir-title">REPORTE<br><span>SOCIAL</span><br>MEDIA</div>
-      <div class="ir-desc">Análisis completo de performance con datos en tiempo real desde Metricool. Selecciona el período y red social.</div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:28px">Match Agency — Analytics Platform</div>
+      <div style="font-family:var(--display);font-size:clamp(34px,4vw,50px);letter-spacing:2px;color:var(--t1);line-height:.93;margin-bottom:8px">REPORTE<br><span style="color:var(--red)">SOCIAL</span><br>MEDIA</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:30px">Análisis completo de performance con datos en tiempo real desde Metricool. Incluye comparativa mensual e insights estratégicos.</div>
       <div class="flbl">Período del reporte</div>
       <select id="sel-month" class="fsel">
         <option value="2026-05">Mayo 2026</option>
@@ -289,7 +282,7 @@ table.pt tr:hover td{background:rgba(255,255,255,.02)}
 <script>
 Chart.register(ChartDataLabels);
 
-const ST={net:'instagram',month:'2026-05',data:{},prevData:{},aiCache:{}};
+const ST={net:'instagram',month:'2026-05',data:{},aiCache:{}};
 let cur=0,SL=[],CH={};
 
 const MONTHS={'2026-05':'Mayo 2026','2026-04':'Abril 2026','2026-03':'Marzo 2026','2026-02':'Febrero 2026','2026-01':'Enero 2026','2025-12':'Diciembre 2025','2025-11':'Noviembre 2025','2025-10':'Octubre 2025','2025-09':'Septiembre 2025','2025-08':'Agosto 2025'};
@@ -299,9 +292,9 @@ const NCOLOR={instagram:'#E1306C',facebook:'#1877F2',linkedin:'#0A66C2',youtube:
 const NETICON={instagram:'📷',facebook:'👍',linkedin:'💼',youtube:'▶️'};
 
 document.getElementById('ngrid').addEventListener('click',e=>{
-  const c=e.target.closest('.nc'); if(!c) return;
+  const c=e.target.closest('.nc');if(!c)return;
   document.querySelectorAll('.nc').forEach(x=>x.classList.remove('on'));
-  c.classList.add('on'); ST.net=c.dataset.n;
+  c.classList.add('on');ST.net=c.dataset.n;
 });
 document.getElementById('btn-go').addEventListener('click',startReport);
 document.getElementById('btn-back').addEventListener('click',back);
@@ -309,34 +302,28 @@ document.getElementById('btn-prev').addEventListener('click',()=>go(cur-1));
 document.getElementById('btn-next').addEventListener('click',()=>go(cur+1));
 document.addEventListener('keydown',e=>{
   if(document.getElementById('scr-pres').style.display!=='none'){
-    if(['ArrowRight','ArrowDown'].includes(e.key)) go(cur+1);
-    if(['ArrowLeft','ArrowUp'].includes(e.key)) go(cur-1);
+    if(['ArrowRight','ArrowDown'].includes(e.key))go(cur+1);
+    if(['ArrowLeft','ArrowUp'].includes(e.key))go(cur-1);
   }
 });
 
 function getDates(ym){
-  const [y,m]=ym.split('-').map(Number);
+  const[y,m]=ym.split('-').map(Number);
   const last=new Date(y,m,0).getDate();
   const p=n=>String(n).padStart(2,'0');
   return{from:`${y}-${p(m)}-01T00:00:00`,to:`${y}-${p(m)}-${last}T23:59:59`};
 }
-function getPrevMonth(ym){
-  const idx=MKEYS.indexOf(ym);
-  return idx<MKEYS.length-1?MKEYS[idx+1]:null;
+function getPrevM(ym){const i=MKEYS.indexOf(ym);return i<MKEYS.length-1?MKEYS[i+1]:null;}
+
+async function mc(ep,params={}){
+  const qs=new URLSearchParams({endpoint:ep,...params});
+  try{const r=await fetch(`/api/mc?${qs}`);if(!r.ok)return null;return await r.json();}
+  catch{return null;}
 }
 
-async function mc(endpoint,params={}){
-  const qs=new URLSearchParams({endpoint,...params});
-  try{
-    const r=await fetch(`/api/mc?${qs}`);
-    if(!r.ok) return null;
-    return await r.json();
-  }catch{return null;}
-}
-
-const STEPS=['Conectando con Metricool…','Cargando posts del período…','Cargando datos del mes anterior…','Cargando reels y stories…','Calculando métricas…'];
+const STEPS=['Conectando con Metricool…','Cargando posts del período…','Cargando mes anterior…','Cargando reels y stories…','Calculando métricas…'];
 function step(i){
-  document.getElementById('lmsg').textContent=STEPS[i]||'Procesando…';
+  document.getElementById('lmsg').textContent=STEPS[i]||'…';
   document.getElementById('lsteps').innerHTML=STEPS.map((s,j)=>
     `<div class="lstep ${j<i?'done':j===i?'cur':''}"><div class="lsd"></div>${j<i?'✓ ':''}${s}</div>`
   ).join('');
@@ -344,183 +331,145 @@ function step(i){
 
 async function fetchData(){
   const{from,to}=getDates(ST.month);
-  const net=ST.net;
-  const D={};
-
+  const net=ST.net;const D={};
   step(1);
   const pr=await mc(`/v2/analytics/posts/${net}`,{from,to});
   D.posts=pr?.data||[];
-
   step(2);
-  const prevM=getPrevMonth(ST.month);
-  if(prevM){
-    const{from:pf,to:pt}=getDates(prevM);
-    const pr2=await mc(`/v2/analytics/posts/${net}`,{from:pf,to:pt});
-    D.prevPosts=pr2?.data||[];
-  } else D.prevPosts=[];
-
+  const pm=getPrevM(ST.month);
+  if(pm){const{from:pf,to:pt}=getDates(pm);const pr2=await mc(`/v2/analytics/posts/${net}`,{from:pf,to:pt});D.prevPosts=pr2?.data||[];}
+  else D.prevPosts=[];
   step(3);
   if(net==='instagram'){
     const rr=await mc('/v2/analytics/reels/instagram',{from,to});
     const sr=await mc('/v2/analytics/stories/instagram',{from,to});
-    D.reels=rr?.data||[];
-    D.stories=sr?.data||[];
+    D.reels=rr?.data||[];D.stories=sr?.data||[];
   }
-
   step(4);
-  D.kpis=calcKPIs(D.posts,net);
-  D.prevKpis=calcKPIs(D.prevPosts,net);
+  D.kpis=calcKPIs(D.posts);D.prevKpis=calcKPIs(D.prevPosts);
   D.timeline=buildTimeline(D.posts);
   ST.data=D;
-
-  if(!D.posts.length){
-    throw new Error(`No hay posts publicados en ${MONTHS[ST.month]} para ${NNAME[net]}. Prueba con otro mes o red social.`);
-  }
+  if(!D.posts.length)throw new Error(`No hay posts en ${MONTHS[ST.month]} para ${NNAME[net]}. Prueba otro mes.`);
 }
 
-function calcKPIs(posts,net){
-  if(!posts.length) return{posts:0,likes:0,comments:0,shares:0,interactions:0,reach:0,impressions:0,saved:0,engRate:0,avgReach:0,bestPost:null,byType:{},byDay:{},byHour:{}};
+function calcKPIs(posts){
+  if(!posts.length)return{posts:0,likes:0,comments:0,shares:0,interactions:0,reach:0,impressions:0,saved:0,engRate:0,avgReach:0,bestPost:null,byType:{},byDay:{},byHour:{}};
   const sum=k=>posts.reduce((a,p)=>a+(+p[k]||0),0);
+  const byHour={};
+  posts.forEach(p=>{
+    if(p.publishedAt?.dateTime){
+      const h=new Date(p.publishedAt.dateTime).getHours();
+      if(!byHour[h])byHour[h]={reach:0,count:0};
+      byHour[h].reach+=(+p.reach||0);byHour[h].count++;
+    }
+  });
   return{
-    posts:posts.length,
-    likes:sum('likes'),comments:sum('comments'),shares:sum('shares'),
-    interactions:sum('interactions'),reach:sum('reach'),
-    impressions:sum('impressionsTotal')||sum('views'),
-    saved:sum('saved'),
-    engRate:posts.reduce((a,p)=>a+(+p.engagement||0),0)/posts.length,
+    posts:posts.length,likes:sum('likes'),comments:sum('comments'),shares:sum('shares'),
+    interactions:sum('interactions'),reach:sum('reach'),impressions:sum('impressionsTotal')||sum('views'),
+    saved:sum('saved'),engRate:posts.reduce((a,p)=>a+(+p.engagement||0),0)/posts.length,
     avgReach:Math.round(sum('reach')/posts.length),
     bestPost:posts.reduce((a,b)=>(+b.reach||0)>(+a.reach||0)?b:a,posts[0]),
     byType:posts.reduce((a,p)=>{const t=p.type||'OTHER';a[t]=(a[t]||0)+1;return a;},{}),
     byDay:posts.reduce((a,p)=>{
-      if(p.publishedAt?.dateTime){
-        const d=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][new Date(p.publishedAt.dateTime).getDay()];
-        a[d]=(a[d]||0)+1;
-      }return a;
-    },{}),
-    byHour:posts.reduce((a,p)=>{
-      if(p.publishedAt?.dateTime){
-        const h=new Date(p.publishedAt.dateTime).getHours();
-        a[h]=(a[h]||0)+{reach:+p.reach||0,count:1};
-        if(!a[h]) a[h]={reach:0,count:0};
-        a[h].reach=(a[h].reach||0)+(+p.reach||0);
-        a[h].count=(a[h].count||0)+1;
-      }return a;
-    },{})
+      if(p.publishedAt?.dateTime){const d=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][new Date(p.publishedAt.dateTime).getDay()];a[d]=(a[d]||0)+1;}return a;
+    },{}),byHour
   };
 }
-
 function buildTimeline(posts){
   const bd={};
   posts.forEach(p=>{
     if(p.publishedAt?.dateTime){
       const d=p.publishedAt.dateTime.substring(0,10);
-      if(!bd[d]) bd[d]={reach:0,interactions:0,count:0};
-      bd[d].reach+=(+p.reach||0);
-      bd[d].interactions+=(+p.interactions||0);
-      bd[d].count++;
+      if(!bd[d])bd[d]={reach:0,interactions:0};
+      bd[d].reach+=(+p.reach||0);bd[d].interactions+=(+p.interactions||0);
     }
   });
   const s=Object.keys(bd).sort();
   return{labels:s.map(d=>d.substring(5)),reach:s.map(d=>bd[d].reach),interactions:s.map(d=>bd[d].interactions)};
 }
 
-function delta(curr,prev){
-  if(!prev||prev===0) return null;
-  const pct=((curr-prev)/prev)*100;
-  return pct;
-}
-function deltaHtml(curr,prev){
-  const d=delta(curr,prev);
-  if(d===null) return '<span style="color:var(--t3)">Sin datos anteriores</span>';
+function delta(c,p){if(!p||p===0)return null;return((c-p)/p)*100;}
+function dH(c,p){
+  const d=delta(c,p);if(d===null)return'<span style="color:var(--t3)">Sin dato anterior</span>';
   const up=d>=0;
-  const cls=up?'up':'dn';
-  const arrow=up?'↑':'↓';
-  return `<span class="${cls}">${arrow} ${Math.abs(d).toFixed(1)}% vs mes ant.</span>`;
+  return`<span class="${up?'up':'dn'}">${up?'↑':'↓'} ${Math.abs(d).toFixed(1)}% vs mes ant.</span>`;
 }
 
 async function startReport(){
   ST.month=document.getElementById('sel-month').value;
   show('scr-load');hide('scr-intro');step(0);
-  try{ await fetchData(); }
-  catch(e){
-    hide('scr-load');show('scr-intro');
-    const el=document.getElementById('errmsg');
-    el.textContent=e.message;el.style.display='block';return;
-  }
+  try{await fetchData();}
+  catch(e){hide('scr-load');show('scr-intro');const el=document.getElementById('errmsg');el.textContent=e.message;el.style.display='block';return;}
   buildPres();hide('scr-load');show('scr-pres');
 }
-function back(){killCH();ST.data={};ST.prevData={};ST.aiCache={};cur=0;hide('scr-pres');show('scr-intro');}
+function back(){killCH();ST.data={};ST.aiCache={};cur=0;hide('scr-pres');show('scr-intro');}
 function show(id){document.getElementById(id).style.display='flex';}
 function hide(id){document.getElementById(id).style.display='none';}
 
-function N(n,d=0){
-  if(n==null||isNaN(+n)) return '—';
-  n=+n;
-  if(n>=1e6) return (n/1e6).toFixed(1)+'M';
-  if(n>=1000) return (n/1000).toFixed(1)+'K';
-  return d?n.toFixed(d):Math.round(n).toLocaleString('es-CL');
+function N(n){
+  if(n==null||isNaN(+n))return'—';n=+n;
+  if(n>=1e6)return(n/1e6).toFixed(1)+'M';
+  if(n>=1000)return(n/1000).toFixed(1)+'K';
+  return Math.round(n).toLocaleString('es-CL');
 }
 function P(n,d=2){return n==null||isNaN(+n)?'—':(+n).toFixed(d)+'%';}
 
 function killCH(){Object.values(CH).forEach(c=>{try{c.destroy()}catch(e){}});CH={};}
 const nc=()=>NCOLOR[ST.net];
 
-const chartDefaults={
+const cOpts={
   responsive:true,maintainAspectRatio:false,
   plugins:{legend:{display:false},datalabels:{display:false}},
   scales:{
-    x:{ticks:{color:'#555',font:{size:9},maxTicksLimit:10},grid:{color:'rgba(255,255,255,0.03)',lineWidth:.5}},
-    y:{ticks:{color:'#555',font:{size:9},callback:v=>N(v)},grid:{color:'rgba(255,255,255,0.03)',lineWidth:.5}}
+    x:{ticks:{color:'#4a4a4a',font:{size:9},maxTicksLimit:10},grid:{color:'rgba(255,255,255,0.03)',lineWidth:.5}},
+    y:{ticks:{color:'#4a4a4a',font:{size:9},callback:v=>N(v)},grid:{color:'rgba(255,255,255,0.03)',lineWidth:.5}}
   }
 };
 
-function mkLine(id,labels,vals,showLabels=false){
+function mkLine(id,labels,vals,showLbls=false){
   const el=document.getElementById(id);if(!el)return;
   if(CH[id])CH[id].destroy();
-  CH[id]=new Chart(el,{
-    type:'line',
-    data:{labels,datasets:[{data:vals,borderColor:nc(),backgroundColor:nc()+'20',fill:true,tension:0.4,pointRadius:labels.length>18?0:4,pointBackgroundColor:nc(),borderWidth:2.5,
-      datalabels:{display:showLabels&&labels.length<=12,color:nc(),font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>N(v)}}]},
-    options:{...chartDefaults,plugins:{...chartDefaults.plugins,datalabels:{display:showLabels&&labels.length<=12,color:nc(),font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>N(v)}}}
+  const show=showLbls&&labels.length<=14;
+  CH[id]=new Chart(el,{type:'line',
+    data:{labels,datasets:[{data:vals,borderColor:nc(),backgroundColor:nc()+'1A',fill:true,tension:0.4,
+      pointRadius:labels.length>20?0:4,pointBackgroundColor:nc(),borderWidth:2.5,
+      datalabels:{display:show,color:'#ccc',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>N(v)}}]},
+    options:{...cOpts,plugins:{...cOpts.plugins,datalabels:{display:show,color:'#ccc',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>N(v)}}}
   });
 }
-
-function mkBar(id,labels,data,color,showLabels=true){
+function mkBar(id,labels,data,color,showLbls=true){
   const el=document.getElementById(id);if(!el)return;
   if(CH[id])CH[id].destroy();
   const c=color||nc();
-  CH[id]=new Chart(el,{
-    type:'bar',
-    data:{labels,datasets:[{data,backgroundColor:c+'CC',borderRadius:4,borderSkipped:false,
-      datalabels:{display:showLabels,color:'#fff',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>v>0?N(v):''}}]},
-    options:{...chartDefaults,plugins:{...chartDefaults.plugins,datalabels:{display:showLabels,color:'#aaa',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>v>0?N(v):''}}}
+  CH[id]=new Chart(el,{type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:c+'BB',borderRadius:4,borderSkipped:false,
+      datalabels:{display:showLbls,color:'#ccc',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>v>0?N(v):''}}]},
+    options:{...cOpts,plugins:{...cOpts.plugins,datalabels:{display:showLbls,color:'#ccc',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>v>0?N(v):''}}}
   });
 }
-
 function mkBar2(id,labels,d1,d2,l1,l2){
   const el=document.getElementById(id);if(!el)return;
   if(CH[id])CH[id].destroy();
-  CH[id]=new Chart(el,{
-    type:'bar',
+  CH[id]=new Chart(el,{type:'bar',
     data:{labels,datasets:[
-      {label:l1,data:d1,backgroundColor:'#333',borderRadius:4,datalabels:{display:false}},
-      {label:l2,data:d2,backgroundColor:nc()+'CC',borderRadius:4,datalabels:{display:true,color:'#fff',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>v>0?N(v):''}}
+      {label:l1,data:d1,backgroundColor:'#2e2e2e',borderRadius:4,datalabels:{display:false}},
+      {label:l2,data:d2,backgroundColor:nc()+'BB',borderRadius:4,
+        datalabels:{display:true,color:'#ccc',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>v>0?N(v):''}}
     ]},
-    options:{...chartDefaults,plugins:{...chartDefaults.plugins,legend:{display:true,labels:{color:'#666',font:{size:10},boxWidth:10,boxHeight:10}},datalabels:{display:true,color:'#fff',font:{size:9,weight:'bold'},anchor:'end',align:'top',formatter:v=>v>0?N(v):''}}}
+    options:{...cOpts,plugins:{...cOpts.plugins,legend:{display:true,labels:{color:'#555',font:{size:10},boxWidth:10,boxHeight:10}},datalabels:{display:true}}}
   });
 }
-
 function mkDonut(id,labels,data,colors){
   const el=document.getElementById(id);if(!el)return;
   if(CH[id])CH[id].destroy();
   const total=data.reduce((a,b)=>a+b,0);
-  CH[id]=new Chart(el,{
-    type:'doughnut',
+  CH[id]=new Chart(el,{type:'doughnut',
     data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:0,
-      datalabels:{display:true,color:'#fff',font:{size:10,weight:'bold'},formatter:(v,ctx)=>{const pct=total>0?((v/total)*100).toFixed(0):'0';return pct+'%';}}}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
-      plugins:{legend:{position:'right',labels:{color:'#888',font:{size:11},padding:14,boxWidth:10,boxHeight:10}},
-        datalabels:{display:true,color:'#fff',font:{size:10,weight:'bold'},formatter:(v,ctx)=>{const pct=total>0?((v/total)*100).toFixed(0):'0';return pct>5?pct+'%':'';}}}}
+      datalabels:{display:true,color:'#fff',font:{size:10,weight:'bold'},
+        formatter:(v)=>total>0&&(v/total*100)>5?(v/total*100).toFixed(0)+'%':''}}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+      plugins:{legend:{position:'right',labels:{color:'#777',font:{size:11},padding:12,boxWidth:10,boxHeight:10}},
+        datalabels:{display:true,color:'#fff',font:{size:10,weight:'bold'},formatter:(v)=>total>0&&(v/total*100)>5?(v/total*100).toFixed(0)+'%':''}}}
   });
 }
 
@@ -529,12 +478,12 @@ async function runAI(id,prompt){
   const btn=document.getElementById('btn-ai-'+id);
   if(!el)return;
   if(ST.aiCache[id]){el.textContent=ST.aiCache[id];if(btn)btn.style.display='none';return;}
-  el.textContent='Analizando datos…';if(btn)btn.disabled=true;
+  el.textContent='Analizando datos con IA…';if(btn)btn.disabled=true;
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,
-        system:'Eres estratega senior de redes sociales de Match Agency. Recibes métricas reales y entregas análisis concisos, directos y accionables en español. Usa bullet points (•) cortos. Sin introducción genérica. Sé específico con los números.',
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:'Eres un consultor senior de redes sociales de Match Agency. Recibes métricas reales de un cliente. Tu análisis debe ser de nivel consultor: específico con números, comparativo, con diagnóstico claro y recomendaciones accionables y priorizadas. Responde en español con bullet points (•). Sin intro genérica. Cada punto debe ser concreto, basado en los datos.',
         messages:[{role:'user',content:prompt}]})
     });
     const d=await r.json();
@@ -544,21 +493,38 @@ async function runAI(id,prompt){
 }
 
 function pillCls(t){
-  if(!t)return 'p-ot';t=t.toUpperCase();
-  if(t.includes('REEL'))return 'p-re';
-  if(t.includes('STORY'))return 'p-st';
-  if(t.includes('VIDEO'))return 'p-vi';
-  if(t.includes('CAROUSEL'))return 'p-ca';
-  return 'p-fi';
+  if(!t)return'p-ot';t=t.toUpperCase();
+  if(t.includes('REEL'))return'p-re';
+  if(t.includes('STORY'))return'p-st';
+  if(t.includes('VIDEO'))return'p-vi';
+  if(t.includes('CAROUSEL'))return'p-ca';
+  return'p-fi';
 }
 function pillLabel(t){
-  if(!t)return 'POST';t=t.toUpperCase();
-  if(t.includes('REEL'))return 'REEL';
-  if(t.includes('STORY'))return 'STORY';
-  if(t.includes('VIDEO'))return 'VIDEO';
-  if(t.includes('CAROUSEL'))return 'CARRUSEL';
-  if(t.includes('FEED'))return 'POST';
+  if(!t)return'POST';t=t.toUpperCase();
+  if(t.includes('REEL'))return'REEL';
+  if(t.includes('STORY'))return'STORY';
+  if(t.includes('VIDEO'))return'VIDEO';
+  if(t.includes('CAROUSEL'))return'CARRUSEL';
+  if(t.includes('FEED'))return'POST';
   return t.substring(0,8);
+}
+
+// ══ CONSTRUCTOR DE SECCIÓN CONSULTOR ══
+// Genera el bloque .slide-bottom con 3 puntos de análisis detallado
+function consulBox(title, points){
+  return`
+    <div class="slide-bottom">
+      <div class="consul">
+        <div class="consul-label">${title}</div>
+        <div class="consul-body">
+          <div class="consul-title">Análisis de consultor</div>
+          <div class="consul-points">
+            ${points.map(p=>`<div class="cp">${p}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
 }
 
 function buildSlides(){
@@ -568,34 +534,37 @@ function buildSlides(){
   const posts=D.posts||[];
   const net=ST.net;
   const period=MONTHS[ST.month];
-  const prevPeriod=getPrevMonth(ST.month)?MONTHS[getPrevMonth(ST.month)]:'mes anterior';
+  const prevM=getPrevM(ST.month);
+  const prevPeriod=prevM?MONTHS[prevM]:'mes anterior';
   const netName=NNAME[net];
   const color=NCOLOR[net];
   const tl=D.timeline||{labels:[],reach:[],interactions:[]};
   const flbl=net==='youtube'?'Vistas':net==='linkedin'?'Impresiones':'Alcance';
 
-  // Insight automático rápido basado en datos
-  function quickInsight(){
-    if(!posts.length) return 'Sin datos para analizar.';
-    const dEng=delta(K.engRate,PK.engRate);
-    const dReach=delta(K.reach,PK.reach);
-    if(dEng!==null&&dEng>10) return `Engagement creció ${dEng.toFixed(1)}% vs mes anterior. El contenido está resonando más.`;
-    if(dReach!==null&&dReach>15) return `Alcance aumentó ${dReach.toFixed(1)}%. Mayor distribución orgánica este mes.`;
-    if(dEng!==null&&dEng<-10) return `Engagement cayó ${Math.abs(dEng).toFixed(1)}%. Revisar mix de contenido y frecuencia.`;
-    const bestType=Object.entries(K.byType||{}).sort((a,b)=>b[1]-a[1])[0];
-    return `Formato dominante: ${bestType?pillLabel(bestType[0]):'POST'} con ${bestType?bestType[1]:0} publicaciones. Engagement promedio: ${P(K.engRate)}.`;
-  }
+  // Helpers de análisis
+  const dReach=delta(K.reach,PK.reach);
+  const dEng=delta(K.engRate,PK.engRate);
+  const dInter=delta(K.interactions,PK.interactions);
+  const topType=Object.entries(K.byType||{}).sort((a,b)=>b[1]-a[1])[0];
+  const bestDay=Object.entries(K.byDay||{}).sort((a,b)=>b[1]-a[1])[0];
+  const bestHour=Object.entries(K.byHour||{}).filter(([,v])=>v.count>0).sort((a,b)=>(b[1].reach/b[1].count)-(a[1].reach/a[1].count))[0];
+  const avgEngBenchmark=net==='instagram'?1.5:net==='facebook'?0.5:net==='linkedin'?2:1;
+  const engStatus=K.engRate>avgEngBenchmark*1.5?'muy alto':K.engRate>avgEngBenchmark?'sobre el promedio':K.engRate>avgEngBenchmark*0.7?'en el promedio':'bajo el promedio';
+  const topPost=[...posts].sort((a,b)=>(+b.reach||0)-(+a.reach||0))[0];
+  const topEngPost=[...posts].sort((a,b)=>(+b.engagement||0)-(+a.engagement||0))[0];
+  const ratioLikesComents=K.comments>0?(K.likes/K.comments).toFixed(1):null;
 
   return[
+
     // ── 0 PORTADA ──
     {id:'cover',html:()=>`
-      <div class="cvr">
+      <div class="cvr" style="height:100%">
         <div class="cvr-left">
           <div>
-            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px">Match Agency</div>
-            <div class="cvr-title">REPORTE<br>MENSUAL<br>${period.toUpperCase()}</div>
+            <div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px">Match Agency</div>
+            <div class="cvr-title">REPORTE<br>MENSUAL<br><span style="opacity:.7">${period.toUpperCase()}</span></div>
           </div>
-          <div class="cvr-meta">
+          <div class="cvr-meta-left">
             Red: ${netName.toUpperCase()}<br>
             Posts analizados: ${posts.length}<br>
             Generado: ${new Date().toLocaleDateString('es-CL')}
@@ -604,8 +573,11 @@ function buildSlides(){
         <div class="cvr-right">
           <div>
             <div style="font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px">Performance</div>
-            <div class="cvr-period">${netName} · ${period}</div>
-            <p class="cvr-desc">Análisis completo basado en <strong>${posts.length} publicaciones reales</strong>. Incluye comparativa vs mes anterior, análisis de contenido, timing óptimo y recomendaciones estratégicas.</p>
+            <div style="font-family:var(--display);font-size:22px;letter-spacing:2px;color:var(--red);margin-bottom:12px">${netName} · ${period}</div>
+            <p style="font-size:12px;color:var(--t2);line-height:1.65;margin-bottom:20px;max-width:320px">
+              Análisis basado en <strong style="color:var(--t1)">${posts.length} publicaciones reales</strong>.
+              Incluye comparativa vs ${prevPeriod}, mix de contenido, timing óptimo e insights estratégicos por cada sección.
+            </p>
             <div class="cvr-stats">
               <div class="cvr-stat"><div class="cvr-stat-val">${N(K.reach||K.impressions)}</div><div class="cvr-stat-lbl">${flbl} total</div></div>
               <div class="cvr-stat"><div class="cvr-stat-val">${P(K.engRate)}</div><div class="cvr-stat-lbl">Eng. rate</div></div>
@@ -614,386 +586,331 @@ function buildSlides(){
             </div>
           </div>
           <div class="cvr-pills">
-            ${['01 KPIs','02 Comparativa','03 Alcance','04 Contenido','05 Engagement','06 Top posts','07 Timing','08 Insights IA'].map(x=>`<span class="cpill">${x}</span>`).join('')}
+            ${['01 KPIs','02 Comparativa','03 Alcance','04 Contenido','05 Engagement','06 Top posts','07 Timing','08 IA'].map(x=>`<span class="cpill">${x}</span>`).join('')}
           </div>
         </div>
       </div>`,onEnter:()=>{}
     },
 
     // ── 1 KPIs ──
-    {id:'kpis',html:()=>`
-      <div class="slide-header">
-        <div class="sh-left">
-          <div class="stag">01 — Resumen ejecutivo</div>
-          <div class="sh1">MÉTRICAS <em>CLAVE</em></div>
-          <div class="ssub">${netName} · ${period} · ${posts.length} publicaciones</div>
-        </div>
-        <div class="sh-insight">
-          <div class="si-lbl">◆ Insight rápido</div>
-          <div class="si-text">${quickInsight()}</div>
-        </div>
-      </div>
-      <div class="krow">
-        <div class="kc hi">
-          <div class="klbl">${flbl} total</div>
-          <div class="kval">${N(K.reach||K.impressions)}</div>
-          <div class="kdelta">${deltaHtml(K.reach,PK.reach)}</div>
-        </div>
-        <div class="kc ${delta(K.interactions,PK.interactions)>=0?'up':'dn'}">
-          <div class="klbl">Interacciones</div>
-          <div class="kval">${N(K.interactions)}</div>
-          <div class="kdelta">${deltaHtml(K.interactions,PK.interactions)}</div>
-        </div>
-        <div class="kc ${delta(K.engRate,PK.engRate)>=0?'up':'dn'}">
-          <div class="klbl">Engagement rate</div>
-          <div class="kval">${P(K.engRate)}</div>
-          <div class="kdelta">${deltaHtml(K.engRate,PK.engRate)}</div>
-        </div>
-        <div class="kc ${delta(K.likes,PK.likes)>=0?'up':'dn'}">
-          <div class="klbl">Likes</div>
-          <div class="kval">${N(K.likes)}</div>
-          <div class="kdelta">${deltaHtml(K.likes,PK.likes)}</div>
-        </div>
-        <div class="kc ${delta(K.comments,PK.comments)>=0?'up':'dn'}">
-          <div class="klbl">Comentarios</div>
-          <div class="kval">${N(K.comments)}</div>
-          <div class="kdelta">${deltaHtml(K.comments,PK.comments)}</div>
-        </div>
-        <div class="kc ${delta(net==='linkedin'?K.shares:K.saved,net==='linkedin'?PK.shares:PK.saved)>=0?'up':'dn'}">
-          <div class="klbl">${net==='youtube'?'Vistas totales':net==='linkedin'?'Compartidos':'Guardados'}</div>
-          <div class="kval">${N(net==='youtube'?K.impressions:net==='linkedin'?K.shares:K.saved)}</div>
-          <div class="kdelta">${deltaHtml(net==='linkedin'?K.shares:K.saved,net==='linkedin'?PK.shares:PK.saved)}</div>
+    {id:'kpis',
+     html:()=>`
+      <div class="slide-top">
+        <div class="sh"><div class="stag">01</div><div><div class="sh1">MÉTRICAS <em>CLAVE</em></div><div class="ssub">${netName} · ${period} · ${posts.length} publicaciones · vs ${prevPeriod}</div></div></div>
+        <div class="krow">
+          <div class="kc hi"><div class="klbl">${flbl} total</div><div class="kval">${N(K.reach||K.impressions)}</div><div class="kdelta">${dH(K.reach,PK.reach)}</div></div>
+          <div class="kc ${dInter>=0||dInter===null?'up':'dn'}"><div class="klbl">Interacciones</div><div class="kval">${N(K.interactions)}</div><div class="kdelta">${dH(K.interactions,PK.interactions)}</div></div>
+          <div class="kc ${dEng>=0||dEng===null?'up':'dn'}"><div class="klbl">Engagement rate</div><div class="kval">${P(K.engRate)}</div><div class="kdelta">${dH(K.engRate,PK.engRate)}</div></div>
+          <div class="kc ${delta(K.likes,PK.likes)>=0||!PK.likes?'up':'dn'}"><div class="klbl">Likes</div><div class="kval">${N(K.likes)}</div><div class="kdelta">${dH(K.likes,PK.likes)}</div></div>
+          <div class="kc ${delta(K.comments,PK.comments)>=0||!PK.comments?'up':'dn'}"><div class="klbl">Comentarios</div><div class="kval">${N(K.comments)}</div><div class="kdelta">${dH(K.comments,PK.comments)}</div></div>
+          <div class="kc ${delta(K.saved,PK.saved)>=0||!PK.saved?'up':'dn'}"><div class="klbl">${net==='linkedin'?'Compartidos':net==='youtube'?'Views totales':'Guardados'}</div><div class="kval">${N(net==='linkedin'?K.shares:net==='youtube'?K.impressions:K.saved)}</div><div class="kdelta">${dH(net==='linkedin'?K.shares:net==='youtube'?K.impressions:K.saved,net==='linkedin'?PK.shares:net==='youtube'?PK.impressions:PK.saved)}</div></div>
         </div>
       </div>
-      <div class="ibox">
-        <div class="ibox-tag">Análisis del período</div>
-        <div class="ibox-text">
-          ${posts.length} publicaciones generaron <strong>${N(K.reach||K.impressions)}</strong> de ${flbl.toLowerCase()} total con un engagement rate de <strong>${P(K.engRate)}</strong>.
-          ${PK.posts>0?`Vs. ${prevPeriod}: alcance ${delta(K.reach,PK.reach)>=0?'<strong style="color:var(--green)">▲':'<strong style="color:var(--amber)">▼'} ${Math.abs(delta(K.reach,PK.reach)||0).toFixed(1)}%</strong>, engagement ${delta(K.engRate,PK.engRate)>=0?'<strong style="color:var(--green)">▲':'<strong style="color:var(--amber)">▼'} ${Math.abs(delta(K.engRate,PK.engRate)||0).toFixed(1)}%</strong>.`:''}
-          Mejor post: <strong>${N(K.bestPost?.reach)}</strong> de alcance.
-        </div>
-      </div>`,onEnter:()=>{}
+      ${consulBox('KPIs',[
+        `El engagement rate de <strong>${P(K.engRate)}</strong> está <em>${engStatus}</em> para ${netName} (benchmark industria: ~${avgEngBenchmark}%). ${dEng!==null?`Varió <em>${dEng>=0?'+':''}${dEng?.toFixed(1)}%</em> respecto a ${prevPeriod}.`:'Es el primer período disponible para comparar.'}`,
+        `${flbl} total de <strong>${N(K.reach||K.impressions)}</strong> con <strong>${posts.length} posts</strong> equivale a un promedio de <strong>${N(K.avgReach)}</strong> por publicación. ${dReach!==null?`El alcance ${dReach>=0?'creció':'cayó'} <em>${Math.abs(dReach).toFixed(1)}%</em> vs ${prevPeriod} — esto ${dReach>=0?'indica mayor distribución orgánica o aumento de audiencia':'puede señalar saturación de audiencia o caída en la frecuencia de publicación'}.`:''}`,
+        `La ratio likes/comentarios es <strong>${ratioLikesComents||'—'}x</strong>. ${ratioLikesComents&&+ratioLikesComents>10?'Una ratio alta indica contenido visualmente atractivo pero que no genera conversación. Incorporar preguntas directas o calls-to-action podría mejorar los comentarios.':ratioLikesComents&&+ratioLikesComents<3?'Una ratio baja indica contenido que genera debate activo — muy positivo para el algoritmo. Mantener esta dinámica.':'Ratio equilibrada entre visibilidad e interacción cualitativa.'}`
+      ])}`,
+     onEnter:()=>{}
     },
 
     // ── 2 COMPARATIVA ──
-    {id:'compare',html:()=>`
-      <div class="slide-header">
-        <div class="sh-left">
-          <div class="stag">02 — Comparativa</div>
-          <div class="sh1">VS. <em>MES ANTERIOR</em></div>
-          <div class="ssub">${period} vs ${prevPeriod}</div>
-        </div>
-        <div class="sh-insight">
-          <div class="si-lbl">◆ Variación global</div>
-          <div class="si-text">
-            Posts: ${PK.posts?`${K.posts} vs ${PK.posts} (${delta(K.posts,PK.posts)>=0?'+':''}${(delta(K.posts,PK.posts)||0).toFixed(0)}%)`:'Sin dato anterior'}<br>
-            Alcance: ${PK.reach?`${N(K.reach)} vs ${N(PK.reach)}`:'—'}<br>
-            Engagement: ${PK.engRate?`${P(K.engRate)} vs ${P(PK.engRate)}`:'—'}
+    {id:'compare',
+     html:()=>`
+      <div class="slide-top">
+        <div class="sh"><div class="stag">02</div><div><div class="sh1">VS. <em>MES ANTERIOR</em></div><div class="ssub">${period} vs ${prevPeriod} — variación de todas las métricas</div></div></div>
+        <div class="g2">
+          <div class="cb">
+            <div class="clbl">Principales métricas — comparativa</div>
+            <div class="cc" style="height:195px"><canvas id="ch-cmp-main" role="img" aria-label="Comparativa principal"></canvas></div>
+          </div>
+          <div class="cb">
+            <div class="clbl">Variación porcentual</div>
+            <div class="cc" style="height:195px"><canvas id="ch-cmp-pct" role="img" aria-label="Variación %"></canvas></div>
           </div>
         </div>
-      </div>
-      <div class="g2" style="margin-bottom:14px">
-        <div class="cb">
-          <div class="clbl">Alcance — este mes vs anterior</div>
-          <div class="cc" style="height:200px"><canvas id="ch-cmp-reach" role="img" aria-label="Comparativa alcance"></canvas></div>
+        <div class="g3">
+          ${[['Posts',K.posts,PK.posts,false],['Avg. '+flbl,K.avgReach,PK.avgReach,false],['Eng. rate',K.engRate,PK.engRate,true]].map(([lbl,c,p,isPct])=>{
+            const d=delta(c,p);const up=!d||d>=0;
+            return`<div class="kc ${up?'up':'dn'}">
+              <div class="klbl">${lbl}</div>
+              <div class="kval" style="font-size:22px">${isPct?P(c):N(c)}</div>
+              <div class="kdelta">${d!==null?`<span class="${up?'up':'dn'}">${up?'↑':'↓'} ${Math.abs(d).toFixed(1)}%</span>`:'-'}</div>
+              ${p!=null?`<div style="font-size:10px;color:var(--t3);margin-top:2px">Ant: ${isPct?P(p):N(p)}</div>`:''}
+            </div>`;
+          }).join('')}
         </div>
-        <div class="cb">
-          <div class="clbl">Interacciones — este mes vs anterior</div>
-          <div class="cc" style="height:200px"><canvas id="ch-cmp-int" role="img" aria-label="Comparativa interacciones"></canvas></div>
-        </div>
       </div>
-      <div class="g3">
-        ${[
-          ['Posts publicados',K.posts,PK.posts],
-          [flbl+' promedio',K.avgReach,PK.avgReach],
-          ['Engagement rate',K.engRate,PK.engRate,true]
-        ].map(([lbl,curr,prev,isPct])=>{
-          const d=delta(curr,prev);
-          const up=d>=0;
-          return `<div class="kc ${up?'up':'dn'}">
-            <div class="klbl">${lbl}</div>
-            <div class="kval" style="font-size:22px">${isPct?P(curr):N(curr)}</div>
-            <div class="kdelta">${d!==null?`<span class="${up?'up':'dn'}">${up?'↑':'↓'} ${Math.abs(d).toFixed(1)}% vs ant.</span>`:'Sin datos'}</div>
-            ${prev!=null?`<div style="font-size:10px;color:var(--t3);margin-top:3px">Anterior: ${isPct?P(prev):N(prev)}</div>`:''}
-          </div>`;
-        }).join('')}
-      </div>`,
-      onEnter:()=>{setTimeout(()=>{
-        const metrics=[['Reach',K.reach,PK.reach],['Likes',K.likes,PK.likes],['Comentarios',K.comments,PK.comments],['Guardados',K.saved,PK.saved]];
-        mkBar2('ch-cmp-reach',['Reach','Likes','Comentarios','Guard.'],[PK.reach||0,PK.likes||0,PK.comments||0,PK.saved||0],[K.reach||0,K.likes||0,K.comments||0,K.saved||0],prevPeriod,period);
-        mkBar2('ch-cmp-int',['Interacc.','Posts','Avg.Reach','Eng.%×100'],[PK.interactions||0,PK.posts||0,PK.avgReach||0,Math.round((PK.engRate||0)*100)],[K.interactions||0,K.posts||0,K.avgReach||0,Math.round((K.engRate||0)*100)],prevPeriod,period);
-      },60);}
+      ${consulBox('Comparativa',[
+        `${dReach!==null?`El alcance ${dReach>=0?'aumentó':'disminuyó'} <em>${Math.abs(dReach).toFixed(1)}%</em> de <strong>${N(PK.reach)}</strong> a <strong>${N(K.reach)}</strong>. ${dReach>=0?'El crecimiento es sostenido si supera el 10% mensual. Por debajo, revisar horarios y formatos.':'Una caída de alcance requiere auditar la frecuencia de publicación y si el tipo de contenido está cambiando.`:'Sin período anterior disponible para comparar. A partir del próximo mes se tendrá comparativa automática.'}`,
+        `Las interacciones ${dInter!==null?(dInter>=0?`crecieron <em>+${Math.abs(dInter).toFixed(1)}%</em> de <strong>${N(PK.interactions)}</strong> a <strong>${N(K.interactions)}</strong>. El crecimiento en interacciones es más valioso que el alcance: indica audiencia más comprometida.`:`cayeron <em>-${Math.abs(dInter).toFixed(1)}%</em>. Esto puede indicar fatiga de contenido o cambio en el tipo de publicaciones. Revisar los posts con menor engagement del período.`):'Es el primer período con datos completos.'}`,
+        `Se publicaron <strong>${K.posts} posts</strong> ${PK.posts>0?`vs ${PK.posts} del mes anterior (${delta(K.posts,PK.posts)>=0?'+':''}${(delta(K.posts,PK.posts)||0).toFixed(0)}%).`:'.'}  ${K.posts<4?'Frecuencia baja: menos de 1 post semanal puede limitar el alcance orgánico.':K.posts>20?'Alta frecuencia: asegúrate de mantener calidad sobre cantidad.':'Frecuencia adecuada para mantener presencia sin saturar la audiencia.'}`
+      ])}`,
+     onEnter:()=>{setTimeout(()=>{
+       const labs=['Reach','Likes','Comentarios','Interact.'];
+       const d1=[PK.reach||0,PK.likes||0,PK.comments||0,PK.interactions||0];
+       const d2=[K.reach||0,K.likes||0,K.comments||0,K.interactions||0];
+       mkBar2('ch-cmp-main',labs,d1,d2,prevPeriod,period);
+       const pctLabs=['Reach','Likes','Coment.','Interact.','Eng.rate','Posts'];
+       const pctPairs=[[K.reach,PK.reach],[K.likes,PK.likes],[K.comments,PK.comments],[K.interactions,PK.interactions],[K.engRate,PK.engRate],[K.posts,PK.posts]];
+       const pctData=pctPairs.map(([c,p])=>p>0?+((c-p)/p*100).toFixed(1):0);
+       mkBar('ch-cmp-pct',pctLabs,pctData,null,true);
+     },60);}
     },
 
     // ── 3 ALCANCE ──
-    {id:'reach',html:()=>`
-      <div class="slide-header">
-        <div class="sh-left">
-          <div class="stag">03 — Distribución temporal</div>
-          <div class="sh1">${flbl.toUpperCase()} <em>DIARIO</em></div>
-          <div class="ssub">Evolución por fecha de publicación — ${period}</div>
+    {id:'reach',
+     html:()=>`
+      <div class="slide-top">
+        <div class="sh"><div class="stag">03</div><div><div class="sh1">${flbl.toUpperCase()} <em>DIARIO</em></div><div class="ssub">Evolución por fecha de publicación · pico: ${N(Math.max(...tl.reach,0))} · promedio: ${N(K.avgReach)}</div></div></div>
+        <div class="cb" style="margin-bottom:11px">
+          <div class="clbl">${flbl} por fecha de publicación</div>
+          <div class="cc" style="height:178px"><canvas id="ch-reach" role="img" aria-label="Alcance"></canvas></div>
         </div>
-        <div class="sh-insight">
-          <div class="si-lbl">◆ Pico del mes</div>
-          <div class="si-text">
-            Máximo diario: <strong>${N(Math.max(...tl.reach,0))}</strong><br>
-            Promedio: <strong>${N(K.avgReach)}</strong><br>
-            Total: <strong>${N(K.reach||K.impressions)}</strong>
-          </div>
+        <div class="cb">
+          <div class="clbl">Interacciones por fecha de publicación</div>
+          <div class="cc" style="height:148px"><canvas id="ch-inter" role="img" aria-label="Interacciones"></canvas></div>
         </div>
       </div>
-      <div class="cb" style="margin-bottom:13px">
-        <div class="clbl">${flbl} por fecha de publicación</div>
-        <div class="cc" style="height:195px"><canvas id="ch-reach" role="img" aria-label="Alcance diario"></canvas></div>
-      </div>
-      <div class="cb">
-        <div class="clbl">Interacciones por fecha de publicación</div>
-        <div class="cc" style="height:165px"><canvas id="ch-inter" role="img" aria-label="Interacciones diarias"></canvas></div>
-      </div>`,
-      onEnter:()=>{setTimeout(()=>{mkLine('ch-reach',tl.labels,tl.reach,true);mkLine('ch-inter',tl.labels,tl.interactions,true);},60);}
+      ${consulBox('Alcance',[
+        `El pico de alcance diario fue <strong>${N(Math.max(...tl.reach,0))}</strong>, que representa <em>${K.avgReach>0?(Math.max(...tl.reach)/K.avgReach).toFixed(1)+'x el promedio'}el promedio</em> del período. Los días con pico alto indican posts de alto rendimiento — revisar qué formato o contenido los generó para replicarlo.`,
+        `El alcance promedio de <strong>${N(K.avgReach)}</strong> por publicación ${PK.avgReach?`${K.avgReach>PK.avgReach?'mejoró':'bajó'} respecto a ${prevPeriod} (${N(PK.avgReach)}). ${K.avgReach>PK.avgReach?'La calidad o relevancia del contenido está mejorando.':'Esto puede indicar menor relevancia del contenido o cambios en el algoritmo.'}`:'es la línea base de este período. Busca superar este número el próximo mes.'}`,
+        `La correlación entre alcance e interacciones determina la calidad del engagement. ${tl.reach.length>0?`En este período, las fechas con más interacciones ${tl.interactions.reduce((a,b)=>a+b,0)>0?'también muestran picos de alcance, indicando contenido de alto impacto.':'no siempre coinciden con los de mayor alcance, sugiriendo que parte del alcance es pasivo (sin interacción).':'Analizar post por post en la siguiente sección.'}`
+      ])}`,
+     onEnter:()=>{setTimeout(()=>{mkLine('ch-reach',tl.labels,tl.reach,true);mkLine('ch-inter',tl.labels,tl.interactions,true);},60);}
     },
 
     // ── 4 CONTENIDO ──
-    {id:'content',html:()=>{
-      const tk=Object.entries(K.byType||{}).sort((a,b)=>b[1]-a[1]);
-      const topType=tk[0]?pillLabel(tk[0][0]):'—';
-      const reels=D.reels||[];
-      return`
-        <div class="slide-header">
-          <div class="sh-left">
-            <div class="stag">04 — Mix de contenido</div>
-            <div class="sh1">ANÁLISIS DE <em>FORMATOS</em></div>
-            <div class="ssub">Distribución y rendimiento por tipo — ${period}</div>
-          </div>
-          <div class="sh-insight">
-            <div class="si-lbl">◆ Formato dominante</div>
-            <div class="si-text">
-              ${topType} representa el ${tk[0]?Math.round(tk[0][1]/posts.length*100):0}% del contenido.
-              ${tk.length>1?`También: ${pillLabel(tk[1][0])} (${tk[1][1]} posts).`:''}
-              ${reels.length?`<br>${reels.length} Reels publicados.`:''}
-            </div>
-          </div>
-        </div>
-        <div class="g21">
-          <div class="cb">
-            <div class="clbl">Publicaciones por día de la semana</div>
-            <div class="cc" style="height:195px"><canvas id="ch-weekday" role="img" aria-label="Días"></canvas></div>
-          </div>
-          <div class="cb">
-            <div class="clbl">Mix de formatos</div>
-            <div class="cc" style="height:195px"><canvas id="ch-types" role="img" aria-label="Formatos"></canvas></div>
-          </div>
-        </div>
-        ${net==='instagram'&&reels.length>0?`
-        <div class="cb">
-          <div class="clbl">Reels — alcance individual (${reels.length} reels)</div>
-          <div class="cc" style="height:140px"><canvas id="ch-reels" role="img" aria-label="Reels"></canvas></div>
-        </div>`:''}`;
-    },
-    onEnter:()=>{setTimeout(()=>{
-      const days=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-      mkBar('ch-weekday',days,days.map(d=>(K.byDay||{})[d]||0));
-      const tk=Object.entries(K.byType||{}).sort((a,b)=>b[1]-a[1]);
-      if(tk.length)mkDonut('ch-types',tk.map(x=>pillLabel(x[0])),tk.map(x=>x[1]),[nc(),'#444','#555','#666','#777']);
-      else mkDonut('ch-types',['Sin datos'],[1],['#2A2A2A']);
-      if(ST.net==='instagram'&&D.reels?.length>0){
-        const rl=D.reels.slice(0,12);
-        mkBar('ch-reels',rl.map((_,i)=>`R${i+1}`),rl.map(r=>+r.reach||+r.plays||+r.views||0));
-      }
-    },60);}
+    {id:'content',
+     html:()=>{
+       const tk=Object.entries(K.byType||{}).sort((a,b)=>b[1]-a[1]);
+       const reels=D.reels||[];
+       const topTypeCount=tk[0]?tk[0][1]:0;
+       const topTypePct=K.posts>0?Math.round(topTypeCount/K.posts*100):0;
+       return`
+         <div class="slide-top">
+           <div class="sh"><div class="stag">04</div><div><div class="sh1">ANÁLISIS DE <em>FORMATOS</em></div><div class="ssub">Mix de contenido y frecuencia semanal — ${period}</div></div></div>
+           <div class="g21">
+             <div class="cb">
+               <div class="clbl">Publicaciones por día de la semana</div>
+               <div class="cc" style="height:178px"><canvas id="ch-weekday" role="img" aria-label="Días"></canvas></div>
+             </div>
+             <div class="cb">
+               <div class="clbl">Mix de formatos (${K.posts} total)</div>
+               <div class="cc" style="height:178px"><canvas id="ch-types" role="img" aria-label="Formatos"></canvas></div>
+             </div>
+           </div>
+           ${net==='instagram'&&reels.length>0?`
+           <div class="cb">
+             <div class="clbl">Reels — alcance individual (${reels.length} reels)</div>
+             <div class="cc" style="height:130px"><canvas id="ch-reels" role="img" aria-label="Reels"></canvas></div>
+           </div>`:``}
+         </div>
+         ${consulBox('Contenido',[
+           `El formato <em>${tk[0]?pillLabel(tk[0][0]):'—'}</em> domina con <strong>${topTypeCount} posts (${topTypePct}%)</strong> del total. ${tk.length>1?`El segundo formato es ${pillLabel(tk[1][0])} con ${tk[1][1]} posts. `:''}${topTypePct>80?'La concentración en un solo formato puede limitar el alcance a distintos segmentos de audiencia. Diversificar el mix aumenta la cobertura.':topTypePct>50?'Buena concentración con algo de diversidad. Asegúrate de que el formato dominante también sea el de mayor alcance.':'Buen mix de formatos — el algoritmo de '+netName+' favorece la diversidad de contenido.'}`,
+           `${bestDay?`El día con más publicaciones fue <em>${bestDay[0]}</em> (${bestDay[1]} posts). `:''} La consistencia semanal es clave para el algoritmo: ${K.posts>=4&&K.posts<=12?'la frecuencia actual es óptima para mantener presencia sin saturar.':K.posts<4?'publicar al menos 4 veces al mes es el mínimo recomendado para visibilidad orgánica sostenida.':'considera si la alta frecuencia mantiene calidad constante, ya que puede diluir el alcance promedio por post.'}`,
+           `${net==='instagram'&&reels.length>0?`Se publicaron <strong>${reels.length} Reels</strong>. El alcance promedio de Reels es ${N(reels.reduce((a,r)=>a+(+r.reach||0),0)/reels.length)} vs ${N(K.avgReach)} de posts regulares. ${reels.reduce((a,r)=>a+(+r.reach||0),0)/reels.length>K.avgReach?'Los Reels superan el alcance promedio — incrementar su frecuencia podría amplificar significativamente la visibilidad.':'Los Reels no superan el alcance promedio en este período — revisar duración, audio trending y hooks iniciales.'}`:`Para maximizar alcance en ${netName}, ${net==='facebook'?'prioriza video nativo y posts con imágenes de alta calidad.':net==='linkedin'?'los posts de texto con insights propios y carruseles documentales tienen mayor alcance orgánico.':net==='youtube'?'optimiza thumbnails y títulos con palabras clave de búsqueda para amplificar el alcance.':'diversifica entre formatos de texto, imagen y video.'}`}`
+         ])}`;
+     },
+     onEnter:()=>{setTimeout(()=>{
+       const days=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+       mkBar('ch-weekday',days,days.map(d=>(K.byDay||{})[d]||0));
+       const tk=Object.entries(K.byType||{}).sort((a,b)=>b[1]-a[1]);
+       if(tk.length)mkDonut('ch-types',tk.map(x=>pillLabel(x[0])),tk.map(x=>x[1]),[nc(),'#3a3a3a','#505050','#666','#777']);
+       else mkDonut('ch-types',['Sin datos'],[1],['#2a2a2a']);
+       if(ST.net==='instagram'&&D.reels?.length>0){
+         const rl=D.reels.slice(0,12);
+         mkBar('ch-reels',rl.map((_,i)=>`R${i+1}`),rl.map(r=>+r.reach||+r.plays||+r.views||0));
+       }
+     },60);}
     },
 
     // ── 5 ENGAGEMENT ──
-    {id:'engagement',html:()=>`
-      <div class="slide-header">
-        <div class="sh-left">
-          <div class="stag">05 — Engagement</div>
-          <div class="sh1">INTERACCIÓN CON <em>EL CONTENIDO</em></div>
-          <div class="ssub">Desglose completo de interacciones — ${period}</div>
+    {id:'engagement',
+     html:()=>`
+      <div class="slide-top">
+        <div class="sh"><div class="stag">05</div><div><div class="sh1">DESGLOSE DE <em>INTERACCIONES</em></div><div class="ssub">Distribución y calidad del engagement — ${period}</div></div></div>
+        <div class="krow" style="grid-template-columns:repeat(4,1fr)">
+          <div class="kc hi"><div class="klbl">Eng. rate</div><div class="kval" style="font-size:22px">${P(K.engRate)}</div><div class="kdelta">${dH(K.engRate,PK.engRate)}</div></div>
+          <div class="kc"><div class="klbl">Likes</div><div class="kval" style="font-size:22px">${N(K.likes)}</div><div class="kdelta">${dH(K.likes,PK.likes)}</div></div>
+          <div class="kc"><div class="klbl">Comentarios</div><div class="kval" style="font-size:22px">${N(K.comments)}</div><div class="kdelta">${dH(K.comments,PK.comments)}</div></div>
+          <div class="kc"><div class="klbl">${net==='linkedin'?'Compartidos':'Guardados'}</div><div class="kval" style="font-size:22px">${N(net==='linkedin'?K.shares:K.saved)}</div><div class="kdelta">${dH(net==='linkedin'?K.shares:K.saved,net==='linkedin'?PK.shares:PK.saved)}</div></div>
         </div>
-        <div class="sh-insight">
-          <div class="si-lbl">◆ Análisis engagement</div>
-          <div class="si-text">
-            Rate: <strong>${P(K.engRate)}</strong> ${PK.engRate?`(ant: ${P(PK.engRate)})`:''}<br>
-            Post más interactivo: <strong>${N(posts.reduce((a,b)=>(+b.interactions||0)>(+a.interactions||0)?b:a,posts[0]||{})?.interactions)}</strong> inter.<br>
-            Ratio likes/comentarios: <strong>${K.comments>0?(K.likes/K.comments).toFixed(1)+'x':'—'}</strong>
+        <div class="g2" style="margin-top:10px">
+          <div class="cb">
+            <div class="clbl">Engagement rate — top 10 posts</div>
+            <div class="cc" style="height:175px"><canvas id="ch-eng" role="img" aria-label="Eng por post"></canvas></div>
+          </div>
+          <div class="cb">
+            <div class="clbl">Distribución de interacciones</div>
+            <div class="cc" style="height:175px"><canvas id="ch-bkd" role="img" aria-label="Distribución"></canvas></div>
           </div>
         </div>
       </div>
-      <div class="krow" style="grid-template-columns:repeat(4,1fr);margin-bottom:14px">
-        <div class="kc hi"><div class="klbl">Eng. rate</div><div class="kval" style="font-size:24px">${P(K.engRate)}</div><div class="kdelta">${deltaHtml(K.engRate,PK.engRate)}</div></div>
-        <div class="kc"><div class="klbl">Likes</div><div class="kval" style="font-size:24px">${N(K.likes)}</div><div class="kdelta">${deltaHtml(K.likes,PK.likes)}</div></div>
-        <div class="kc"><div class="klbl">Comentarios</div><div class="kval" style="font-size:24px">${N(K.comments)}</div><div class="kdelta">${deltaHtml(K.comments,PK.comments)}</div></div>
-        <div class="kc"><div class="klbl">${net==='linkedin'?'Compartidos':'Guardados'}</div><div class="kval" style="font-size:24px">${N(net==='linkedin'?K.shares:K.saved)}</div><div class="kdelta">${deltaHtml(net==='linkedin'?K.shares:K.saved,net==='linkedin'?PK.shares:PK.saved)}</div></div>
-      </div>
-      <div class="g2">
-        <div class="cb">
-          <div class="clbl">Engagement rate — top 10 posts</div>
-          <div class="cc" style="height:190px"><canvas id="ch-eng" role="img" aria-label="Engagement por post"></canvas></div>
-        </div>
-        <div class="cb">
-          <div class="clbl">Distribución de interacciones</div>
-          <div class="cc" style="height:190px"><canvas id="ch-breakdown" role="img" aria-label="Distribución"></canvas></div>
-        </div>
-      </div>`,
-      onEnter:()=>{setTimeout(()=>{
-        const top10=[...posts].sort((a,b)=>(+b.engagement||0)-(+a.engagement||0)).slice(0,10);
-        mkBar('ch-eng',top10.map((_,i)=>`P${i+1}`),top10.map(p=>+(+p.engagement||0).toFixed(2)));
-        const iLabels=['Likes','Comentarios',net==='linkedin'?'Compartidos':'Guardados','Shares'];
-        const iData=[K.likes||0,K.comments||0,net==='linkedin'?K.shares||0:K.saved||0,net==='linkedin'?0:K.shares||0];
-        mkDonut('ch-breakdown',iLabels,iData,[nc(),'#444','#666','#333']);
-      },60);}
+      ${consulBox('Engagement',[
+        `El post con mayor engagement rate fue <strong>${P(topEngPost?.engagement)}</strong> (alcance: ${N(topEngPost?.reach)}). ${K.engRate>0&&topEngPost?`El engagement del top post es <em>${(topEngPost.engagement/K.engRate).toFixed(1)}x el promedio</em> del período — analizar qué tiene de especial ese contenido (formato, copy, CTA, hora de publicación) para replicarlo.`:''}`,
+        `La distribución likes/comentarios/guardados revela el tipo de relación con la audiencia. ${K.saved>K.comments?'El alto ratio de guardados (vs comentarios) indica contenido de valor práctico o aspiracional que la audiencia quiere consumir después — muy positivo para el algoritmo de Instagram.':K.comments>K.saved?'Más comentarios que guardados indica contenido que genera conversación. Responder activamente los comentarios en las primeras horas amplifica el alcance.':'Distribución equilibrada entre guardados y comentarios.'} ${ratioLikesComents?`Ratio likes/comentarios: <strong>${ratioLikesComents}x</strong>.`:''}`,
+        `${dEng!==null?`El engagement ${dEng>=0?'mejoró':'bajó'} <em>${Math.abs(dEng).toFixed(1)}%</em> respecto a ${prevPeriod}. ${dEng>=0?'El crecimiento en engagement es el KPI más valioso: indica que la audiencia existente está más comprometida, lo que favorece el alcance orgánico futuro.':'Una caída en engagement puede anticipar una caída futura en alcance. Revisar si el contenido está siendo demasiado promocional, o si la frecuencia es muy alta.`:'Mantener el engagement rate actual requiere consistencia en calidad y tipos de contenido que han funcionado.'}`
+      ])}`,
+     onEnter:()=>{setTimeout(()=>{
+       const top10=[...posts].sort((a,b)=>(+b.engagement||0)-(+a.engagement||0)).slice(0,10);
+       mkBar('ch-eng',top10.map((_,i)=>`P${i+1}`),top10.map(p=>+(+p.engagement||0).toFixed(2)));
+       const iLabs=['Likes','Comentarios',net==='linkedin'?'Compart.':'Guardados'];
+       const iData=[K.likes||0,K.comments||0,net==='linkedin'?K.shares||0:K.saved||0];
+       mkDonut('ch-bkd',iLabs,iData,[nc(),'#3a3a3a','#555']);
+     },60);}
     },
 
-    // ── 6 TOP POSTS CON IMÁGENES ──
-    {id:'topposts',html:()=>{
-      const sorted=[...posts].sort((a,b)=>(+b.reach||0)-(+a.reach||0)).slice(0,6);
-      return`
-        <div class="slide-header">
-          <div class="sh-left">
-            <div class="stag">06 — Top contenido</div>
-            <div class="sh1">POSTS CON MAYOR <em>ALCANCE</em></div>
-            <div class="ssub">${period} · top 6 posts · ordenados por ${flbl.toLowerCase()}</div>
-          </div>
-          <div class="sh-insight">
-            <div class="si-lbl">◆ Mejor post</div>
-            <div class="si-text" style="font-size:10px">
-              ${K.bestPost?.content?.substring(0,80)||'—'}…<br>
-              <strong>${N(K.bestPost?.reach)}</strong> alcance · <strong>${P(K.bestPost?.engagement)}</strong> eng.
-            </div>
-          </div>
-        </div>
-        ${sorted.length>0?`
-        <div class="posts-grid">
-          ${sorted.map(p=>{
-            const d=p.publishedAt?.dateTime?new Date(p.publishedAt.dateTime).toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit'}):'-';
-            return`<div class="post-card">
-              ${p.imageUrl?`<img class="post-img" src="${p.imageUrl}" alt="Post" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
-              <div class="post-img-placeholder" style="display:none">${NETICON[net]||'📱'}</div>`
-              :`<div class="post-img-placeholder">${NETICON[net]||'📱'}</div>`}
-              <div class="post-body">
-                <span class="post-type pill ${pillCls(p.type)}">${pillLabel(p.type)}</span>
-                <div class="post-text">${p.content||p.title||'Sin texto'}</div>
-                <div class="post-stats">
-                  <div class="pstat">👁 <strong>${N(p.reach||p.views||0)}</strong></div>
-                  <div class="pstat">❤️ <strong>${N(p.likes||0)}</strong></div>
-                  <div class="pstat">💬 <strong>${N(p.comments||0)}</strong></div>
-                  <div class="pstat" style="font-size:9px;color:var(--red)">${(+p.engagement||0).toFixed(1)}%</div>
-                </div>
-              </div>
-            </div>`;
-          }).join('')}
-        </div>` : '<div class="nodata">No hay posts en este período</div>'}`;
-    },onEnter:()=>{}
+    // ── 6 TOP POSTS ──
+    {id:'topposts',
+     html:()=>{
+       const sorted=[...posts].sort((a,b)=>(+b.reach||0)-(+a.reach||0)).slice(0,6);
+       return`
+         <div class="slide-top">
+           <div class="sh"><div class="stag">06</div><div><div class="sh1">TOP <em>POSTS</em></div><div class="ssub">Las 6 publicaciones con mayor alcance — ${period}</div></div></div>
+           ${sorted.length>0?`
+           <div class="posts-grid">
+             ${sorted.map((p,i)=>{
+               const d=p.publishedAt?.dateTime?new Date(p.publishedAt.dateTime).toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit'}):'—';
+               return`<div class="post-card">
+                 ${p.imageUrl?`<img class="post-img" src="${p.imageUrl}" alt="Post ${i+1}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+                 <div class="post-img-ph" style="display:none">${NETICON[net]||'📱'}</div>`
+                 :`<div class="post-img-ph">${NETICON[net]||'📱'}</div>`}
+                 <div class="post-body">
+                   <span class="post-type pill ${pillCls(p.type)}">${pillLabel(p.type)}</span>
+                   <div class="post-text">${p.content||p.title||'Sin texto'}</div>
+                   <div class="post-stats">
+                     <div class="pstat">👁 <strong>${N(p.reach||p.views||0)}</strong></div>
+                     <div class="pstat">❤️ <strong>${N(p.likes||0)}</strong></div>
+                     <div class="pstat">💬 <strong>${N(p.comments||0)}</strong></div>
+                     <div class="pstat" style="color:var(--red);font-weight:600">${(+p.engagement||0).toFixed(1)}%</div>
+                   </div>
+                 </div>
+               </div>`;
+             }).join('')}
+           </div>`:'<div class="nodata">Sin posts en este período</div>'}
+         </div>
+         ${consulBox('Top posts',[
+           `El post #1 generó <strong>${N(sorted[0]?.reach)}</strong> de alcance con <em>${P(sorted[0]?.engagement)}</em> de engagement — ${sorted[0]?.reach>K.avgReach*1.5?`<em>${((sorted[0]?.reach/K.avgReach)-1).toFixed(1)}x por encima del promedio</em>. Este es el contenido benchmark del período. Analizar el tipo (${pillLabel(sorted[0]?.type)}), el copy y la hora de publicación para entender qué variables replicar.`:'rendimiento dentro del promedio del período.'}`,
+           `${sorted.length>=3?`La diferencia entre el post #1 (${N(sorted[0]?.reach)}) y el #3 (${N(sorted[2]?.reach)}) es de <strong>${N((sorted[0]?.reach||0)-(sorted[2]?.reach||0))}</strong> de alcance. ${(sorted[0]?.reach||0)>2*(sorted[2]?.reach||1)?'Alta dispersión: existe un post outlier que distorsiona el promedio. Identificar qué lo hizo viral para replicar la fórmula.':'Dispersión baja: el rendimiento es consistente. Esto es positivo — indica una audiencia estable y predecible.'}`:'Analizar la consistencia entre los top posts para detectar patrones de contenido.'}`,
+           `Entre los top 6, el formato <em>${Object.entries(sorted.reduce((a,p)=>{const t=pillLabel(p.type);a[t]=(a[t]||0)+1;return a;},{})).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—'}</em> domina. ${net==='instagram'&&D.reels?.length>0?`Los Reels en el top 6: ${sorted.filter(p=>p.type?.includes('REEL')).length}. ${sorted.filter(p=>p.type?.includes('REEL')).length>0?'Los Reels están entre los posts de mayor alcance — aumentar su frecuencia debería amplificar el reach global.':'Ningún Reel aparece en el top 6. Revisar estrategia de Reels para mejorar su rendimiento.'}`:`Concentrar esfuerzos en el formato que domina el top 6 para maximizar el alcance total del próximo mes.`}`
+         ])}`;
+     },onEnter:()=>{}
     },
 
     // ── 7 TIMING ──
-    {id:'timing',html:()=>`
-      <div class="slide-header">
-        <div class="sh-left">
-          <div class="stag">07 — Timing óptimo</div>
-          <div class="sh1">MEJOR HORA DE <em>PUBLICACIÓN</em></div>
-          <div class="ssub">Análisis de horarios con mayor retorno — ${period}</div>
-        </div>
-        <div class="sh-insight">
-          <div class="si-lbl">◆ Recomendación</div>
-          <div class="si-text" id="timing-insight">Calculando…</div>
-        </div>
-      </div>
-      <div class="g2" style="margin-bottom:13px">
-        <div class="cb">
-          <div class="clbl">Frecuencia de publicación por hora</div>
-          <div class="cc" style="height:190px"><canvas id="ch-hours" role="img" aria-label="Posts por hora"></canvas></div>
-        </div>
-        <div class="cb">
-          <div class="clbl">${flbl} promedio por hora de publicación</div>
-          <div class="cc" style="height:190px"><canvas id="ch-hreach" role="img" aria-label="Alcance por hora"></canvas></div>
+    {id:'timing',
+     html:()=>`
+      <div class="slide-top">
+        <div class="sh"><div class="stag">07</div><div><div class="sh1">TIMING DE <em>PUBLICACIÓN</em></div><div class="ssub">Frecuencia y alcance por hora y día — ${period}</div></div></div>
+        <div class="g2">
+          <div class="cb">
+            <div class="clbl">Posts publicados por hora del día</div>
+            <div class="cc" style="height:175px"><canvas id="ch-hours" role="img" aria-label="Posts por hora"></canvas></div>
+          </div>
+          <div class="cb">
+            <div class="clbl">${flbl} promedio por hora de publicación</div>
+            <div class="cc" style="height:175px"><canvas id="ch-hreach" role="img" aria-label="Alcance por hora"></canvas></div>
+          </div>
         </div>
       </div>
-      <div class="ibox">
-        <div class="ibox-tag">Insights de timing</div>
-        <div class="ibox-text" id="timing-box">Analizando patrones…</div>
-      </div>`,
-      onEnter:()=>{setTimeout(()=>{
-        const hc={},hr={};
-        posts.forEach(p=>{
-          if(p.publishedAt?.dateTime){
-            const h=new Date(p.publishedAt.dateTime).getHours();
-            hc[h]=(hc[h]||0)+1;
-            hr[h]=(hr[h]||{reach:0,count:0});
-            hr[h].reach+=(+p.reach||0);
-            hr[h].count++;
-          }
-        });
-        const hrs=Array.from({length:24},(_,i)=>i);
-        mkBar('ch-hours',hrs.map(h=>`${h}h`),hrs.map(h=>hc[h]||0));
-        mkBar('ch-hreach',hrs.map(h=>`${h}h`),hrs.map(h=>hr[h]?Math.round(hr[h].reach/hr[h].count):0));
-        const bestH=hrs.filter(h=>hr[h]).reduce((a,b)=>(hr[b].reach/hr[b].count)>(hr[a]?.reach/hr[a]?.count||0)?b:a,hrs.filter(h=>hr[h])[0]||0);
-        const worstH=hrs.filter(h=>hc[h]).reduce((a,b)=>(hc[b]||0)<(hc[a]||0)?b:a,hrs.filter(h=>hc[h])[0]||0);
-        const ti=document.getElementById('timing-insight');
-        const tb=document.getElementById('timing-box');
-        if(ti&&hr[bestH])ti.innerHTML=`Publicar a las <strong>${bestH}:00h</strong> genera ~<strong>${N(hr[bestH].reach/hr[bestH].count)}</strong> de alcance promedio.`;
-        if(tb)tb.innerHTML=`• La franja <strong>${bestH}:00–${bestH+1}:00h</strong> tiene el mayor alcance promedio: <strong>${hr[bestH]?N(hr[bestH].reach/hr[bestH].count):'—'}</strong>.<br>• Se publicó más los <strong>${Object.entries(K.byDay||{}).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—'}</strong> (${Object.entries(K.byDay||{}).sort((a,b)=>b[1]-a[1])[0]?.[1]||0} posts).<br>• Frecuencia promedio: <strong>${(posts.length/4).toFixed(1)} posts/semana</strong>.`;
-      },60);}
+      ${consulBox('Timing',[
+        `<span id="timing-p1">Calculando…</span>`,
+        `<span id="timing-p2">Calculando…</span>`,
+        `La frecuencia de publicación fue de <strong>${(K.posts/4.33).toFixed(1)} posts/semana</strong> en promedio. ${K.posts/4.33<1?'Frecuencia insuficiente: el algoritmo necesita señales de actividad regular. Objetivo mínimo: 3 posts/semana.':K.posts/4.33>=1&&K.posts/4.33<=3?'Frecuencia óptima para calidad sostenida. Mantener consistencia en horarios es clave para el algoritmo.':'Alta frecuencia: asegúrate de que la calidad no se vea comprometida. Medir si el alcance promedio por post disminuye al aumentar la frecuencia.'}`
+      ])}`,
+     onEnter:()=>{setTimeout(()=>{
+       const hc={};
+       posts.forEach(p=>{if(p.publishedAt?.dateTime){const h=new Date(p.publishedAt.dateTime).getHours();hc[h]=(hc[h]||0)+1;}});
+       const hrs=Array.from({length:24},(_,i)=>i);
+       mkBar('ch-hours',hrs.map(h=>`${h}h`),hrs.map(h=>hc[h]||0));
+       const bh=K.byHour||{};
+       mkBar('ch-hreach',hrs.map(h=>`${h}h`),hrs.map(h=>bh[h]?Math.round(bh[h].reach/bh[h].count):0));
+       // Llenar puntos dinámicos
+       const activeHours=Object.entries(bh).filter(([,v])=>v.count>0).sort((a,b)=>(b[1].reach/b[1].count)-(a[1].reach/a[1].count));
+       const bestH=activeHours[0];
+       const worstH=activeHours[activeHours.length-1];
+       const p1=document.getElementById('timing-p1');
+       const p2=document.getElementById('timing-p2');
+       if(p1&&bestH) p1.innerHTML=`La hora con mayor alcance promedio es las <em>${bestH[0]}:00h</em> con <strong>${N(Math.round(bestH[1].reach/bestH[1].count))}</strong> de alcance por post (${bestH[1].count} post${bestH[1].count>1?'s':''}). Publicar en esta ventana aumenta la probabilidad de que el algoritmo amplifique el contenido en las horas posteriores.`;
+       if(p2&&worstH&&activeHours.length>1) p2.innerHTML=`${bestDay?`Los <em>${bestDay[0]}</em> concentran la mayor actividad de publicación (${bestDay[1]} posts). `:''}${worstH&&worstH[0]!==bestH[0]?`Evitar publicar a las <strong>${worstH[0]}:00h</strong> si el objetivo es alcance — es la franja con menor retorno en este período (${N(Math.round(worstH[1].reach/worstH[1].count))} promedio).`:'Mantener los horarios con mejor rendimiento el próximo mes.'}`;
+     },60);}
     },
 
     // ── 8 INSIGHTS IA ──
-    {id:'ai',html:()=>{
-      const ctx=JSON.stringify({red:netName,período:period,periodoAnterior:prevPeriod,posts:posts.length,alcanceTotal:N(K.reach),alcanceAnterior:N(PK.reach),engRate:P(K.engRate),engRateAnterior:P(PK.engRate),likes:N(K.likes),comentarios:N(K.comments),guardados:N(K.saved),interacciones:N(K.interactions),interaccionesAnteriores:N(PK.interactions),mejorPost:{alcance:N(K.bestPost?.reach),eng:P(K.bestPost?.engagement),texto:K.bestPost?.content?.substring(0,100)},formatos:K.byType,postsAnteriores:PK.posts});
-      return`
-        <div class="slide-header">
-          <div class="sh-left">
-            <div class="stag">08 — Inteligencia artificial</div>
-            <div class="sh1">ANÁLISIS Y <em>RECOMENDACIONES</em></div>
-            <div class="ssub">Claude analiza ${posts.length} posts reales de ${period} vs ${prevPeriod}</div>
-          </div>
-        </div>
-        <div class="aibox">
-          <div class="aitag"><div class="aip"></div>Análisis estratégico con comparativa</div>
-          <div class="aitext" id="ai-main">Pulsa para generar el análisis completo con comparativa vs mes anterior.</div>
-          <button class="btai" id="btn-ai-main" onclick="runAI('main','Red: ${netName}. Período actual: ${period}, período anterior: ${prevPeriod}. Datos: ${ctx.replace(/'/g,"\\'").replace(/"/g,'\\"')}. Entrega: 3 observaciones clave comparando ambos períodos, 2 alertas basadas en las variaciones, y 3 recomendaciones concretas y accionables para el próximo mes. Sé específico con los números.')">◆ Generar análisis estratégico</button>
-        </div>
-        <div class="aibox">
-          <div class="aitag"><div class="aip"></div>Ideas de contenido para el próximo mes</div>
-          <div class="aitext" id="ai-ideas">Pulsa para obtener ideas basadas en el rendimiento real de este período.</div>
-          <button class="btai" id="btn-ai-ideas" onclick="runAI('ideas','Red: ${netName}. Período: ${period}. Datos: ${ctx.replace(/'/g,"\\'").replace(/"/g,'\\"')}. Basándote en el rendimiento real, genera 5 ideas de contenido concretas para el próximo mes. Por cada idea: formato exacto, tema específico, objetivo medible y por qué funcionará basado en los datos.')">◆ Generar ideas de contenido</button>
-        </div>`;
-    },onEnter:()=>{}
+    {id:'ai',
+     html:()=>{
+       const ctx=JSON.stringify({
+         red:netName,período:period,periodoAnterior:prevPeriod,
+         posts:K.posts,postsAnteriores:PK.posts,
+         alcanceTotal:N(K.reach),alcanceAnterior:N(PK.reach),deltaAlcance:dReach?.toFixed(1),
+         engRate:P(K.engRate),engRateAnterior:P(PK.engRate),deltaEng:dEng?.toFixed(1),
+         likes:N(K.likes),comentarios:N(K.comments),guardados:N(K.saved),interacciones:N(K.interactions),
+         alcancePromedio:N(K.avgReach),
+         mejorPost:{alcance:N(topPost?.reach),engagement:P(topPost?.engagement),formato:pillLabel(topPost?.type)},
+         topFormato:topType?pillLabel(topType[0]):'—',
+         mejorHora:bestHour?`${bestHour[0]}:00h`:'—',
+         mejorDia:bestDay?bestDay[0]:'—'
+       });
+       return`
+         <div class="slide-top">
+           <div class="sh"><div class="stag">08</div><div><div class="sh1">ANÁLISIS <em>IA</em></div><div class="ssub">Claude analiza ${K.posts} posts reales de ${period} vs ${prevPeriod}</div></div></div>
+           <div class="aibox">
+             <div class="aitag"><div class="aip"></div>Análisis estratégico completo</div>
+             <div class="aitext" id="ai-main">Pulsa para generar el análisis estratégico detallado con comparativa mensual y recomendaciones priorizadas.</div>
+             <button class="btai" id="btn-ai-main" onclick="runAI('main','Actúa como consultor senior de redes sociales de Match Agency. Analiza los siguientes datos reales de ${netName} y entrega un análisis de nivel consultor. Datos: ${ctx.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/`/g,'\\`')}. Entrega: (1) Diagnóstico del período: qué funcionó y qué no, con números específicos y comparativa vs ${prevPeriod}. (2) 3 alertas o riesgos detectados basados en las variaciones de datos. (3) 5 recomendaciones concretas y priorizadas para el próximo mes, cada una con el impacto esperado. Sé directo, específico y sin frases genéricas.')">◆ Generar análisis estratégico</button>
+           </div>
+           <div class="aibox">
+             <div class="aitag"><div class="aip"></div>Plan de contenido para el próximo mes</div>
+             <div class="aitext" id="ai-plan">Pulsa para obtener un plan de contenido basado en el rendimiento real.</div>
+             <button class="btai" id="btn-ai-plan" onclick="runAI('plan','Actúa como consultor de contenido de Match Agency. Basándote en estos datos reales de ${netName} en ${period}: ${ctx.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/`/g,'\\`')}. Genera un plan de contenido para el próximo mes con: (1) 5 ideas de contenido específicas con formato exacto, tema, objetivo medible y por qué funcionará según los datos. (2) Distribución semanal recomendada. (3) Los 2 horarios óptimos de publicación basados en los datos de este mes.')">◆ Generar plan de contenido</button>
+           </div>
+         </div>
+         <div class="slide-bottom" style="padding:10px 44px">
+           <div style="font-size:11px;color:var(--t3);font-family:var(--mono);letter-spacing:.1em">
+             ANÁLISIS GENERADO POR CLAUDE SONNET · MATCH AGENCY · ${period.toUpperCase()} · ${K.posts} POSTS ANALIZADOS
+           </div>
+         </div>`;
+     },onEnter:()=>{}
     },
 
     // ── 9 CIERRE ──
-    {id:'close',html:()=>`
-      <div class="cvr">
-        <div class="cvr-left">
-          <div>
-            <div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px">Fin del reporte</div>
-            <div class="cvr-title">${period.toUpperCase()}<br>WRAPPED</div>
-          </div>
-          <div class="cvr-meta">
-            ${posts.length} publicaciones<br>
-            ${N(K.reach||K.impressions)} ${flbl.toLowerCase()}<br>
-            ${P(K.engRate)} engagement<br>
-            Match Agency · ${new Date().toLocaleDateString('es-CL')}
-          </div>
-        </div>
-        <div class="cvr-right">
-          <div>
-            <div style="font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px">Resumen final</div>
-            <div style="font-family:var(--display);font-size:20px;letter-spacing:1px;color:var(--red);margin-bottom:16px">${netName} · ${period}</div>
-            <div style="display:flex;flex-direction:column;gap:0">
-              ${[
-                [flbl+' total', N(K.reach||K.impressions), N(PK.reach||PK.impressions)],
-                ['Interacciones', N(K.interactions), N(PK.interactions)],
-                ['Engagement rate', P(K.engRate), P(PK.engRate)],
-                ['Likes', N(K.likes), N(PK.likes)],
-                ['Comentarios', N(K.comments), N(PK.comments)],
-                ['Posts', K.posts, PK.posts]
-              ].map(([lbl,curr,prev])=>`<div class="statrow"><span class="srl">${lbl}</span><span class="srv">${curr}${prev&&prev!='—'?` <span style="color:var(--t3);font-size:10px">/ ${prev}</span>`:''}</span></div>`).join('')}
-            </div>
-          </div>
-          <button class="bnav" onclick="back()" style="border-color:var(--bred);color:var(--red);align-self:flex-start">← Nuevo reporte</button>
-        </div>
-      </div>`,onEnter:()=>{}
+    {id:'close',
+     html:()=>`
+       <div class="cvr" style="height:100%">
+         <div class="cvr-left">
+           <div>
+             <div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px">Fin del reporte</div>
+             <div class="cvr-title">${period.toUpperCase()}<br><span style="opacity:.5">WRAPPED</span></div>
+           </div>
+           <div class="cvr-meta-left">
+             ${posts.length} publicaciones<br>
+             ${N(K.reach||K.impressions)} ${flbl.toLowerCase()}<br>
+             ${P(K.engRate)} engagement<br>
+             ${N(K.interactions)} interacciones
+           </div>
+         </div>
+         <div class="cvr-right">
+           <div>
+             <div style="font-family:var(--display);font-size:20px;letter-spacing:2px;color:var(--red);margin-bottom:16px">${netName} · ${period}</div>
+             <div style="display:flex;flex-direction:column;gap:0;margin-bottom:20px">
+               ${[
+                 [flbl+' total',N(K.reach||K.impressions),N(PK.reach||PK.impressions)],
+                 ['Interacciones',N(K.interactions),N(PK.interactions)],
+                 ['Engagement rate',P(K.engRate),P(PK.engRate)],
+                 ['Likes',N(K.likes),N(PK.likes)],
+                 ['Comentarios',N(K.comments),N(PK.comments)],
+                 ['Posts publicados',K.posts,PK.posts]
+               ].map(([l,c,p])=>`
+                 <div class="statrow">
+                   <span class="srl">${l}</span>
+                   <span class="srv">${c}${p&&p!=='—'?`<span style="color:var(--t3);font-size:10px;margin-left:6px">/ ${p}</span>`:''}</span>
+                 </div>`).join('')}
+             </div>
+           </div>
+           <button class="bnav" onclick="back()" style="border-color:var(--bred);color:var(--red);align-self:flex-start">← Nuevo reporte</button>
+         </div>
+       </div>`,onEnter:()=>{}
     }
   ];
 }
