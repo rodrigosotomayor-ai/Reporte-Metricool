@@ -271,7 +271,7 @@ table.pt tr:last-child td{border-bottom:none}
 <script>
 Chart.register(ChartDataLabels);
 
-const ST={net:'instagram',month:Object.keys(buildMonths())[0],data:{},aiCache:{}};
+const ST={net:'instagram',month:'',data:{},aiCache:{}};
 let cur=0,SL=[],CH={};
 
 // Generar meses cerrados dinámicamente (solo meses anteriores al actual)
@@ -293,29 +293,33 @@ function buildMonths(){
 const MONTHS=buildMonths();
 const MKEYS=Object.keys(MONTHS);
 
-// Poblar el selector con los meses cerrados
-(function(){
+// El selector se llena en initApp()
+const NNAME={instagram:'Instagram',facebook:'Facebook',linkedin:'LinkedIn',youtube:'YouTube'};
+const NCOLOR={instagram:'#E1306C',facebook:'#1877F2',linkedin:'#0A66C2',youtube:'#FF0000'};
+const NETICON={instagram:'📷',facebook:'👍',linkedin:'💼',youtube:'▶️'};
+
+function initApp(){
+  // Llenar selector de meses
   const sel=document.getElementById('sel-month');
-  if(!sel)return;
   MKEYS.forEach(k=>{
     const opt=document.createElement('option');
     opt.value=k;opt.textContent=MONTHS[k];
     sel.appendChild(opt);
   });
-})();
-const NNAME={instagram:'Instagram',facebook:'Facebook',linkedin:'LinkedIn',youtube:'YouTube'};
-const NCOLOR={instagram:'#E1306C',facebook:'#1877F2',linkedin:'#0A66C2',youtube:'#FF0000'};
-const NETICON={instagram:'📷',facebook:'👍',linkedin:'💼',youtube:'▶️'};
+  ST.month=MKEYS[0];
 
-document.getElementById('ngrid').addEventListener('click',e=>{
-  const c=e.target.closest('.nc');if(!c)return;
-  document.querySelectorAll('.nc').forEach(x=>x.classList.remove('on'));
-  c.classList.add('on');ST.net=c.dataset.n;
-});
-document.getElementById('btn-go').addEventListener('click',startReport);
-document.getElementById('btn-back').addEventListener('click',back);
-document.getElementById('btn-prev').addEventListener('click',()=>go(cur-1));
-document.getElementById('btn-next').addEventListener('click',()=>go(cur+1));
+  // Event listeners
+  document.getElementById('ngrid').addEventListener('click',e=>{
+    const c=e.target.closest('.nc');if(!c)return;
+    document.querySelectorAll('.nc').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');ST.net=c.dataset.n;
+  });
+  document.getElementById('btn-go').addEventListener('click',startReport);
+  document.getElementById('btn-back').addEventListener('click',back);
+  document.getElementById('btn-prev').addEventListener('click',()=>go(cur-1));
+  document.getElementById('btn-next').addEventListener('click',()=>go(cur+1));
+}
+document.addEventListener('DOMContentLoaded', initApp);
 document.addEventListener('keydown',e=>{
   if(document.getElementById('scr-pres').style.display!=='none'){
     if(['ArrowRight','ArrowDown'].includes(e.key))go(cur+1);
