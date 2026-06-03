@@ -177,18 +177,7 @@ input::placeholder{color:var(--text3);}
     <h1 class="intro-headline">Reporte de<br><em>redes sociales</em></h1>
     <p class="intro-sub">Datos en tiempo real desde Metricool. Selecciona el período y red social.</p>
 
-    <div class="proxy-notice">
-      <strong>⚡ Conectado via proxy Vercel</strong>
-      Ingresa la URL de tu proxy para activar los datos reales.
-    </div>
-
     <div class="intro-fields">
-      <div>
-        <div class="field-label">URL del proxy Vercel</div>
-        <input type="url" id="inProxy" placeholder="https://tu-proyecto.vercel.app" />
-        <p class="hint">La URL que obtienes al deployar el proyecto en Vercel</p>
-      </div>
-
       <div>
         <div class="field-label">Período</div>
         <select id="selMonth">
@@ -227,7 +216,7 @@ input::placeholder{color:var(--text3);}
         </div>
       </div>
 
-      <div class="error-banner" id="errBanner">Error al conectar. Verifica la URL del proxy.</div>
+  <div class="error-banner" id="errBanner">Error al conectar con la API. Verifica que las variables de entorno estén configuradas en Vercel.</div>
       <button class="btn-go" id="btnGo" onclick="startReport()">Generar reporte →</button>
     </div>
   </div>
@@ -265,7 +254,7 @@ input::placeholder{color:var(--text3);}
 // ═══════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════
-let S = { net:'instagram', month:'2026-05', proxy:'', data:{}, aiCache:{} };
+let S = { net:'instagram', month:'2026-05', proxy: window.location.origin, data:{}, aiCache:{} };
 let currentSlide = 0;
 let slides = [];
 let charts = {};
@@ -357,26 +346,33 @@ async function fetchAllData() {
 
   setStep(STEPS, 6);
   S.data = D;
+
+  // Si todos los datos son null, probablemente las variables de entorno no están configuradas
+  if (!D.stats && !D.timeline && !D.posts) {
+    throw new Error('La API no devolvió datos. Verifica las variables de entorno MC_TOKEN, MC_USER_ID y MC_BLOG_ID en Vercel.');
+  }
 }
 
 async function startReport() {
-  S.proxy  = document.getElementById('inProxy').value.trim().replace(/\/$/, '');
+  S.proxy  = window.location.origin;
   S.month  = document.getElementById('selMonth').value;
   S.net    = document.querySelector('.net-btn.selected')?.dataset.net || 'instagram';
-
-  if (!S.proxy) {
-    const err = document.getElementById('errBanner');
-    err.textContent = 'Ingresa la URL del proxy Vercel.';
-    err.style.display = 'block';
-    return;
-  }
 
   document.getElementById('errBanner').style.display = 'none';
   document.getElementById('intro').style.display = 'none';
   document.getElementById('loading').style.display = 'flex';
 
   setStep(STEPS, 0);
-  await fetchAllData();
+  try {
+    await fetchAllData();
+  } catch(e) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('intro').style.display = 'flex';
+    const err = document.getElementById('errBanner');
+    err.textContent = e.message;
+    err.style.display = 'block';
+    return;
+  }
   setStep(STEPS, 6);
 
   buildPresentation();
