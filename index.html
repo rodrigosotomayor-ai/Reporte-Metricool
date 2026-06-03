@@ -214,18 +214,7 @@ table.pt tr:last-child td{border-bottom:none}
       <div style="font-family:var(--display);font-size:clamp(34px,4vw,50px);letter-spacing:2px;color:var(--t1);line-height:.93;margin-bottom:8px">REPORTE<br><span style="color:var(--red)">SOCIAL</span><br>MEDIA</div>
       <div style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:30px">Análisis completo de performance con datos en tiempo real desde Metricool. Incluye comparativa mensual e insights estratégicos.</div>
       <div class="flbl">Período del reporte</div>
-      <select id="sel-month" class="fsel">
-        <option value="2026-05">Mayo 2026</option>
-        <option value="2026-04">Abril 2026</option>
-        <option value="2026-03">Marzo 2026</option>
-        <option value="2026-02">Febrero 2026</option>
-        <option value="2026-01">Enero 2026</option>
-        <option value="2025-12">Diciembre 2025</option>
-        <option value="2025-11">Noviembre 2025</option>
-        <option value="2025-10">Octubre 2025</option>
-        <option value="2025-09">Septiembre 2025</option>
-        <option value="2025-08">Agosto 2025</option>
-      </select>
+      <select id="sel-month" class="fsel"></select>
       <div class="flbl">Red social</div>
       <div class="ngrid" id="ngrid">
         <div class="nc on" data-n="instagram">
@@ -282,11 +271,38 @@ table.pt tr:last-child td{border-bottom:none}
 <script>
 Chart.register(ChartDataLabels);
 
-const ST={net:'instagram',month:'2026-05',data:{},aiCache:{}};
+const ST={net:'instagram',month:Object.keys(buildMonths())[0],data:{},aiCache:{}};
 let cur=0,SL=[],CH={};
 
-const MONTHS={'2026-05':'Mayo 2026','2026-04':'Abril 2026','2026-03':'Marzo 2026','2026-02':'Febrero 2026','2026-01':'Enero 2026','2025-12':'Diciembre 2025','2025-11':'Noviembre 2025','2025-10':'Octubre 2025','2025-09':'Septiembre 2025','2025-08':'Agosto 2025'};
+// Generar meses cerrados dinámicamente (solo meses anteriores al actual)
+const MES_NAMES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+function buildMonths(){
+  const now=new Date();
+  // Mes anterior al actual = último mes cerrado
+  const months={};
+  // Generar los últimos 24 meses cerrados
+  for(let i=1;i<=24;i++){
+    const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+    const y=d.getFullYear();
+    const m=String(d.getMonth()+1).padStart(2,'0');
+    const key=`${y}-${m}`;
+    months[key]=`${MES_NAMES[d.getMonth()]} ${y}`;
+  }
+  return months;
+}
+const MONTHS=buildMonths();
 const MKEYS=Object.keys(MONTHS);
+
+// Poblar el selector con los meses cerrados
+(function(){
+  const sel=document.getElementById('sel-month');
+  if(!sel)return;
+  MKEYS.forEach(k=>{
+    const opt=document.createElement('option');
+    opt.value=k;opt.textContent=MONTHS[k];
+    sel.appendChild(opt);
+  });
+})();
 const NNAME={instagram:'Instagram',facebook:'Facebook',linkedin:'LinkedIn',youtube:'YouTube'};
 const NCOLOR={instagram:'#E1306C',facebook:'#1877F2',linkedin:'#0A66C2',youtube:'#FF0000'};
 const NETICON={instagram:'📷',facebook:'👍',linkedin:'💼',youtube:'▶️'};
