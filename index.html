@@ -691,14 +691,28 @@ function buildSlides(){
     {id:'kpis',
      html:()=>`
       <div class="slide-top">
-        <div class="sh"><div class="stag">01</div><div><div class="sh1">MÉTRICAS <em>CLAVE</em></div><div class="ssub">${netName} · ${period} · ${posts.length} publicaciones · vs ${prevPeriod}</div></div></div>
+        <div class="sh"><div class="stag">01</div><div><div class="sh1">MÉTRICAS <em>CLAVE</em></div><div class="ssub">${netName} · ${period} · vs ${prevPeriod}</div></div></div>
         <div class="krow">
-          <div class="kc hi"><div class="klbl">${flbl} total</div><div class="kval">${N(K.reach||K.impressions)}</div><div class="kdelta">${dH(K.reach,PK.reach)}</div></div>
-          <div class="kc ${dInter>=0||dInter===null?'up':'dn'}"><div class="klbl">Interacciones</div><div class="kval">${N(K.interactions)}</div><div class="kdelta">${dH(K.interactions,PK.interactions)}</div></div>
+          <div class="kc hi"><div class="klbl">Publicaciones</div><div class="kval">${N(K.posts)}</div><div class="kdelta">${dH(K.posts,PK.posts)}</div></div>
+          <div class="kc ${dReach>=0||dReach===null?'up':'dn'}"><div class="klbl">${flbl} total</div><div class="kval">${N(K.reach||K.impressions)}</div><div class="kdelta">${dH(K.reach||K.impressions,PK.reach||PK.impressions)}</div></div>
           <div class="kc ${dEng>=0||dEng===null?'up':'dn'}"><div class="klbl">Engagement rate</div><div class="kval">${P(K.engRate)}</div><div class="kdelta">${dH(K.engRate,PK.engRate)}</div></div>
+          <div class="kc ${dInter>=0||dInter===null?'up':'dn'}"><div class="klbl">Interacciones</div><div class="kval">${N(K.interactions)}</div><div class="kdelta">${dH(K.interactions,PK.interactions)}</div></div>
+          <div class="kc ${delta(K.impressions,PK.impressions)>=0||!PK.impressions?'up':'dn'}"><div class="klbl">Views (impresiones)</div><div class="kval">${N(K.impressions)}</div><div class="kdelta">${dH(K.impressions,PK.impressions)}</div></div>
           <div class="kc ${delta(K.likes,PK.likes)>=0||!PK.likes?'up':'dn'}"><div class="klbl">Likes</div><div class="kval">${N(K.likes)}</div><div class="kdelta">${dH(K.likes,PK.likes)}</div></div>
           <div class="kc ${delta(K.comments,PK.comments)>=0||!PK.comments?'up':'dn'}"><div class="klbl">Comentarios</div><div class="kval">${N(K.comments)}</div><div class="kdelta">${dH(K.comments,PK.comments)}</div></div>
-          <div class="kc ${delta(K.saved,PK.saved)>=0||!PK.saved?'up':'dn'}"><div class="klbl">${net==='linkedin'?'Compartidos':net==='youtube'?'Views totales':'Guardados'}</div><div class="kval">${N(net==='linkedin'?K.shares:net==='youtube'?K.impressions:K.saved)}</div><div class="kdelta">${dH(net==='linkedin'?K.shares:net==='youtube'?K.impressions:K.saved,net==='linkedin'?PK.shares:net==='youtube'?PK.impressions:PK.saved)}</div></div>
+          <div class="kc ${delta(K.saved,PK.saved)>=0||!PK.saved?'up':'dn'}"><div class="klbl">${net==='linkedin'?'Compartidos':net==='youtube'?'Favoritos':'Guardados'}</div><div class="kval">${N(net==='linkedin'?K.shares:K.saved)}</div><div class="kdelta">${dH(net==='linkedin'?K.shares:K.saved,net==='linkedin'?PK.shares:PK.saved)}</div></div>
+          <div class="kc ${delta(K.shares,PK.shares)>=0||!PK.shares?'up':'dn'}"><div class="klbl">Compartidos</div><div class="kval">${N(K.shares)}</div><div class="kdelta">${dH(K.shares,PK.shares)}</div></div>
+          ${net==='instagram'?`
+          <div class="kc" style="border-left:3px solid #555;opacity:.7">
+            <div class="klbl">Seguidores totales</div>
+            <div class="kval" style="font-size:18px;color:var(--t2)">N/D</div>
+            <div class="kdelta" style="font-size:9px;color:var(--t3)">Requiere Meta API directa</div>
+          </div>
+          <div class="kc" style="border-left:3px solid #555;opacity:.7">
+            <div class="klbl">Nuevos seguidores</div>
+            <div class="kval" style="font-size:18px;color:var(--t2)">N/D</div>
+            <div class="kdelta" style="font-size:9px;color:var(--t3)">Requiere Meta API directa</div>
+          </div>`:''}
         </div>
       </div>
       ${consulBox('KPIs', genConsulKPIs(K,PK,flbl,netName,period,prevPeriod,engStatus,avgEngBenchmark,dEng,dReach,ratioLikesComents))}`,
